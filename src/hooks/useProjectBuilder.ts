@@ -290,6 +290,27 @@ export function useProjectBuilder() {
       }
 
       if (buildResult.success) {
+        // Step 8: Run quality gates (lint, tests)
+        if (template.lintCmd) {
+          emit(log(progress, 'info', 'Running linter...'));
+          const lintResult = await tryBuild(progress.projectPath, template.lintCmd);
+          if (lintResult.success) {
+            emit(log(progress, 'success', 'Lint passed'));
+          } else {
+            emit(log(progress, 'warning', `Lint issues: ${lintResult.error.slice(0, 300)}`));
+          }
+        }
+
+        if (template.testCmd) {
+          emit(log(progress, 'info', 'Running tests...'));
+          const testResult = await tryBuild(progress.projectPath, template.testCmd);
+          if (testResult.success) {
+            emit(log(progress, 'success', 'Tests passed'));
+          } else {
+            emit(log(progress, 'warning', `Tests failed: ${testResult.error.slice(0, 300)}`));
+          }
+        }
+
         progress.status = 'done';
         emit(log(progress, 'success', 'Build succeeded! Project is ready.'));
       } else {
