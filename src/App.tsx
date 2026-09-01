@@ -664,7 +664,7 @@ function App() {
           showToast('Session loaded', 'success');
         }}
       />
-      <ActivityLog entries={activityLog} />
+      <ActivityLog entries={activityLog} onClear={clearActivityLog} />
       <StatusBar
         agentCount={catalog.allAgents.length}
         seatedCount={seatedCount}
