@@ -34,29 +34,48 @@ async function generateCodeForFile(
   provider: string,
   model: string,
 ): Promise<string> {
+  const fileExt = filePath.split('.').pop() || '';
+  const isConfig = ['json', 'ts', 'js', 'config'].some(e => filePath.includes(e));
+  const isComponent = filePath.includes('Component') || filePath.includes('.tsx') || filePath.includes('.jsx');
+
+  const systemPrompt = `You are a senior software engineer generating production-quality code.
+Rules:
+- Output ONLY the file content. No explanations, no markdown fences, no backticks, no comments about what you're doing.
+- The code must be complete, working, and follow modern best practices.
+- Use TypeScript strict mode, proper error handling, and clean imports.
+- For React components: use functional components, hooks, proper prop types.
+- For config files: include all necessary options with sensible defaults.
+- Never leave TODO comments or placeholder code.`;
+
   const userPrompt = existingContent
-    ? `Fix the following file that has errors. The file is: ${filePath}
-Context about the project: ${projectContext}
+    ? `Fix the file "${filePath}" which has build errors.
+
+Error context: ${projectContext}
+
 User's original request: ${prompt}
 
-Current file content with errors:
+Current broken file:
 ${existingContent}
 
-Fix the errors and return the complete corrected file.`
-    : `Generate a file for a project.
-File path: ${filePath}
+Return the complete fixed file.`
+    : `Generate the file "${filePath}" for this project.
+
 Project context: ${projectContext}
+File type: ${fileExt}
+${isComponent ? 'This is a React component — use functional components with hooks.' : ''}
+${isConfig ? 'This is a config file — include all necessary options.' : ''}
+
 User's original request: ${prompt}
 
-Generate the complete file content.`;
+Generate the complete file content now.`;
 
   const result = await invoke<string>('execute_task', {
     request: {
-      prompt: userPrompt,
+      prompt: `${systemPrompt}\n\n${userPrompt}`,
       agent_ids: ['assistant'],
       provider,
       model,
-      temperature: 0.3,
+      temperature: 0.2,
     },
   });
 
@@ -74,10 +93,21 @@ async function generateFileList(
   provider: string,
   model: string,
 ): Promise<string[]> {
-  const userPrompt = `User wants to build: ${prompt}
-Template: ${templateId}
+  const userPrompt = `You are a senior architect planning a ${templateId} project.
 
-List all files that need to be created for this project. Be thorough — include every component, utility, type file, config, etc.`;
+User wants to build: ${prompt}
+
+Plan the complete file structure. Rules:
+- Include ALL files needed: components, pages, hooks, utils, types, styles, configs, tests
+- Use standard ${templateId} conventions (e.g., src/ for React, app/ for Next.js)
+- Group related components in directories
+- Include type definitions for all data structures
+- Include utility functions for common operations
+- Include test files for critical components
+- Keep files focused (one component per file)
+
+Return a JSON array of file paths. Example:
+["src/App.tsx", "src/components/Header.tsx", "src/hooks/useApi.ts", "src/types/index.ts"]`;
 
   const result = await invoke<string>('execute_task', {
     request: {
@@ -159,7 +189,15 @@ export function useProjectBuilder() {
       progress.projectPath = result.project_path;
       emit(log(progress, 'success', `Project created at ${result.project_path}`));
 
-      // Step 2: Scaffold template files (if any)
+      // Step 2: Initialize git
+      emit(log(progress, 'info', 'Initializing git repository...'));
+      await invoke('run_project_command', {
+        projectPath: progress.projectPath,
+        command: 'git',
+        args: ['init'],
+      }).catch(() => {});
+
+      // Step 3: Scaffold template files (if any)
       if (template.files.length > 0) {
         emit(log(progress, 'info', `Scaffolding ${template.name} template...`));
         const scaffolded = scaffoldTemplate(template, projectName);
