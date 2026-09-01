@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import type { Agent, AgentResult } from '../types';
-import { exportResultsAsMarkdown, exportResultsAsJson } from '../utils/export';
+import { exportResultsAsMarkdown, exportResultsAsJson, exportResultsAsHtml } from '../utils/export';
 
 interface ResultsPanelProps {
   resultsArray: AgentResult[];
@@ -175,6 +175,7 @@ export function ResultsPanel({
             <button onClick={() => onSetCompareMode((p: boolean) => !p)} className={`link-btn ${compareMode ? 'active' : ''}`} title="Compare mode">⟺</button>
             <button onClick={() => exportResultsAsMarkdown(resultsArray, allAgents)} className="link-btn" title="Export Markdown">📝</button>
             <button onClick={() => exportResultsAsJson(resultsArray, allAgents)} className="link-btn" title="Export JSON">{'{ }'}</button>
+            <button onClick={() => exportResultsAsHtml(resultsArray, allAgents)} className="link-btn" title="Export HTML">🌐</button>
             <button onClick={onClearResults} className="link-btn">clear</button>
           </div>
         )}

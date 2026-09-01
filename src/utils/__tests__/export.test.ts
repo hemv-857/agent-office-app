@@ -77,4 +77,62 @@ describe('export utils', () => {
     expect(md).toContain('0.0033'); // total cost
     expect(md).toContain('250'); // total tokens
   });
+
+  it('exportResultsAsMarkdown handles empty results', () => {
+    const md = exportResultsAsMarkdown([]);
+    expect(md).toContain('Agent Office Results');
+    expect(md).toContain('$0.0000');
+  });
+
+  it('exportResultAsMarkdown handles zero cost', () => {
+    const result = { ...mockResult, cost_usd: 0 };
+    const md = exportResultAsMarkdown(result);
+    expect(md).toContain('$0.0000');
+  });
+
+  it('exportResultAsMarkdown handles elapsed_ms', () => {
+    const result = { ...mockResult, elapsed_ms: 2500 };
+    const md = exportResultAsMarkdown(result);
+    expect(md).toContain('2.5s');
+  });
+
+  it('exportResultAsMarkdown handles no elapsed_ms', () => {
+    const result = { ...mockResult, elapsed_ms: undefined };
+    const md = exportResultAsMarkdown(result);
+    expect(md).not.toContain('**Time:**');
+  });
+
+  it('exportResultsAsMarkdown includes all agent names', () => {
+    const results = [
+      { ...mockResult, agent_name: 'Dev Agent' },
+      { ...mockResult, agent_name: 'QA Agent' },
+    ];
+    const md = exportResultsAsMarkdown(results);
+    expect(md).toContain('Dev Agent');
+    expect(md).toContain('QA Agent');
+  });
+
+  it('exportResultAsMarkdown escapes special chars in response', () => {
+    const result = { ...mockResult, response: 'Use <div> and & chars' };
+    const md = exportResultAsMarkdown(result);
+    expect(md).toContain('Use <div> and & chars');
+  });
+
+  it('handles negative cost gracefully', () => {
+    const result = { ...mockResult, cost_usd: -0.001 };
+    const md = exportResultAsMarkdown(result);
+    expect(md).toContain('-0.0010');
+  });
+
+  it('handles large token counts', () => {
+    const result = { ...mockResult, tokens_used: 999999 };
+    const md = exportResultAsMarkdown(result);
+    expect(md).toContain('999999');
+  });
+
+  it('handles special characters in agent name', () => {
+    const result = { ...mockResult, agent_name: 'Agent <v2.0>' };
+    const md = exportResultAsMarkdown(result);
+    expect(md).toContain('Agent <v2.0>');
+  });
 });

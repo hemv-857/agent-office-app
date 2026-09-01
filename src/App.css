@@ -2520,6 +2520,7 @@ kbd {
 }
 .toast:hover {
   transform: translateX(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 .toast.success {
   background: var(--green);
@@ -2544,5 +2545,136 @@ kbd {
   }
   .shortcut-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ============ MICRO-INTERACTIONS ============ */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px var(--accent-glow); }
+  50% { box-shadow: 0 0 20px var(--accent-glow); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.agent-item:hover .agent-avatar {
+  animation: float 1.5s ease-in-out infinite;
+}
+
+.desk.occupied:hover {
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.desk.drag-over {
+  animation: glow-pulse 1s ease-in-out infinite;
+}
+
+/* Agent status indicators */
+.agent-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.agent-status-dot.working {
+  animation: glow-pulse 1s ease-in-out infinite;
+  background: var(--accent);
+}
+.agent-status-dot.idle { background: var(--text-4); }
+.agent-status-dot.done { background: var(--green); }
+.agent-status-dot.blocked { background: var(--red); }
+
+/* Icon button hover glow */
+.icon-btn {
+  transition: all 0.15s ease;
+}
+.icon-btn:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+.icon-btn:active {
+  transform: scale(0.95);
+}
+
+/* Filter pill micro-interaction */
+.filter-pill {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.filter-pill:hover {
+  transform: translateY(-1px);
+}
+.filter-pill:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* Modal entrance animation */
+.modal {
+  animation: modalEnter 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Toast swipe hint */
+.toast::after {
+  content: '←';
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.15s;
+  font-size: 11px;
+}
+.toast:hover::after {
+  opacity: 0.5;
+}
+
+/* Responsive mobile prompt bar */
+@media (max-width: 768px) {
+  .prompt-section {
+    padding: 8px 10px;
+  }
+  .prompt-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .prompt-input {
+    min-height: 60px;
+  }
+  .prompt-send {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Stacked sidebar for mobile */
+@media (max-width: 480px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 4000;
+    width: 280px;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+  }
+  .sidebar.open {
+    transform: translateX(0);
   }
 }
