@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { invoke } from '@tauri-apps/api/core';
-import type { AgentDetail, CustomAgentForm, AgentStats } from '../types';
+import type { AgentDetail, CustomAgentForm, AgentStats, Theme } from '../types';
 import { ROLES } from '../utils/constants';
 
 // ============ Settings Modal ============
@@ -11,9 +11,11 @@ interface SettingsProps {
   onBudgetChange: (b: number) => void;
   onSave: () => void;
   onClose: () => void;
+  theme?: string;
+  onThemeChange?: (t: Theme) => void;
 }
 
-export function SettingsModal({ provider, costBudget, onProviderChange, onBudgetChange, onSave, onClose }: SettingsProps) {
+export function SettingsModal({ provider, costBudget, onProviderChange, onBudgetChange, onSave, onClose, theme, onThemeChange }: SettingsProps) {
   const [anthropicKey, setAnthropicKey] = useState('');
   const [openaiKey, setOpenaiKey] = useState('');
   const [testingKey, setTestingKey] = useState<string | null>(null);
@@ -78,6 +80,16 @@ export function SettingsModal({ provider, costBudget, onProviderChange, onBudget
             <option value="openai">OpenAI (GPT-4o)</option>
           </select>
         </div>
+        {onThemeChange && (
+          <div className="setting-group">
+            <label className="setting-label">Theme</label>
+            <select value={theme || 'dark'} onChange={e => onThemeChange(e.target.value as Theme)} className="setting-input">
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+              <option value="system">System Preference</option>
+            </select>
+          </div>
+        )}
         <div className="setting-group">
           <label className="setting-label">Cost Budget ($, 0 = unlimited)</label>
           <input type="number" value={costBudget || ''} onChange={e => onBudgetChange(parseFloat(e.target.value) || 0)} placeholder="0.00" min="0" step="0.1" className="setting-input" />
@@ -317,6 +329,9 @@ export function AgentMemoryPanel({ memories, onDelete, onClose }: AgentMemoryPro
 
 // ============ Agent Detail Modal ============
 export function AgentDetailModal({ detail, onClose }: { detail: AgentDetail; onClose: () => void }) {
+  function copyPrompt() {
+    navigator.clipboard.writeText(detail.system_prompt).catch(() => {});
+  }
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal modal-detail" onClick={e => e.stopPropagation()}>
@@ -332,7 +347,10 @@ export function AgentDetailModal({ detail, onClose }: { detail: AgentDetail; onC
           <button className="modal-close" onClick={onClose}>×</button>
         </div>
         <p className="detail-desc">{detail.description}</p>
-        <h3>System Prompt</h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+          <h3 style={{ margin: 0 }}>System Prompt</h3>
+          <button className="link-btn" onClick={copyPrompt} title="Copy system prompt">📋 Copy</button>
+        </div>
         <pre className="detail-prompt">{detail.system_prompt}</pre>
       </div>
     </div>

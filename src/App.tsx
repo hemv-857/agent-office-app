@@ -63,7 +63,7 @@ function App() {
     officeAgents, groupName, presetName,
     showGroupSave, showPresetSave, showSettings, showHelp,
     showResultsPanel, showPerfDashboard, toast, activityLog,
-    toggleTheme, setProvider, setCostBudget, setSidebarSections,
+    toggleTheme, setTheme, setProvider, setCostBudget, setSidebarSections,
     setCompactOffice, setOfficeAgents, removeFromDesk,
     clearOffice, deleteGroup, loadOfficePreset, deleteOfficePreset,
     setGroupName, setPresetName, setShowGroupSave, setShowPresetSave,
@@ -534,6 +534,8 @@ function App() {
         <SettingsModal
           provider={provider}
           costBudget={costBudget}
+          theme={theme}
+          onThemeChange={setTheme}
           onProviderChange={setProvider}
           onBudgetChange={setCostBudget}
           onSave={() => { setShowSettings(false); showToast('Settings saved', 'success'); }}
