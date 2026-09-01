@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { invoke } from '@tauri-apps/api/core';
 import type { Agent, OfficeAgent } from '../types';
 
-export type WorkflowMode = 'parallel' | 'pipeline' | 'synthesis' | 'review' | 'debate' | 'quality-gate' | 'pipeline-approval' | 'conditional' | 'collab';
+export type WorkflowMode = 'parallel' | 'pipeline' | 'synthesis' | 'review' | 'debate' | 'quality-gate' | 'pipeline-approval' | 'conditional' | 'collab' | 'builder';
 
 const WORKFLOW_MODES: { mode: WorkflowMode; label: string; icon: string; desc: string }[] = [
   { mode: 'parallel', label: 'Parallel', icon: '⚡', desc: 'All agents work simultaneously' },
@@ -14,6 +14,7 @@ const WORKFLOW_MODES: { mode: WorkflowMode; label: string; icon: string; desc: s
   { mode: 'pipeline-approval', label: 'Pipeline + Approve', icon: '✋', desc: 'Pipeline with human approval between steps' },
   { mode: 'conditional', label: 'Conditional', icon: '🔀', desc: 'Route to different agents based on prompt' },
   { mode: 'collab', label: 'Collaborate', icon: '🤝', desc: 'Agents build on each other\'s work iteratively' },
+  { mode: 'builder', label: 'Build Project', icon: '🚀', desc: 'Generate a complete project from a prompt' },
 ];
 
 interface UseWorkflowsProps {

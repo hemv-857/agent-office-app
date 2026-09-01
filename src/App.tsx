@@ -38,6 +38,7 @@ import { ShortcutOverlay } from './components/ShortcutOverlay';
 import { SessionNotesModal } from './components/SessionNotesModal';
 import { PipelineVisualizer } from './components/PipelineVisualizer';
 import { AgentHealthIndicator } from './components/AgentHealthIndicator';
+import { ProjectBuilder } from './components/ProjectBuilder';
 import type { CommandItem } from './components/CommandPalette';
 import {
   SettingsModal,
@@ -440,49 +441,55 @@ function App() {
 
         <div className="content">
           <div className="workspace">
-            <OfficeGrid
-              officeAgents={officeAgents}
-              compactOffice={compactOffice}
-              dragOverRole={office.dragOverRole}
-              onDragOver={office.handleDragOver}
-              onDragLeave={office.handleDragLeave}
-              onDrop={office.handleDrop}
-              onDeskDragStart={office.handleDeskDragStart}
-              onDeskDrop={office.handleDeskDrop}
-              onRemoveFromDesk={removeFromDesk}
-            />
+            {workflows.workflowMode === 'builder' ? (
+              <ProjectBuilder provider={provider} />
+            ) : (
+              <>
+                <OfficeGrid
+                  officeAgents={officeAgents}
+                  compactOffice={compactOffice}
+                  dragOverRole={office.dragOverRole}
+                  onDragOver={office.handleDragOver}
+                  onDragLeave={office.handleDragLeave}
+                  onDrop={office.handleDrop}
+                  onDeskDragStart={office.handleDeskDragStart}
+                  onDeskDrop={office.handleDeskDrop}
+                  onRemoveFromDesk={removeFromDesk}
+                />
 
-            {pipeline.stages.length > 0 && (
-              <PipelineVisualizer nodes={pipeline.nodes} stages={pipeline.stages} />
+                {pipeline.stages.length > 0 && (
+                  <PipelineVisualizer nodes={pipeline.nodes} stages={pipeline.stages} />
+                )}
+
+                <ResultsPanel
+                  resultsArray={streaming.resultsArray}
+                  allAgents={catalog.allAgents}
+                  totalCost={streaming.totalCost}
+                  totalTokens={streaming.totalTokens}
+                  isRunning={isRunning}
+                  expandedCards={streaming.expandedCards}
+                  compareMode={streaming.compareMode}
+                  bookmarks={streaming.bookmarks}
+                  ratings={streaming.ratings}
+                  selectedResults={streaming.selectedResults}
+                  activeSession={streaming.activeSession}
+                  resultsRef={streaming.resultsRef}
+                  onSetCompareMode={streaming.setCompareMode}
+                  onToggleCardExpanded={streaming.toggleCardExpanded}
+                  onToggleBookmark={streaming.toggleBookmark}
+                  onToggleRating={streaming.toggleRating}
+                  onToggleResultSelect={streaming.toggleResultSelect}
+                  onSelectAllResults={streaming.selectAllResults}
+                  onDeselectAllResults={streaming.deselectAllResults}
+                  onClearResults={streaming.clearResults}
+                  onOpenChat={chat.openChat}
+                  onCopyResult={handleCopyResult}
+                  onExportSingle={handleExportSingle}
+                  onShowResultsPanel={showResultsPanel}
+                  onEvaluateQuality={handleEvaluateQuality}
+                />
+              </>
             )}
-
-            <ResultsPanel
-              resultsArray={streaming.resultsArray}
-              allAgents={catalog.allAgents}
-              totalCost={streaming.totalCost}
-              totalTokens={streaming.totalTokens}
-              isRunning={isRunning}
-              expandedCards={streaming.expandedCards}
-              compareMode={streaming.compareMode}
-              bookmarks={streaming.bookmarks}
-              ratings={streaming.ratings}
-              selectedResults={streaming.selectedResults}
-              activeSession={streaming.activeSession}
-              resultsRef={streaming.resultsRef}
-              onSetCompareMode={streaming.setCompareMode}
-              onToggleCardExpanded={streaming.toggleCardExpanded}
-              onToggleBookmark={streaming.toggleBookmark}
-              onToggleRating={streaming.toggleRating}
-              onToggleResultSelect={streaming.toggleResultSelect}
-              onSelectAllResults={streaming.selectAllResults}
-              onDeselectAllResults={streaming.deselectAllResults}
-              onClearResults={streaming.clearResults}
-              onOpenChat={chat.openChat}
-              onCopyResult={handleCopyResult}
-              onExportSingle={handleExportSingle}
-              onShowResultsPanel={showResultsPanel}
-              onEvaluateQuality={handleEvaluateQuality}
-            />
           </div>
 
           <OvernightPanel

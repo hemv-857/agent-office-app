@@ -5,9 +5,11 @@ use agent_office_lib::llm::LLMRequest;
 use agent_office_lib::orchestration::{Orchestrator, StreamEvent, TaskRequest};
 use serde::{Serialize, Deserialize};
 use std::collections::HashMap;
+use std::path::{Path, PathBuf};
 use std::process::Command as StdCommand;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, RwLock};
+use std::fs;
 use tauri::{Emitter, State};
 use tracing::{info, error};
 use tracing_subscriber::EnvFilter;
@@ -679,6 +681,143 @@ fn stop_sleep_prevent(pid: u32) -> Result<(), String> {
     }
 }
 
+// ============ PROJECT BUILDER COMMANDS ============
+
+#[derive(Serialize, Deserialize, Clone)]
+struct ProjectFile {
+    path: String,
+    content: String,
+}
+
+#[derive(Serialize)]
+struct ProjectCreateResult {
+    project_path: String,
+    files_created: Vec<String>,
+}
+
+#[tauri::command]
+fn create_project_dir(name: String) -> Result<ProjectCreateResult, String> {
+    let base = dirs::document_dir().unwrap_or_else(|| PathBuf::from("."));
+    let project_path = base.join("agent-office-projects").join(&name);
+
+    fs::create_dir_all(&project_path)
+        .map_err(|e| format!("Failed to create project directory: {}", e))?;
+
+    // Create standard subdirectories
+    for dir in &["src", "public", "tests"] {
+        fs::create_dir_all(project_path.join(dir))
+            .map_err(|e| format!("Failed to create {}: {}", dir, e))?;
+    }
+
+    Ok(ProjectCreateResult {
+        project_path: project_path.to_string_lossy().to_string(),
+        files_created: vec![],
+    })
+}
+
+#[tauri::command]
+fn write_project_file(project_path: String, file_path: String, content: String) -> Result<(), String> {
+    let full_path = Path::new(&project_path).join(&file_path);
+
+    // Ensure parent directory exists
+    if let Some(parent) = full_path.parent() {
+        fs::create_dir_all(parent)
+            .map_err(|e| format!("Failed to create directory {:?}: {}", parent, e))?;
+    }
+
+    fs::write(&full_path, &content)
+        .map_err(|e| format!("Failed to write {}: {}", file_path, e))?;
+
+    Ok(())
+}
+
+#[tauri::command]
+fn read_project_file(project_path: String, file_path: String) -> Result<String, String> {
+    let full_path = Path::new(&project_path).join(&file_path);
+    fs::read_to_string(&full_path)
+        .map_err(|e| format!("Failed to read {}: {}", file_path, e))
+}
+
+#[tauri::command]
+fn list_project_files(project_path: String) -> Result<Vec<String>, String> {
+    let mut files = Vec::new();
+    fn walk(dir: &Path, prefix: &str, files: &mut Vec<String>) -> Result<(), String> {
+        let entries = fs::read_dir(dir).map_err(|e| format!("Failed to read dir {:?}: {}", dir, e))?;
+        for entry in entries {
+            let entry = entry.map_err(|e| e.to_string())?;
+            let name = entry.file_name().to_string_lossy().to_string();
+            if name.starts_with('.') || name == "node_modules" || name == "target" || name == ".next" {
+                continue;
+            }
+            let path = entry.path();
+            if path.is_dir() {
+                walk(&path, &format!("{}/{}", prefix, name), files)?;
+            } else {
+                files.push(format!("{}/{}", prefix, name));
+            }
+        }
+        Ok(())
+    }
+    walk(Path::new(&project_path), "", &mut files)?;
+    Ok(files)
+}
+
+#[tauri::command]
+fn delete_project_file(project_path: String, file_path: String) -> Result<(), String> {
+    let full_path = Path::new(&project_path).join(&file_path);
+    if full_path.is_dir() {
+        fs::remove_dir_all(&full_path)
+            .map_err(|e| format!("Failed to delete directory {}: {}", file_path, e))?;
+    } else {
+        fs::remove_file(&full_path)
+            .map_err(|e| format!("Failed to delete file {}: {}", file_path, e))?;
+    }
+    Ok(())
+}
+
+#[derive(Serialize)]
+struct CommandOutput {
+    exit_code: i32,
+    stdout: String,
+    stderr: String,
+}
+
+#[tauri::command]
+fn run_project_command(
+    project_path: String,
+    command: String,
+    args: Vec<String>,
+    _timeout_secs: Option<u64>,
+) -> Result<CommandOutput, String> {
+    let output = StdCommand::new(&command)
+        .args(&args)
+        .current_dir(&project_path)
+        .output()
+        .map_err(|e| format!("Failed to run {} {}: {}", command, args.join(" "), e))?;
+
+    Ok(CommandOutput {
+        exit_code: output.status.code().unwrap_or(-1),
+        stdout: String::from_utf8_lossy(&output.stdout).to_string(),
+        stderr: String::from_utf8_lossy(&output.stderr).to_string(),
+    })
+}
+
+#[tauri::command]
+fn batch_write_files(project_path: String, files: Vec<ProjectFile>) -> Result<Vec<String>, String> {
+    let mut created = Vec::new();
+    for file in files {
+        let full_path = Path::new(&project_path).join(&file.path);
+        if let Some(parent) = full_path.parent() {
+            fs::create_dir_all(parent)
+                .map_err(|e| format!("Failed to create directory {:?}: {}", parent, e))?;
+        }
+        fs::write(&full_path, &file.content)
+            .map_err(|e| format!("Failed to write {}: {}", file.path, e))?;
+        created.push(file.path);
+    }
+    Ok(created)
+}
+
 fn main() {
     tracing_subscriber::fmt()
         .with_env_filter(
@@ -719,6 +858,13 @@ fn main() {
             stop_sleep_prevent,
             decompose_task,
             replay_session,
+            create_project_dir,
+            write_project_file,
+            read_project_file,
+            list_project_files,
+            delete_project_file,
+            run_project_command,
+            batch_write_files,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
