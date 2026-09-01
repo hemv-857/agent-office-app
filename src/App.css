@@ -2964,3 +2964,24 @@ kbd {
   font-size: 13px;
 }
 .btn-cancel:hover { opacity: 0.9; }
+
+/* Recent projects */
+.builder-recent { margin-top: 24px; }
+.builder-recent h3 { font-size: 14px; font-weight: 600; color: var(--text-2); margin-bottom: 8px; }
+.builder-recent-list {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.builder-recent-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.builder-recent-item:last-child { border-bottom: none; }
+.builder-recent-name { font-weight: 600; color: var(--text-1); }
+.builder-recent-template { color: var(--text-3); }
+.builder-recent-time { margin-left: auto; color: var(--text-4); }

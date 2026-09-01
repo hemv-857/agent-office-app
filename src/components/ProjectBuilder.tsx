@@ -8,10 +8,32 @@ interface ProjectBuilderProps {
   provider: string;
 }
 
+interface RecentProject {
+  name: string;
+  path: string;
+  template: string;
+  timestamp: number;
+}
+
+function getRecentProjects(): RecentProject[] {
+  try {
+    return JSON.parse(localStorage.getItem('agent-office-recent-projects') || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function saveRecentProject(project: RecentProject) {
+  const recent = getRecentProjects().filter(p => p.path !== project.path);
+  recent.unshift(project);
+  localStorage.setItem('agent-office-recent-projects', JSON.stringify(recent.slice(0, 10)));
+}
+
 export function ProjectBuilder({ provider }: ProjectBuilderProps) {
   const [prompt, setPrompt] = useState('');
   const [projectName, setProjectName] = useState('');
   const [selectedTemplate, setSelectedTemplate] = useState('react-vite');
+  const [recentProjects] = useState<RecentProject[]>(getRecentProjects);
   const { progress, isBuilding, build, cancel, reset } = useProjectBuilder();
   const logEndRef = useRef<HTMLDivElement>(null);
 
@@ -19,10 +41,23 @@ export function ProjectBuilder({ provider }: ProjectBuilderProps) {
     logEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [progress?.logs.length]);
 
+  useEffect(() => {
+    if (progress?.status === 'done' && progress.projectPath) {
+      saveRecentProject({
+        name: progress.projectName,
+        path: progress.projectPath,
+        template: progress.template,
+        timestamp: Date.now(),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [progress?.status]);
+
   async function handleBuild() {
     if (!prompt.trim() || !projectName.trim()) return;
+    const name = projectName.trim().toLowerCase().replace(/\s+/g, '-');
     await build({
-      projectName: projectName.trim().toLowerCase().replace(/\s+/g, '-'),
+      projectName: name,
       templateId: selectedTemplate,
       prompt: prompt.trim(),
       provider,
@@ -98,6 +133,21 @@ export function ProjectBuilder({ provider }: ProjectBuilderProps) {
           {isBuilding ? 'Building...' : '🚀 Build Project'}
         </button>
       </div>
+
+      {recentProjects.length > 0 && (
+        <div className="builder-recent">
+          <h3>Recent Projects</h3>
+          <div className="builder-recent-list">
+            {recentProjects.map(p => (
+              <div key={p.path} className="builder-recent-item">
+                <span className="builder-recent-name">{p.name}</span>
+                <span className="builder-recent-template">{p.template}</span>
+                <span className="builder-recent-time">{new Date(p.timestamp).toLocaleDateString()}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -112,6 +162,25 @@ interface BuildViewProps {
 }
 
 function BuildView({ progress, isBuilding, onCancel, onReset, onOpen, logEndRef }: BuildViewProps) {
+  const [devRunning, setDevRunning] = useState(false);
+  const [devOutput, setDevOutput] = useState<string[]>([]);
+
+  async function runDevServer() {
+    setDevRunning(true);
+    setDevOutput(prev => [...prev, `> Starting dev server in ${progress.projectPath}...`]);
+    try {
+      const result = await invoke<{ exit_code: number; stdout: string; stderr: string }>(
+        'run_project_command',
+        { projectPath: progress.projectPath, command: 'npm', args: ['run', 'dev'] },
+      );
+      setDevOutput(prev => [...prev, result.stdout, result.stderr]);
+    } catch (e) {
+      setDevOutput(prev => [...prev, `Dev server error: ${e}`]);
+    } finally {
+      setDevRunning(false);
+    }
+  }
+
   const statusColors: Record<string, string> = {
     idle: 'var(--text-4)',
     scaffolding: 'var(--accent)',
@@ -144,6 +213,9 @@ function BuildView({ progress, isBuilding, onCancel, onReset, onOpen, logEndRef 
             {!isBuilding && progress.status === 'done' && (
               <>
                 <button className="btn btn-secondary" onClick={onOpen}>Open Folder</button>
+                <button className="btn btn-secondary" onClick={runDevServer} disabled={devRunning}>
+                  {devRunning ? 'Running...' : '▶ Run Dev Server'}
+                </button>
                 <button className="btn btn-primary" onClick={onReset}>New Project</button>
               </>
             )}
@@ -193,6 +265,11 @@ function BuildView({ progress, isBuilding, onCancel, onReset, onOpen, logEndRef 
                 {new Date(entry.timestamp).toLocaleTimeString()}
               </span>
               <span className="builder-log-msg">{entry.message}</span>
+            </div>
+          ))}
+          {devOutput.map((line, i) => (
+            <div key={`dev-${i}`} className="builder-log builder-log-info">
+              <span className="builder-log-msg">{line}</span>
             </div>
           ))}
           <div ref={logEndRef} />
