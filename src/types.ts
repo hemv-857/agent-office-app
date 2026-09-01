@@ -88,7 +88,7 @@ export interface CustomAgentForm {
   system_prompt: string;
 }
 
-export type Theme = 'dark' | 'light';
+export type Theme = 'dark' | 'light' | 'system';
 
 export type RatingDirection = 'up' | 'down';
 

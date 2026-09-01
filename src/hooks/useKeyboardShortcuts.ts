@@ -9,6 +9,10 @@ interface UseKeyboardShortcutsProps {
   setSearchQuery: (v: string) => void;
   handleSuggest: () => void;
   handleRunAll?: () => void;
+  showShortcuts?: boolean;
+  setShowShortcuts?: (v: boolean) => void;
+  showCommandPalette?: boolean;
+  setShowCommandPalette?: (v: boolean) => void;
 }
 
 export function useKeyboardShortcuts({
@@ -19,19 +23,18 @@ export function useKeyboardShortcuts({
   searchQuery,
   setSearchQuery,
   handleSuggest,
+  showShortcuts,
+  setShowShortcuts,
 }: UseKeyboardShortcutsProps) {
   useEffect(() => {
     function handleGlobalKey(e: globalThis.KeyboardEvent) {
       const tag = (e.target as HTMLElement).tagName;
       const isInput = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
 
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        document.querySelector<HTMLInputElement>('.search-input')?.focus();
-      }
       if (e.key === 'Escape') {
         if (showHelp) setShowHelp(false);
         else if (showSettings) setShowSettings(false);
+        else if (showShortcuts && setShowShortcuts) setShowShortcuts(false);
         else if (searchQuery) setSearchQuery('');
       }
       if (e.key === '?' && !isInput) {
@@ -45,5 +48,5 @@ export function useKeyboardShortcuts({
     }
     window.addEventListener('keydown', handleGlobalKey);
     return () => window.removeEventListener('keydown', handleGlobalKey);
-  }, [showSettings, searchQuery, showHelp, setShowHelp, setShowSettings, setSearchQuery, handleSuggest]);
+  }, [showSettings, searchQuery, showHelp, showShortcuts, setShowHelp, setShowSettings, setSearchQuery, handleSuggest, setShowShortcuts]);
 }

@@ -82,7 +82,7 @@ interface AppActions {
 
 export const useAppStore = create<AppState & AppActions>((set, get) => ({
   // Settings - hydrated from localStorage
-  theme: loadString(STORAGE_KEYS.theme, 'dark') as Theme,
+  theme: loadString(STORAGE_KEYS.theme, 'system') as Theme,
   provider: loadString(STORAGE_KEYS.provider, 'anthropic'),
   costBudget: loadNumber(STORAGE_KEYS.budget, 0),
   sidebarSections: loadJson<SidebarSections>(STORAGE_KEYS.sidebarSections, { groups: true, presets: true, agents: true }),
@@ -113,12 +113,19 @@ export const useAppStore = create<AppState & AppActions>((set, get) => ({
 
   setTheme: (theme) => {
     saveString(STORAGE_KEYS.theme, theme);
-    document.documentElement.setAttribute('data-theme', theme);
+    const resolved = theme === 'system'
+      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      : theme;
+    document.documentElement.setAttribute('data-theme', resolved);
     set({ theme });
   },
 
   toggleTheme: () => {
-    const next = get().theme === 'dark' ? 'light' : 'dark';
+    const current = get().theme;
+    const resolved = current === 'system'
+      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      : current;
+    const next = resolved === 'dark' ? 'light' : 'dark';
     get().setTheme(next);
   },
 

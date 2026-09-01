@@ -20,6 +20,9 @@ import { useCostTracker } from './hooks/useCostTracker';
 import { useVoiceInput } from './hooks/useVoiceInput';
 import { useAgentLeaderboard } from './hooks/useAgentLeaderboard';
 import { useOffline } from './hooks/useOffline';
+import { useSessionNotes } from './hooks/useSessionNotes';
+import { usePipelineVisualizer } from './hooks/usePipelineVisualizer';
+import { useAgentHealth } from './hooks/useAgentHealth';
 import { WORKFLOW_TEMPLATES } from './utils/constants';
 import { Sidebar } from './components/Sidebar';
 import { OfficeGrid } from './components/OfficeGrid';
@@ -29,6 +32,13 @@ import { ActivityLog } from './components/ActivityLog';
 import { StatusBar } from './components/StatusBar';
 import { SessionHistory } from './components/SessionHistory';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { CommandPalette } from './components/CommandPalette';
+import { Onboarding } from './components/Onboarding';
+import { ShortcutOverlay } from './components/ShortcutOverlay';
+import { SessionNotesModal } from './components/SessionNotesModal';
+import { PipelineVisualizer } from './components/PipelineVisualizer';
+import { AgentHealthIndicator } from './components/AgentHealthIndicator';
+import type { CommandItem } from './components/CommandPalette';
 import {
   SettingsModal,
   HelpModal,
@@ -67,9 +77,16 @@ function App() {
   const streaming = useStreaming();
   const chat = useChat(provider);
   const sessionHistory = useSessionHistory();
+  const sessionNotes = useSessionNotes();
+  const pipeline = usePipelineVisualizer();
+  const agentHealth = useAgentHealth();
 
   const [prompt, setPrompt] = useState('');
   const [isRunning, setIsRunning] = useState(false);
+  const [showCommandPalette, setShowCommandPalette] = useState(false);
+  const [, setShowOnboarding] = useState(true);
+  const [showShortcuts, setShowShortcuts] = useState(false);
+  const [showSessionNotes, setShowSessionNotes] = useState(false);
 
   const seatedCount = officeAgents.length;
 
@@ -104,6 +121,36 @@ function App() {
     onTranscript: (text) => setPrompt(prev => prev ? prev + ' ' + text : text),
     onError: (msg) => showToast(msg, 'error'),
   });
+
+  const commands: CommandItem[] = [
+    { id: 'run-all', label: 'Run All Agents', description: 'Execute all seated agents', icon: '▶', group: 'Actions', shortcut: '⌘↵', action: handleRunAll },
+    { id: 'suggest', label: 'Suggest Agents', description: 'AI picks best agents for prompt', icon: '🤖', group: 'Actions', action: orchestration.handleSuggest },
+    { id: 'decompose', label: 'Decompose Task', description: 'Break into subtasks', icon: '📋', group: 'Actions', shortcut: '⌘D', action: () => taskDecomp.decompose(prompt) },
+    { id: 'export-layout', label: 'Export Layout', description: 'Download office config', icon: '📤', group: 'Actions', action: handleExportLayout },
+    { id: 'toggle-theme', label: 'Toggle Theme', description: 'Switch dark/light mode', icon: '🎨', group: 'View', action: toggleTheme },
+    { id: 'toggle-sidebar', label: 'Toggle Sidebar', description: 'Show/hide sidebar', icon: '📌', group: 'View', action: () => setCompactOffice(!compactOffice) },
+    { id: 'toggle-results', label: 'Toggle Results Panel', description: 'Show/hide results', icon: '📊', group: 'View', action: () => setShowResultsPanel(!showResultsPanel) },
+    { id: 'settings', label: 'Open Settings', description: 'Configure providers and budget', icon: '⚙', group: 'Navigation', shortcut: '⌘,', action: () => setShowSettings(true) },
+    { id: 'help', label: 'Show Help', description: 'View keyboard shortcuts', icon: '❓', group: 'Navigation', shortcut: '?', action: () => setShowHelp(true) },
+    { id: 'shortcuts', label: 'Keyboard Shortcuts', description: 'View all shortcuts', icon: '⌨', group: 'Navigation', action: () => setShowShortcuts(true) },
+    { id: 'mcp-tools', label: 'MCP Tool Registry', description: 'Manage tool servers', icon: '🔧', group: 'Navigation', action: () => setShowMcpTools(true) },
+    { id: 'agent-memory', label: 'Agent Memory', description: 'View learned patterns', icon: '🧠', group: 'Navigation', action: () => setShowAgentMemory(true) },
+    { id: 'cost-tracker', label: 'Cost Tracker', description: 'View spending history', icon: '💰', group: 'Navigation', action: () => setShowCostTracker(true) },
+    { id: 'leaderboard', label: 'Agent Leaderboard', description: 'Performance rankings', icon: '🏆', group: 'Navigation', action: () => setShowLeaderboard(true) },
+    { id: 'session-notes', label: 'Session Notes', description: 'Attach notes to sessions', icon: '📝', group: 'Navigation', action: () => setShowSessionNotes(true) },
+    { id: 'perf-dashboard', label: 'Performance Dashboard', description: 'Agent metrics', icon: '📈', group: 'Navigation', action: () => setShowPerfDashboard(true) },
+    { id: 'clear-office', label: 'Clear Office', description: 'Remove all agents from desks', icon: '🗑', group: 'Office', action: clearOffice },
+    { id: 'select-all', label: 'Select All Agents', description: '', icon: '✅', group: 'Office', action: selection.selectAll },
+    { id: 'deselect-all', label: 'Deselect All Agents', description: '', icon: '⬜', group: 'Office', action: selection.deselectAll },
+    ...WORKFLOW_TEMPLATES.map(t => ({
+      id: `wf-${t.id}`,
+      label: `Workflow: ${t.label}`,
+      description: t.description,
+      icon: t.icon,
+      group: 'Workflows',
+      action: () => handleWorkflowTemplate(t.id),
+    })),
+  ];
 
   function handleWorkflowTemplate(templateId: string) {
     const template = WORKFLOW_TEMPLATES.find(t => t.id === templateId);
@@ -202,6 +249,10 @@ function App() {
     setSearchQuery: selection.setSearchQuery,
     handleSuggest: orchestration.handleSuggest,
     handleRunAll,
+    showShortcuts,
+    setShowShortcuts,
+    showCommandPalette,
+    setShowCommandPalette,
   });
 
   function handleExportLayout() {
@@ -298,7 +349,11 @@ function App() {
   }
 
   return (
-    <div className="agent-office-container" data-theme={theme}>
+    <div className="agent-office-container" data-theme={theme === 'system' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme}>
+      <CommandPalette open={showCommandPalette} onOpenChange={setShowCommandPalette} commands={commands} />
+      <Onboarding onComplete={() => setShowOnboarding(false)} />
+      <ShortcutOverlay open={showShortcuts} onClose={() => setShowShortcuts(false)} />
+
       {offline && <div className="offline-banner">⚠ You are offline — LLM calls will fail</div>}
       {toast && (
         <div className={`toast ${toast.type}`} onClick={dismissToast} role="alert" aria-live="polite" aria-atomic="true">
@@ -351,6 +406,7 @@ function App() {
             {isRunning && <span className="header-badge running">⚡ running</span>}
           </div>
           <div className="header-right">
+            <AgentHealthIndicator providers={agentHealth.providers} />
             <span className="header-badge">{provider === 'anthropic' ? '🟣' : '🟢'} {provider}</span>
             <button
               onClick={handleRunAll}
@@ -395,6 +451,10 @@ function App() {
               onDeskDrop={office.handleDeskDrop}
               onRemoveFromDesk={removeFromDesk}
             />
+
+            {pipeline.stages.length > 0 && (
+              <PipelineVisualizer nodes={pipeline.nodes} stages={pipeline.stages} />
+            )}
 
             <ResultsPanel
               resultsArray={streaming.resultsArray}
@@ -580,6 +640,17 @@ function App() {
           mostEfficient={leaderboard.getMostEfficient()}
           onClear={leaderboard.clearLeaderboard}
           onClose={() => setShowLeaderboard(false)}
+        />
+      )}
+      {showSessionNotes && (
+        <SessionNotesModal
+          notes={sessionNotes.notes}
+          onAdd={sessionNotes.addNote}
+          onUpdate={sessionNotes.updateNote}
+          onDelete={sessionNotes.deleteNote}
+          onSearch={sessionNotes.searchNotes}
+          allTags={sessionNotes.getAllTags()}
+          onClose={() => setShowSessionNotes(false)}
         />
       )}
 
