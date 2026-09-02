@@ -170,7 +170,7 @@ export const Sidebar = React.memo(function Sidebar({
                 aria-label={`${agent.name}, ${agent.division}, role ${agent.office_role}${seated ? ', seated' : ''}`}
               >
                 <div className="agent-avatar" style={{ backgroundColor: roleColor }}>
-                  {agent.emoji}
+                  {agent.name.charAt(0).toUpperCase()}
                 </div>
                 <div className="agent-info">
                   <div className="agent-name" onClick={e => { e.stopPropagation(); onShowAgentDetail(agent.id); }}>{agent.name}</div>

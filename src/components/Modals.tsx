@@ -167,7 +167,7 @@ export function HelpModal({ onClose }: { onClose: () => void }) {
           <div className="help-item"><kbd>?</kbd><span>Toggle help</span></div>
           <div className="help-item"><span>Drag agent → desk</span><span>Seat at desk</span></div>
           <div className="help-item"><span>Double-click agent</span><span>Seat at role</span></div>
-          <div className="help-item"><span>Click emoji</span><span>View details</span></div>
+          <div className="help-item"><span>Click agent</span><span>View details</span></div>
           <div className="help-item"><span>⛓️</span><span>Pipeline mode</span></div>
           <div className="help-item"><span>✨</span><span>Head Agent suggest</span></div>
         </div>
@@ -336,7 +336,7 @@ export function AgentDetailModal({ detail, onClose }: { detail: AgentDetail; onC
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal modal-detail" onClick={e => e.stopPropagation()}>
         <div className="detail-header">
-          <span className="detail-emoji">{detail.emoji}</span>
+          <span className="detail-emoji">{detail.name.charAt(0).toUpperCase()}</span>
           <div>
             <h2>{detail.name}</h2>
             <div className="detail-meta">
@@ -488,7 +488,7 @@ export function ChatModal({ agent, messages, chatInput, setChatInput, chatLoadin
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal modal-chat" onClick={e => e.stopPropagation()}>
         <div className="chat-header">
-          <span className="chat-agent-emoji">{agent.emoji}</span>
+          <span className="chat-agent-emoji">{agent.name.charAt(0).toUpperCase()}</span>
           <span className="chat-agent-name">{agent.name}</span>
           <button className="modal-close" onClick={onClose}>×</button>
         </div>
@@ -569,7 +569,7 @@ export function PerformanceModal({ resultsArray, totalCost, totalTokens, ratings
               </div>
               {resultsArray.map(s => (
                 <div key={s.id} className="perf-table-row">
-                  <span>{s.emoji} {s.name.split(' ')[0]}</span>
+                  <span>{s.name.split(' ')[0]}</span>
                   <span>{s.runs}</span>
                   <span>${s.totalCost.toFixed(4)}</span>
                   <span>{ratings.get(s.id) === 'up' ? '👍' : ratings.get(s.id) === 'down' ? '👎' : '—'}</span>
@@ -987,7 +987,7 @@ export function LeaderboardModal({ entries, mostEfficient, onClear, onClose }: L
             padding: '8px 12px', background: 'rgba(167, 232, 124, 0.1)', borderRadius: 'var(--radius-sm)',
             marginBottom: 10, fontSize: 12,
           }}>
-            🏅 Most Efficient: <strong>{mostEfficient.emoji} {mostEfficient.name}</strong> — {mostEfficient.successRate.toFixed(0)}% success, ${mostEfficient.avgCostPerRun.toFixed(4)}/run
+            Most Efficient: <strong>{mostEfficient.name}</strong> — {mostEfficient.successRate.toFixed(0)}% success, ${mostEfficient.avgCostPerRun.toFixed(4)}/run
           </div>
         )}
         <div style={{ maxHeight: 300, overflowY: 'auto' }}>
@@ -1003,7 +1003,7 @@ export function LeaderboardModal({ entries, mostEfficient, onClear, onClose }: L
               {entries.map((e, i) => (
                 <tr key={e.agentId} style={{ borderBottom: '1px solid var(--border)' }}>
                   <td style={{ padding: '6px 8px', color: 'var(--text-4)' }}>{i + 1}</td>
-                  <td style={{ padding: '6px 8px', color: 'var(--text-1)' }}>{e.emoji} {e.name}</td>
+                  <td style={{ padding: '6px 8px', color: 'var(--text-1)' }}>{e.name}</td>
                   <td style={{ padding: '6px 8px', color: 'var(--text-2)' }}>{e.runs}</td>
                   <td style={{ padding: '6px 8px', color: e.successRate >= 80 ? 'var(--green)' : e.successRate >= 50 ? 'var(--accent)' : 'var(--red)' }}>
                     {e.successRate.toFixed(0)}%

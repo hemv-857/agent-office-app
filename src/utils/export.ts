@@ -15,9 +15,9 @@ function agentFileName(agentName: string): string {
   return sanitizeFilename(agentName.replace(/\s+/g, '-').toLowerCase());
 }
 
-export function exportResultAsMarkdown(result: AgentResult, agent: Agent | undefined): void {
+export function exportResultAsMarkdown(result: AgentResult, _agent: Agent | undefined): void {
   const md = [
-    `# ${agent?.emoji || ''} ${result.agent_name}`,
+    `# ${result.agent_name}`,
     '',
     `Status: ${result.status}`,
     `Tokens: ${result.tokens_used}`,
@@ -46,7 +46,7 @@ export function exportResultsAsMarkdown(results: AgentResult[], agents: Agent[])
     };
   });
   const md = data.map(r =>
-    `## ${r.emoji || ''} ${r.agent} (${r.role})\n\nStatus: ${r.status} | Tokens: ${r.tokens} | Cost: $${r.cost.toFixed(4)}\n\n${redactSecrets(r.response)}\n`
+    `## ${r.agent} (${r.role})\n\nStatus: ${r.status} | Tokens: ${r.tokens} | Cost: $${r.cost.toFixed(4)}\n\n${redactSecrets(r.response)}\n`
   ).join('\n---\n\n');
   triggerDownload(md, `agent-results-${Date.now()}.md`, 'text/markdown');
 }
@@ -92,7 +92,7 @@ export function exportResultsAsHtml(results: AgentResult[], agents: Agent[]): vo
     return `
       <div style="border:1px solid #333;border-radius:8px;padding:16px;margin-bottom:12px;background:#18181b">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-          <span style="font-size:20px">${agent?.emoji || '🤖'}</span>
+          <span style="font-size:20px">${agent?.name.charAt(0).toUpperCase() || 'A'}</span>
           <strong style="color:#fafafa">${r.agent_name}</strong>
           <span style="color:${statusColor};font-size:12px">${r.status}</span>
           <span style="margin-left:auto;color:#71717a;font-size:12px">${r.tokens_used} tokens · $${r.cost_usd.toFixed(4)}</span>

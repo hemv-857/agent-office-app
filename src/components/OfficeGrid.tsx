@@ -49,8 +49,8 @@ export const OfficeGrid = React.memo(function OfficeGrid({
               {agent ? (
                 <>
                   <div className="desk-label">{role}</div>
-                  <div className="desk-agent">{agent.emoji}</div>
-                  <div className="desk-name">{agent.name.split(' ')[0]}</div>
+                  <div className="desk-agent">{agent.name.split(' ')[0]}</div>
+                  <div className="desk-name">{agent.name.split(' ').slice(1).join(' ')}</div>
                   <div className={`desk-status ${agent.status}`}>{agent.status}</div>
                 </>
               ) : (

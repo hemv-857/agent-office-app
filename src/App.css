@@ -426,7 +426,15 @@ body {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.header-right .icon-btn {
+  font-size: 10px;
+  padding: 0 6px;
+  height: 26px;
 }
 
 .header-badge {

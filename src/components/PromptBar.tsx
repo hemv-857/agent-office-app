@@ -117,7 +117,7 @@ export function PromptBar({
           <div className="suggestions-tags">
             {suggestions.agentIds.map(id => {
               const agent = allAgents.find(a => a.id === id);
-              return agent ? <span key={id} className="suggestion-tag">{agent.emoji} {agent.name.split(' ')[0]}</span> : null;
+              return agent ? <span key={id} className="suggestion-tag">{agent.name.split(' ')[0]}</span> : null;
             })}
           </div>
           <button className="link-btn" onClick={() => { onSetSuggestions(null); onSetSelectedAgents([]); }}>dismiss</button>

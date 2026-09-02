@@ -229,10 +229,9 @@ export function ResultsPanel({
                     <div className="length-bars">
                       {compareAnalysis.completed.map((r) => {
                         const pct = compareAnalysis.maxLen > 0 ? (r.response.length / compareAnalysis.maxLen) * 100 : 0;
-                        const agent = allAgents.find(a => a.id === r.agent_id);
                         return (
                           <div key={r.agent_id} className="length-bar-row">
-                            <span className="length-bar-label">{agent?.emoji || '🤖'} {r.agent_name.split(' ')[0]}</span>
+                            <span className="length-bar-label">{r.agent_name.split(' ')[0]}</span>
                             <div className="length-bar-track">
                               <div className="length-bar-fill" style={{ width: `${pct}%` }} />
                             </div>
@@ -245,11 +244,10 @@ export function ResultsPanel({
                 </div>
               )}
               {filteredResults.map(r => {
-                const agent = allAgents.find(a => a.id === r.agent_id);
                 return (
                   <div key={r.agent_id} className={`compare-card ${r.status}`}>
                     <div className="compare-card-header">
-                      <span>{agent?.emoji || '🤖'} {r.agent_name}</span>
+                      <span>{r.agent_name}</span>
                       {r.elapsed_ms !== undefined && <span className="result-time">{(r.elapsed_ms / 1000).toFixed(1)}s</span>}
                     </div>
                     <div className="compare-card-body">
@@ -271,7 +269,7 @@ export function ResultsPanel({
                       <span className={`result-select-check ${selectedResults.has(r.agent_id) ? 'active' : ''}`} onClick={e => { e.stopPropagation(); onToggleResultSelect(r.agent_id); }}>
                         {selectedResults.has(r.agent_id) ? '✓' : ''}
                       </span>
-                      {agent?.emoji || '🤖'} {r.agent_name}
+                      {r.agent_name}
                     </span>
                     <div className="result-meta">
                       {r.elapsed_ms !== undefined && r.elapsed_ms > 0 && (
@@ -282,7 +280,7 @@ export function ResultsPanel({
                         <button onClick={e => { e.stopPropagation(); onToggleBookmark(r.agent_id); }} className={`result-action-btn ${bookmarks.has(r.agent_id) ? 'bookmarked' : ''}`} title={bookmarks.has(r.agent_id) ? 'Unbookmark' : 'Bookmark'}>🔖</button>
                         <button onClick={e => { e.stopPropagation(); onToggleRating(r.agent_id, 'up'); }} className={`result-action-btn ${ratings.get(r.agent_id) === 'up' ? 'rated' : ''}`} title="Good response">👍</button>
                         <button onClick={e => { e.stopPropagation(); onToggleRating(r.agent_id, 'down'); }} className={`result-action-btn ${ratings.get(r.agent_id) === 'down' ? 'rated-down' : ''}`} title="Bad response">👎</button>
-                        <button onClick={e => { e.stopPropagation(); onOpenChat(r.agent_id, r.agent_name, agent?.emoji || '🤖'); }} className="result-action-btn" title="Chat with agent">💬</button>
+                        <button onClick={e => { e.stopPropagation(); onOpenChat(r.agent_id, r.agent_name, agent?.emoji || ''); }} className="result-action-btn" title="Chat with agent">Chat</button>
                         <button onClick={e => { e.stopPropagation(); onCopyResult(r.response); }} className="result-action-btn" title="Copy">Copy</button>
                         <button onClick={e => { e.stopPropagation(); onExportSingle(r); }} className="result-action-btn" title="Export .md">Export</button>
                         {onEvaluateQuality && r.status === 'completed' && r.response && (

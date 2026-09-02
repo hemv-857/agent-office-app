@@ -404,7 +404,7 @@ function App() {
             <div className="header-icon" />
             <span className="header-title">Agent Office</span>
             {seatedCount > 0 && <span className="header-badge">{seatedCount}/8 seated</span>}
-            {isRunning && <span className="header-badge running">⚡ running</span>}
+            {isRunning && <span className="header-badge running">running</span>}
           </div>
           <div className="header-right">
             <AgentHealthIndicator providers={agentHealth.providers} />
@@ -426,16 +426,8 @@ function App() {
             <button onClick={() => setShowResultsPanel(!showResultsPanel)} className="icon-btn" title={showResultsPanel ? 'Hide results' : 'Show results'}>
               {showResultsPanel ? 'Hide' : 'Show'}
             </button>
-            <button onClick={() => setShowMcpTools(true)} className="icon-btn" title="MCP Tool Registry">Tools</button>
-            <button onClick={() => setShowAgentMemory(true)} className="icon-btn" title="Agent Memory">Memory</button>
-            <button onClick={() => setShowCostTracker(true)} className="icon-btn" title="Cost Tracker">Cost</button>
-            <button onClick={() => setShowLeaderboard(true)} className="icon-btn" title="Agent Leaderboard">Rank</button>
-            <button onClick={() => setShowPerfDashboard(true)} className="icon-btn" title="Performance dashboard">Stats</button>
-            <button onClick={() => setShowHelp(true)} className="icon-btn" title="Help">?</button>
             <button onClick={() => setShowSettings(true)} className="icon-btn" title="Settings">Settings</button>
-            <button onClick={() => setCompactOffice(!compactOffice)} className="icon-btn" title={compactOffice ? 'Expand' : 'Compact'}>
-              {compactOffice ? 'Expand' : 'Compact'}
-            </button>
+            <button onClick={() => setShowHelp(true)} className="icon-btn" title="Help">?</button>
           </div>
         </header>
 
