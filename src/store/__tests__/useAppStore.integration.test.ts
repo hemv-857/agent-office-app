@@ -17,7 +17,7 @@ describe('useAppStore - integration', () => {
       id: 'test-1',
       name: 'Test Dev',
       office_role: 'dev',
-      emoji: '🔧',
+      emoji: '',
     } as Parameters<typeof store.seatAgentAtRole>[0];
 
     store.seatAgentAtRole(agent, 'dev');

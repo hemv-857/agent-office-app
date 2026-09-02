@@ -240,11 +240,11 @@ function BuildView({ progress, isBuilding, onCancel, onReset, onOpen, logEndRef 
           {progress.tasks.map(task => (
             <div key={task.id} className={`builder-task ${task.status}`}>
               <span className="builder-task-icon">
-                {task.status === 'done' && '✓'}
-                {task.status === 'error' && '✗'}
+                {task.status === 'done' && ''}
+                {task.status === 'error' && ''}
                 {task.status === 'generating' && '⟳'}
                 {task.status === 'writing' && '↓'}
-                {task.status === 'building' && '🔨'}
+                {task.status === 'building' && ''}
                 {task.status === 'fixing' && 'Fixing'}
                 {task.status === 'pending' && '○'}
               </span>

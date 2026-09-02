@@ -49,7 +49,7 @@ describe('useAppStore', () => {
 
     it('clears office', () => {
       const store = useAppStore.getState();
-      store.setOfficeAgents([{ id: '1', name: 'Test', role: 'dev', emoji: '🔧', status: 'idle' }]);
+      store.setOfficeAgents([{ id: '1', name: 'Test', role: 'dev', emoji: '', status: 'idle' }]);
       expect(useAppStore.getState().officeAgents).toHaveLength(1);
       store.clearOffice();
       expect(useAppStore.getState().officeAgents).toHaveLength(0);

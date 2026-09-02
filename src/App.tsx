@@ -129,7 +129,7 @@ function App() {
     { id: 'decompose', label: 'Decompose Task', description: 'Break into subtasks', icon: '//', group: 'Actions', shortcut: '⌘D', action: () => taskDecomp.decompose(prompt) },
     { id: 'export-layout', label: 'Export Layout', description: 'Download office config', icon: '↓', group: 'Actions', action: handleExportLayout },
     { id: 'toggle-theme', label: 'Toggle Theme', description: 'Switch dark/light mode', icon: '◐', group: 'View', action: toggleTheme },
-    { id: 'toggle-sidebar', label: 'Toggle Sidebar', description: 'Show/hide sidebar', icon: '◻', group: 'View', action: () => setCompactOffice(!compactOffice) },
+    { id: 'toggle-sidebar', label: 'Toggle Sidebar', description: 'Show/hide sidebar', icon: '', group: 'View', action: () => setCompactOffice(!compactOffice) },
     { id: 'toggle-results', label: 'Toggle Results Panel', description: 'Show/hide results', icon: '≡', group: 'View', action: () => setShowResultsPanel(!showResultsPanel) },
     { id: 'settings', label: 'Open Settings', description: 'Configure providers and budget', icon: ':', group: 'Navigation', shortcut: '⌘,', action: () => setShowSettings(true) },
     { id: 'help', label: 'Show Help', description: 'View keyboard shortcuts', icon: '?', group: 'Navigation', shortcut: '?', action: () => setShowHelp(true) },
@@ -141,8 +141,8 @@ function App() {
     { id: 'session-notes', label: 'Session Notes', description: 'Attach notes to sessions', icon: '¶', group: 'Navigation', action: () => setShowSessionNotes(true) },
     { id: 'perf-dashboard', label: 'Performance Dashboard', description: 'Agent metrics', icon: '△', group: 'Navigation', action: () => setShowPerfDashboard(true) },
     { id: 'clear-office', label: 'Clear Office', description: 'Remove all agents from desks', icon: '×', group: 'Office', action: clearOffice },
-    { id: 'select-all', label: 'Select All Agents', description: '', icon: '☐', group: 'Office', action: selection.selectAll },
-    { id: 'deselect-all', label: 'Deselect All Agents', description: '', icon: '◻', group: 'Office', action: selection.deselectAll },
+    { id: 'select-all', label: 'Select All Agents', description: '', icon: '', group: 'Office', action: selection.selectAll },
+    { id: 'deselect-all', label: 'Deselect All Agents', description: '', icon: '', group: 'Office', action: selection.deselectAll },
     ...WORKFLOW_TEMPLATES.map(t => ({
       id: `wf-${t.id}`,
       label: `Workflow: ${t.label}`,
@@ -355,7 +355,7 @@ function App() {
       <Onboarding onComplete={() => setShowOnboarding(false)} />
       <ShortcutOverlay open={showShortcuts} onClose={() => setShowShortcuts(false)} />
 
-      {offline && <div className="offline-banner">⚠ You are offline — LLM calls will fail</div>}
+      {offline && <div className="offline-banner"> You are offline — LLM calls will fail</div>}
       {toast && (
         <div className={`toast ${toast.type}`} onClick={dismissToast} role="alert" aria-live="polite" aria-atomic="true">
           {toast.message}
@@ -594,7 +594,7 @@ function App() {
       {workflows.approvalStep && (
         <ApprovalModal
           agentName={workflows.approvalStep.agentName}
-          agentEmoji={catalog.allAgents.find(a => a.id === workflows.approvalStep!.agentId)?.emoji || '🤖'}
+          agentEmoji={catalog.allAgents.find(a => a.id === workflows.approvalStep!.agentId)?.emoji || ''}
           context={workflows.approvalStep.context}
           onApprove={() => workflows.resolveApproval(true)}
           onReject={() => workflows.resolveApproval(false)}

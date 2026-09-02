@@ -48,7 +48,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
             justifyContent: 'center',
             gap: 16,
           }}>
-            <div style={{ fontSize: 48 }}>💥</div>
+            <div style={{ fontSize: 48 }}></div>
             <h2 style={{ margin: 0, fontSize: 20 }}>Something went wrong</h2>
             <p style={{ color: '#a1a1aa', maxWidth: 460, textAlign: 'center', fontSize: 14, lineHeight: 1.5 }}>
               {this.state.error?.message || 'An unexpected error occurred'}

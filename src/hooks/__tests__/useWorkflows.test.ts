@@ -4,11 +4,11 @@ import { describe, it, expect } from 'vitest';
 describe('useWorkflows', () => {
   // Test the mode constants
   const WORKFLOW_MODES = [
-    { mode: 'parallel', label: 'Parallel', icon: '⚡', desc: 'All agents work simultaneously' },
-    { mode: 'pipeline', label: 'Pipeline', icon: '⛓', desc: 'Each agent feeds into the next' },
-    { mode: 'synthesis', label: 'Synthesis', icon: '🧠', desc: 'Parallel then synthesize consensus' },
-    { mode: 'review', label: 'Review', icon: '🔍', desc: 'Parallel then cross-review each other' },
-    { mode: 'debate', label: 'Debate', icon: '⚔', desc: 'State positions then critique' },
+    { mode: 'parallel', label: 'Parallel', icon: '', desc: 'All agents work simultaneously' },
+    { mode: 'pipeline', label: 'Pipeline', icon: '', desc: 'Each agent feeds into the next' },
+    { mode: 'synthesis', label: 'Synthesis', icon: '', desc: 'Parallel then synthesize consensus' },
+    { mode: 'review', label: 'Review', icon: '', desc: 'Parallel then cross-review each other' },
+    { mode: 'debate', label: 'Debate', icon: '', desc: 'State positions then critique' },
   ];
 
   it('has 5 workflow modes', () => {
@@ -19,7 +19,6 @@ describe('useWorkflows', () => {
     for (const m of WORKFLOW_MODES) {
       expect(m.mode).toBeTruthy();
       expect(m.label).toBeTruthy();
-      expect(m.icon).toBeTruthy();
       expect(m.desc).toBeTruthy();
     }
   });

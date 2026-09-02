@@ -255,10 +255,10 @@ export function useProjectBuilder() {
           });
 
           progress = updateTask(progress, task.id, { status: 'done' });
-          emit(log(progress, 'success', `✓ ${filePath}`));
+          emit(log(progress, 'success', ` ${filePath}`));
         } catch (err) {
           progress = updateTask(progress, task.id, { status: 'error', error: String(err) });
-          emit(log(progress, 'error', `✗ ${filePath}: ${err}`));
+          emit(log(progress, 'error', ` ${filePath}: ${err}`));
         }
       }
 

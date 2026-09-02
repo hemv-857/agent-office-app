@@ -167,7 +167,7 @@ export function ResultsPanel({
                     a.href = url; a.download = `agent-results-${Date.now()}.json`; a.click();
                     URL.revokeObjectURL(url);
                   }
-                }} className="link-btn" title={`Export ${selectedResults.size} selected`}>📤×{selectedResults.size}</button>
+                }} className="link-btn" title={`Export ${selectedResults.size} selected`}>×{selectedResults.size}</button>
               </>
             )}
             <button onClick={onSelectAllResults} className="link-btn" title="Select all">all</button>
@@ -175,7 +175,7 @@ export function ResultsPanel({
             <button onClick={() => onSetCompareMode((p: boolean) => !p)} className={`link-btn ${compareMode ? 'active' : ''}`} title="Compare mode">⟺</button>
             <button onClick={() => exportResultsAsMarkdown(resultsArray, allAgents)} className="link-btn" title="Export Markdown">Export</button>
             <button onClick={() => exportResultsAsJson(resultsArray, allAgents)} className="link-btn" title="Export JSON">{'{ }'}</button>
-            <button onClick={() => exportResultsAsHtml(resultsArray, allAgents)} className="link-btn" title="Export HTML">🌐</button>
+            <button onClick={() => exportResultsAsHtml(resultsArray, allAgents)} className="link-btn" title="Export HTML"></button>
             <button onClick={onClearResults} className="link-btn">clear</button>
           </div>
         )}
@@ -203,7 +203,7 @@ export function ResultsPanel({
                   {slowestAgent && slowestAgent.agent_id !== fastestAgent?.agent_id && (
                     <div className="compare-stat">
                       <span className="compare-stat-label">Slowest</span>
-                      <span className="compare-stat-value">🐢 {slowestAgent.agent_name} ({(slowestAgent.elapsed_ms! / 1000).toFixed(1)}s)</span>
+                      <span className="compare-stat-value"> {slowestAgent.agent_name} ({(slowestAgent.elapsed_ms! / 1000).toFixed(1)}s)</span>
                     </div>
                   )}
                   <div className="compare-stat">
@@ -267,7 +267,7 @@ export function ResultsPanel({
                   <div className="result-card-header" onClick={() => isLong && onToggleCardExpanded(r.agent_id)} style={{ cursor: isLong ? 'pointer' : 'default' }}>
                     <span className="result-agent">
                       <span className={`result-select-check ${selectedResults.has(r.agent_id) ? 'active' : ''}`} onClick={e => { e.stopPropagation(); onToggleResultSelect(r.agent_id); }}>
-                        {selectedResults.has(r.agent_id) ? '✓' : ''}
+                        {selectedResults.has(r.agent_id) ? '' : ''}
                       </span>
                       {r.agent_name}
                     </span>
@@ -277,9 +277,9 @@ export function ResultsPanel({
                       )}
                       {r.cost_usd > 0 && <span className="result-cost">${r.cost_usd.toFixed(4)}</span>}
                       <div className="result-actions">
-                        <button onClick={e => { e.stopPropagation(); onToggleBookmark(r.agent_id); }} className={`result-action-btn ${bookmarks.has(r.agent_id) ? 'bookmarked' : ''}`} title={bookmarks.has(r.agent_id) ? 'Unbookmark' : 'Bookmark'}>🔖</button>
-                        <button onClick={e => { e.stopPropagation(); onToggleRating(r.agent_id, 'up'); }} className={`result-action-btn ${ratings.get(r.agent_id) === 'up' ? 'rated' : ''}`} title="Good response">👍</button>
-                        <button onClick={e => { e.stopPropagation(); onToggleRating(r.agent_id, 'down'); }} className={`result-action-btn ${ratings.get(r.agent_id) === 'down' ? 'rated-down' : ''}`} title="Bad response">👎</button>
+                        <button onClick={e => { e.stopPropagation(); onToggleBookmark(r.agent_id); }} className={`result-action-btn ${bookmarks.has(r.agent_id) ? 'bookmarked' : ''}`} title={bookmarks.has(r.agent_id) ? 'Unbookmark' : 'Bookmark'}></button>
+                        <button onClick={e => { e.stopPropagation(); onToggleRating(r.agent_id, 'up'); }} className={`result-action-btn ${ratings.get(r.agent_id) === 'up' ? 'rated' : ''}`} title="Good response"></button>
+                        <button onClick={e => { e.stopPropagation(); onToggleRating(r.agent_id, 'down'); }} className={`result-action-btn ${ratings.get(r.agent_id) === 'down' ? 'rated-down' : ''}`} title="Bad response"></button>
                         <button onClick={e => { e.stopPropagation(); onOpenChat(r.agent_id, r.agent_name, agent?.emoji || ''); }} className="result-action-btn" title="Chat with agent">Chat</button>
                         <button onClick={e => { e.stopPropagation(); onCopyResult(r.response); }} className="result-action-btn" title="Copy">Copy</button>
                         <button onClick={e => { e.stopPropagation(); onExportSingle(r); }} className="result-action-btn" title="Export .md">Export</button>
@@ -328,7 +328,7 @@ export function ResultsPanel({
               </div>
             ) : (
               <div className="empty-content">
-                <div className="empty-icon">✨</div>
+                <div className="empty-icon"></div>
                 <div className="empty-title">Build your team</div>
                 <div className="empty-sub">
                   Select agents from the sidebar, then submit a prompt.<br />

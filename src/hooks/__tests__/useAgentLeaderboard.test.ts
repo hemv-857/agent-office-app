@@ -28,7 +28,7 @@ describe('useAgentLeaderboard', () => {
     const entry = {
       agentId: 'agent-1',
       name: 'Code Reviewer',
-      emoji: '🔍',
+      emoji: '',
       runs: 1,
       successes: 1,
       failures: 0,

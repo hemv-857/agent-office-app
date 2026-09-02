@@ -8,17 +8,17 @@ const STEPS = [
   {
     title: 'Welcome to Agent Office',
     description: 'A multi-agent AI workspace where specialized agents collaborate on tasks. Think of it as your AI command center.',
-    icon: '🏢',
+    icon: '',
   },
   {
     title: 'Seat Your Agents',
     description: 'Drag agents from the sidebar onto the office grid. Each desk represents a role — developer, QA, architect, and more.',
-    icon: '🪑',
+    icon: '',
   },
   {
     title: 'Write a Prompt',
     description: 'Type what you want in the prompt bar. Use templates for common workflows or write your own instructions.',
-    icon: '✍️',
+    icon: '',
   },
   {
     title: 'Run Workflows',
@@ -28,7 +28,7 @@ const STEPS = [
   {
     title: 'Keyboard Shortcuts',
     description: 'Press ⌘K for the command palette, ⌘Enter to run, ⌘D to decompose tasks. Speed up your workflow.',
-    icon: '⌨️',
+    icon: '⌨',
   },
   {
     title: "You're Ready",

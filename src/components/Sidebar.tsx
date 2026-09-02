@@ -92,7 +92,7 @@ export const Sidebar = React.memo(function Sidebar({
 
         <div className="filter-pills" role="radiogroup" aria-label="Filter agents by role">
           <button className={`filter-pill ${roleFilter === null && !showFavoritesOnly ? 'active' : ''}`} onClick={() => { onRoleFilterChange(null); onShowFavoritesOnly(false); }} role="radio" aria-checked={roleFilter === null && !showFavoritesOnly}>All</button>
-          <button className={`filter-pill ${showFavoritesOnly ? 'active' : ''}`} onClick={() => { onShowFavoritesOnly(!showFavoritesOnly); onRoleFilterChange(null); }} role="radio" aria-checked={showFavoritesOnly}>★ Favs</button>
+          <button className={`filter-pill ${showFavoritesOnly ? 'active' : ''}`} onClick={() => { onShowFavoritesOnly(!showFavoritesOnly); onRoleFilterChange(null); }} role="radio" aria-checked={showFavoritesOnly}> Favs</button>
           {ROLES.map(r => (
             <button key={r} className={`filter-pill ${roleFilter === r ? 'active' : ''}`} onClick={() => onRoleFilterChange(roleFilter === r ? null : r)} style={{ '--pill-color': ROLE_COLORS[r] } as React.CSSProperties}>
               {r}
@@ -102,14 +102,14 @@ export const Sidebar = React.memo(function Sidebar({
 
         <div className="sidebar-toolbar">
           <button onClick={onToggleTheme} className="toolbar-btn" title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
-            {theme === 'dark' ? '☀️' : '🌙'}
+            {theme === 'dark' ? '' : ''}
           </button>
-          <button onClick={onShowCustomAgent} className="toolbar-btn" title="Add custom agent">+🤖</button>
+          <button onClick={onShowCustomAgent} className="toolbar-btn" title="Add custom agent">+</button>
           <button onClick={onShowGroupSave} className="toolbar-btn" title="Save selected as group">Save</button>
-          <button onClick={onShowPresetSave} className="toolbar-btn" title="Save office preset">🏢</button>
-          <button onClick={onExportLayout} className="toolbar-btn" title="Export layout">📤</button>
+          <button onClick={onShowPresetSave} className="toolbar-btn" title="Save office preset"></button>
+          <button onClick={onExportLayout} className="toolbar-btn" title="Export layout"></button>
           <label className="toolbar-btn" title="Import layout">
-            📥
+            
             <input type="file" accept=".json" onChange={onImportLayout} hidden />
           </label>
         </div>
@@ -140,7 +140,7 @@ export const Sidebar = React.memo(function Sidebar({
             {sidebarSections.presets && officePresets.map(p => (
               <div key={p.name} className="group-item">
                 <button className="group-name" onClick={() => onLoadPreset(p.name)} title={`Load ${p.name}`}>
-                  🏢 {p.name} <span className="group-count">{p.agents.length}</span>
+                   {p.name} <span className="group-count">{p.agents.length}</span>
                 </button>
                 <button className="group-delete" onClick={() => onDeletePreset(p.name)} title="Delete preset">×</button>
               </div>
@@ -178,10 +178,10 @@ export const Sidebar = React.memo(function Sidebar({
                 </div>
                 {seated && <div className={`agent-status-dot ${seated.status}`} />}
                 <span className={`agent-fav ${favorites.has(agent.id) ? 'active' : ''}`} onClick={e => { e.stopPropagation(); onToggleFavorite(agent.id); }} title={favorites.has(agent.id) ? 'Unfavorite' : 'Favorite'}>
-                  {favorites.has(agent.id) ? '★' : '☆'}
+                  {favorites.has(agent.id) ? '' : ''}
                 </span>
                 <div className={`agent-check ${selectedAgents.includes(agent.id) ? 'selected' : ''}`}>
-                  {selectedAgents.includes(agent.id) && '✓'}
+                  {selectedAgents.includes(agent.id) && ''}
                 </div>
               </div>
             );

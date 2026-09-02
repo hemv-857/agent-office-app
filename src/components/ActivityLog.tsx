@@ -22,8 +22,8 @@ export const ActivityLog = React.memo(function ActivityLog({ entries, onClear }:
 
   const typeIcon: Record<string, string> = {
     info: 'ℹ',
-    success: '✓',
-    warning: '⚠',
+    success: '',
+    warning: '',
     error: 'x',
   };
 

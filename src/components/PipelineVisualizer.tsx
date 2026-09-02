@@ -18,7 +18,7 @@ function statusColor(status: PipelineNode['status']): string {
 
 function statusIcon(status: PipelineNode['status']): string {
   switch (status) {
-    case 'completed': return '✓';
+    case 'completed': return '';
     case 'running': return '●';
     case 'failed': return 'X';
     case 'skipped': return '○';

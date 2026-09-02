@@ -168,8 +168,8 @@ export function HelpModal({ onClose }: { onClose: () => void }) {
           <div className="help-item"><span>Drag agent → desk</span><span>Seat at desk</span></div>
           <div className="help-item"><span>Double-click agent</span><span>Seat at role</span></div>
           <div className="help-item"><span>Click agent</span><span>View details</span></div>
-          <div className="help-item"><span>⛓️</span><span>Pipeline mode</span></div>
-          <div className="help-item"><span>✨</span><span>Head Agent suggest</span></div>
+          <div className="help-item"><span></span><span>Pipeline mode</span></div>
+          <div className="help-item"><span></span><span>Head Agent suggest</span></div>
         </div>
         <div className="modal-actions">
           <button onClick={onClose} className="btn-primary">Close</button>
@@ -572,7 +572,7 @@ export function PerformanceModal({ resultsArray, totalCost, totalTokens, ratings
                   <span>{s.name.split(' ')[0]}</span>
                   <span>{s.runs}</span>
                   <span>${s.totalCost.toFixed(4)}</span>
-                  <span>{ratings.get(s.id) === 'up' ? '👍' : ratings.get(s.id) === 'down' ? '👎' : '—'}</span>
+                  <span>{ratings.get(s.id) === 'up' ? '' : ratings.get(s.id) === 'down' ? '' : '—'}</span>
                 </div>
               ))}
             </div>
@@ -599,7 +599,7 @@ export function ApprovalModal({ agentName, agentEmoji, context, onApprove, onRej
     <div className="modal-overlay" onClick={onReject}>
       <div className="modal" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>✋ Approve Next Step</h2>
+          <h2> Approve Next Step</h2>
           <button className="modal-close" onClick={onReject}>×</button>
         </div>
         <div style={{ padding: '4px 0' }}>
@@ -680,7 +680,7 @@ export function OvernightPanel({
         marginBottom: 10,
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-          <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--accent)' }}>🌙 Overnight Running</span>
+          <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--accent)' }}> Overnight Running</span>
           <button onClick={onStop} style={{
             background: 'var(--red-dim)',
             border: '1px solid var(--red)',
@@ -708,7 +708,7 @@ export function OvernightPanel({
           </div>
         </div>
         {lastError && (
-          <div style={{ fontSize: 11, color: 'var(--red)', marginTop: 6 }}>⚠ {lastError}</div>
+          <div style={{ fontSize: 11, color: 'var(--red)', marginTop: 6 }}> {lastError}</div>
         )}
       </div>
     );
@@ -722,7 +722,7 @@ export function OvernightPanel({
       padding: '12px 16px',
       marginBottom: 10,
     }}>
-      <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 10 }}>🌙 Overnight Mode</div>
+      <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 10 }}> Overnight Mode</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         <input
           type="text"
@@ -787,7 +787,7 @@ export function OvernightPanel({
             fontFamily: 'inherit',
           }}
         >
-          🌙 Start Overnight Run
+           Start Overnight Run
         </button>
       </div>
     </div>
@@ -817,7 +817,7 @@ export function ExitSummaryModal({ summary, onClose }: ExitSummaryProps) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 420 }}>
         <div className="modal-header">
-          <h2>🌅 Overnight Run Complete</h2>
+          <h2> Overnight Run Complete</h2>
           <button className="modal-close" onClick={onClose}>×</button>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '4px 0' }}>

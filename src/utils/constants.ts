@@ -72,7 +72,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'api-design',
     label: 'API Design Review',
-    icon: '📐',
+    icon: '',
     prompt: 'Review this API design. Check REST conventions, error handling, versioning, and documentation.',
     agentRoles: ['arch', 'dev', 'res'],
     workflowMode: 'synthesis',
@@ -81,7 +81,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'incident-response',
     label: 'Incident Response',
-    icon: '🚨',
+    icon: '',
     prompt: 'Analyze this incident. Determine root cause, impact, and create a response plan with prevention steps.',
     agentRoles: ['ops', 'dev', 'pm'],
     workflowMode: 'parallel',
@@ -99,7 +99,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'refactor-plan',
     label: 'Refactoring Plan',
-    icon: '♻',
+    icon: '',
     prompt: 'Analyze this code for refactoring opportunities. Prioritize by impact, estimate effort, and create a phased plan.',
     agentRoles: ['arch', 'dev', 'qa'],
     workflowMode: 'pipeline-approval',
@@ -108,7 +108,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'db-migration',
     label: 'Database Migration',
-    icon: '🗄',
+    icon: '',
     prompt: 'Design and review this database migration. Check schema changes, data integrity, rollback strategy, and performance impact.',
     agentRoles: ['arch', 'dev', 'ops'],
     workflowMode: 'pipeline',
@@ -126,7 +126,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'release-checklist',
     label: 'Release Checklist',
-    icon: '📦',
+    icon: '',
     prompt: 'Prepare a release checklist. Verify tests pass, docs updated, changelog written, version bumped, and rollback plan ready.',
     agentRoles: ['qa', 'ops', 'pm'],
     workflowMode: 'parallel',
@@ -135,7 +135,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'tech-debt',
     label: 'Tech Debt Assessment',
-    icon: '🧹',
+    icon: '',
     prompt: 'Identify and categorize tech debt. Estimate effort, prioritize by business impact, and create a remediation plan.',
     agentRoles: ['arch', 'dev', 'pm'],
     workflowMode: 'synthesis',
@@ -144,7 +144,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'load-test',
     label: 'Load Testing Plan',
-    icon: '📈',
+    icon: '',
     prompt: 'Design a load testing strategy. Define scenarios, expected throughput, latency targets, and monitoring setup.',
     agentRoles: ['ops', 'dev', 'res'],
     workflowMode: 'parallel',
@@ -153,7 +153,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'api-migration',
     label: 'API Version Migration',
-    icon: '🔄',
+    icon: '',
     prompt: 'Plan an API version migration. Identify breaking changes, create migration guide, and implement backward compatibility.',
     agentRoles: ['arch', 'dev', 'pm'],
     workflowMode: 'pipeline',
@@ -162,7 +162,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'code-consolidation',
     label: 'Code Consolidation',
-    icon: '🔗',
+    icon: '',
     prompt: 'Find duplicate code across the codebase. Consolidate into shared utilities, reduce maintenance burden.',
     agentRoles: ['dev', 'arch', 'qa'],
     workflowMode: 'pipeline-approval',
@@ -194,7 +194,7 @@ export const DEFAULT_CUSTOM_AGENT: CustomAgentForm = {
   division: 'custom',
   description: '',
   office_role: 'dev',
-  emoji: '🤖',
+  emoji: '',
   system_prompt: '',
 };
 

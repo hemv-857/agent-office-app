@@ -130,7 +130,7 @@ export function useStreaming() {
   function getAgentStats(): AgentStats[] {
     const statsMap = new Map<string, { name: string; emoji: string; runs: number; totalCost: number; successes: number; failures: number }>();
     for (const r of resultsArray) {
-      const existing = statsMap.get(r.agent_id) || { name: r.agent_name, emoji: '🤖', runs: 0, totalCost: 0, successes: 0, failures: 0 };
+      const existing = statsMap.get(r.agent_id) || { name: r.agent_name, emoji: '', runs: 0, totalCost: 0, successes: 0, failures: 0 };
       existing.runs++;
       existing.totalCost += r.cost_usd;
       if (r.status === 'completed') existing.successes++;
