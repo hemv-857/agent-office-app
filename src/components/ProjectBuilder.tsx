@@ -130,7 +130,7 @@ export function ProjectBuilder({ provider }: ProjectBuilderProps) {
           onClick={handleBuild}
           disabled={!prompt.trim() || !projectName.trim() || isBuilding}
         >
-          {isBuilding ? 'Building...' : '🚀 Build Project'}
+          {isBuilding ? 'Building...' : 'Build Project'}
         </button>
       </div>
 
@@ -214,7 +214,7 @@ function BuildView({ progress, isBuilding, onCancel, onReset, onOpen, logEndRef 
               <>
                 <button className="btn btn-secondary" onClick={onOpen}>Open Folder</button>
                 <button className="btn btn-secondary" onClick={runDevServer} disabled={devRunning}>
-                  {devRunning ? 'Running...' : '▶ Run Dev Server'}
+                  {devRunning ? 'Running...' : 'Run Dev Server'}
                 </button>
                 <button className="btn btn-primary" onClick={onReset}>New Project</button>
               </>
@@ -245,7 +245,7 @@ function BuildView({ progress, isBuilding, onCancel, onReset, onOpen, logEndRef 
                 {task.status === 'generating' && '⟳'}
                 {task.status === 'writing' && '↓'}
                 {task.status === 'building' && '🔨'}
-                {task.status === 'fixing' && '🔧'}
+                {task.status === 'fixing' && 'Fixing'}
                 {task.status === 'pending' && '○'}
               </span>
               <span className="builder-task-name">{task.name}</span>

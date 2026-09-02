@@ -20,7 +20,7 @@ function statusIcon(status: PipelineNode['status']): string {
   switch (status) {
     case 'completed': return '✓';
     case 'running': return '●';
-    case 'failed': return '✕';
+    case 'failed': return 'X';
     case 'skipped': return '○';
     default: return '◌';
   }

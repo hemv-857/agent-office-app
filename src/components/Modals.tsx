@@ -106,10 +106,10 @@ export function SettingsModal({ provider, costBudget, onProviderChange, onBudget
               style={{ flex: 1 }}
             />
             <button className="btn-test" onClick={() => setShowAnthropicKey(!showAnthropicKey)} title={showAnthropicKey ? 'Hide' : 'Show'}>
-              {showAnthropicKey ? '🙈' : '👁'}
+              {showAnthropicKey ? 'Hide' : 'Show'}
             </button>
             <button className="btn-test" disabled={!anthropicKey || testingKey !== null} onClick={() => testApiKey('anthropic', anthropicKey)}>
-              {testingKey === 'anthropic' ? '⏳' : '🔌'}
+              {testingKey === 'anthropic' ? '...' : 'Test'}
             </button>
           </div>
           {anthropicKey && !validateKeyFormat('anthropic', anthropicKey) && (
@@ -130,10 +130,10 @@ export function SettingsModal({ provider, costBudget, onProviderChange, onBudget
               style={{ flex: 1 }}
             />
             <button className="btn-test" onClick={() => setShowOpenaiKey(!showOpenaiKey)} title={showOpenaiKey ? 'Hide' : 'Show'}>
-              {showOpenaiKey ? '🙈' : '👁'}
+              {showOpenaiKey ? 'Hide' : 'Show'}
             </button>
             <button className="btn-test" disabled={!openaiKey || testingKey !== null} onClick={() => testApiKey('openai', openaiKey)}>
-              {testingKey === 'openai' ? '⏳' : '🔌'}
+              {testingKey === 'openai' ? '...' : 'Test'}
             </button>
           </div>
           {openaiKey && !validateKeyFormat('openai', openaiKey) && (
@@ -206,7 +206,7 @@ export function McpToolsModal({ servers, onAdd, onRemove, onToggle, onClose }: M
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 500 }}>
         <div className="modal-header">
-          <h2>🔧 MCP Tool Registry</h2>
+          <h2>MCP Tool Registry</h2>
           <button className="modal-close" onClick={onClose}>×</button>
         </div>
         <div style={{ fontSize: 11, color: 'var(--text-3)', marginBottom: 10 }}>
@@ -221,7 +221,7 @@ export function McpToolsModal({ servers, onAdd, onRemove, onToggle, onClose }: M
             }}>
               <button onClick={() => onToggle(s.id)} style={{
                 background: 'none', border: 'none', cursor: 'pointer', fontSize: 14, padding: 0,
-              }}>{s.enabled ? '🟢' : '⚪'}</button>
+              }}>{s.enabled ? 'On' : 'Off'}</button>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-1)' }}>{s.name}</div>
                 <div style={{ fontSize: 10, color: 'var(--text-4)', fontFamily: 'monospace', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -282,7 +282,7 @@ export function AgentMemoryPanel({ memories, onDelete, onClose }: AgentMemoryPro
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 520 }}>
         <div className="modal-header">
-          <h2>🧠 Agent Memory</h2>
+          <h2>Agent Memory</h2>
           <button className="modal-close" onClick={onClose}>×</button>
         </div>
         <div style={{ fontSize: 11, color: 'var(--text-3)', marginBottom: 10 }}>
@@ -349,7 +349,7 @@ export function AgentDetailModal({ detail, onClose }: { detail: AgentDetail; onC
         <p className="detail-desc">{detail.description}</p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
           <h3 style={{ margin: 0 }}>System Prompt</h3>
-          <button className="link-btn" onClick={copyPrompt} title="Copy system prompt">📋 Copy</button>
+          <button className="link-btn" onClick={copyPrompt} title="Copy system prompt">Copy</button>
         </div>
         <pre className="detail-prompt">{detail.system_prompt}</pre>
       </div>
@@ -520,7 +520,7 @@ export function ChatModal({ agent, messages, chatInput, setChatInput, chatLoadin
             disabled={chatLoading}
           />
           <button onClick={onSend} disabled={!chatInput.trim() || chatLoading} className="action-btn primary" style={{ width: 36, height: 36 }}>
-            {chatLoading ? '⏳' : '▶'}
+            {chatLoading ? '...' : 'Send'}
           </button>
         </div>
       </div>
@@ -876,7 +876,7 @@ export function CostTrackerModal({ entries, todayCost, totalCost, weeklyCost, by
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 520 }}>
         <div className="modal-header">
-          <h2>💰 Cost Tracker</h2>
+          <h2>Cost Tracker</h2>
           <button className="modal-close" onClick={onClose}>×</button>
         </div>
         {budgetCheck.warning && (
@@ -979,7 +979,7 @@ export function LeaderboardModal({ entries, mostEfficient, onClear, onClose }: L
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 520 }}>
         <div className="modal-header">
-          <h2>🏆 Agent Leaderboard</h2>
+          <h2>Agent Leaderboard</h2>
           <button className="modal-close" onClick={onClose}>×</button>
         </div>
         {mostEfficient && (

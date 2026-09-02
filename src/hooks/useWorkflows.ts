@@ -5,16 +5,16 @@ import type { Agent, OfficeAgent } from '../types';
 export type WorkflowMode = 'parallel' | 'pipeline' | 'synthesis' | 'review' | 'debate' | 'quality-gate' | 'pipeline-approval' | 'conditional' | 'collab' | 'builder';
 
 const WORKFLOW_MODES: { mode: WorkflowMode; label: string; icon: string; desc: string }[] = [
-  { mode: 'parallel', label: 'Parallel', icon: '⚡', desc: 'All agents work simultaneously' },
-  { mode: 'pipeline', label: 'Pipeline', icon: '⛓', desc: 'Each agent feeds into the next' },
-  { mode: 'synthesis', label: 'Synthesis', icon: '🧠', desc: 'Parallel then synthesize consensus' },
-  { mode: 'review', label: 'Review', icon: '🔍', desc: 'Parallel then cross-review each other' },
-  { mode: 'debate', label: 'Debate', icon: '⚔', desc: 'State positions then critique' },
-  { mode: 'quality-gate', label: 'Quality Gate', icon: '🛡', desc: 'Run then filter by quality score' },
-  { mode: 'pipeline-approval', label: 'Pipeline + Approve', icon: '✋', desc: 'Pipeline with human approval between steps' },
-  { mode: 'conditional', label: 'Conditional', icon: '🔀', desc: 'Route to different agents based on prompt' },
-  { mode: 'collab', label: 'Collaborate', icon: '🤝', desc: 'Agents build on each other\'s work iteratively' },
-  { mode: 'builder', label: 'Build Project', icon: '🚀', desc: 'Generate a complete project from a prompt' },
+  { mode: 'parallel', label: 'Parallel', icon: '||', desc: 'All agents work simultaneously' },
+  { mode: 'pipeline', label: 'Pipeline', icon: '->', desc: 'Each agent feeds into the next' },
+  { mode: 'synthesis', label: 'Synthesis', icon: '+', desc: 'Parallel then synthesize consensus' },
+  { mode: 'review', label: 'Review', icon: '?', desc: 'Parallel then cross-review each other' },
+  { mode: 'debate', label: 'Debate', icon: 'vs', desc: 'State positions then critique' },
+  { mode: 'quality-gate', label: 'Quality Gate', icon: '!', desc: 'Run then filter by quality score' },
+  { mode: 'pipeline-approval', label: 'Pipeline + Approve', icon: '*', desc: 'Pipeline with human approval between steps' },
+  { mode: 'conditional', label: 'Conditional', icon: '/', desc: 'Route to different agents based on prompt' },
+  { mode: 'collab', label: 'Collaborate', icon: '~', desc: 'Agents build on each other\'s work iteratively' },
+  { mode: 'builder', label: 'Build Project', icon: '>', desc: 'Generate a complete project from a prompt' },
 ];
 
 interface UseWorkflowsProps {

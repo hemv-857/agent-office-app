@@ -14,7 +14,7 @@ export const AgentHealthIndicator = React.memo(function AgentHealthIndicator({ p
     const degraded = all.find(p => p.status === 'degraded');
     if (down) return { label: `${down.provider} down`, dot: '🔴' };
     if (degraded) return { label: `${degraded.provider} degraded`, dot: '🟡' };
-    return { label: 'All healthy', dot: '🟢' };
+    return { label: 'All healthy', dot: 'OK' };
   }, [providers]);
 
   return (

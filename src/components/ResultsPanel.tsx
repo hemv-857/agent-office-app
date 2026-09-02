@@ -152,7 +152,7 @@ export function ResultsPanel({
                     .map(r => `## ${r.agent_name}\n\n${r.response}`)
                     .join('\n\n---\n\n');
                   if (texts) onCopyResult(texts);
-                }} className="link-btn" title={`Copy ${selectedResults.size} selected`}>📋×{selectedResults.size}</button>
+                }} className="link-btn" title={`Copy ${selectedResults.size} selected`}>Copy ({selectedResults.size})</button>
                 <button onClick={() => {
                   const data = filteredResults
                     .filter(r => selectedResults.has(r.agent_id))
@@ -173,7 +173,7 @@ export function ResultsPanel({
             <button onClick={onSelectAllResults} className="link-btn" title="Select all">all</button>
             <button onClick={onDeselectAllResults} className="link-btn" title="Deselect all">none</button>
             <button onClick={() => onSetCompareMode((p: boolean) => !p)} className={`link-btn ${compareMode ? 'active' : ''}`} title="Compare mode">⟺</button>
-            <button onClick={() => exportResultsAsMarkdown(resultsArray, allAgents)} className="link-btn" title="Export Markdown">📝</button>
+            <button onClick={() => exportResultsAsMarkdown(resultsArray, allAgents)} className="link-btn" title="Export Markdown">Export</button>
             <button onClick={() => exportResultsAsJson(resultsArray, allAgents)} className="link-btn" title="Export JSON">{'{ }'}</button>
             <button onClick={() => exportResultsAsHtml(resultsArray, allAgents)} className="link-btn" title="Export HTML">🌐</button>
             <button onClick={onClearResults} className="link-btn">clear</button>
@@ -197,7 +197,7 @@ export function ResultsPanel({
                   {fastestAgent && (
                     <div className="compare-stat">
                       <span className="compare-stat-label">Fastest</span>
-                      <span className="compare-stat-value">⚡ {fastestAgent.agent_name} ({(fastestAgent.elapsed_ms! / 1000).toFixed(1)}s)</span>
+                      <span className="compare-stat-value">Fastest: {fastestAgent.agent_name} ({(fastestAgent.elapsed_ms! / 1000).toFixed(1)}s)</span>
                     </div>
                   )}
                   {slowestAgent && slowestAgent.agent_id !== fastestAgent?.agent_id && (
@@ -283,8 +283,8 @@ export function ResultsPanel({
                         <button onClick={e => { e.stopPropagation(); onToggleRating(r.agent_id, 'up'); }} className={`result-action-btn ${ratings.get(r.agent_id) === 'up' ? 'rated' : ''}`} title="Good response">👍</button>
                         <button onClick={e => { e.stopPropagation(); onToggleRating(r.agent_id, 'down'); }} className={`result-action-btn ${ratings.get(r.agent_id) === 'down' ? 'rated-down' : ''}`} title="Bad response">👎</button>
                         <button onClick={e => { e.stopPropagation(); onOpenChat(r.agent_id, r.agent_name, agent?.emoji || '🤖'); }} className="result-action-btn" title="Chat with agent">💬</button>
-                        <button onClick={e => { e.stopPropagation(); onCopyResult(r.response); }} className="result-action-btn" title="Copy">📋</button>
-                        <button onClick={e => { e.stopPropagation(); onExportSingle(r); }} className="result-action-btn" title="Export .md">📝</button>
+                        <button onClick={e => { e.stopPropagation(); onCopyResult(r.response); }} className="result-action-btn" title="Copy">Copy</button>
+                        <button onClick={e => { e.stopPropagation(); onExportSingle(r); }} className="result-action-btn" title="Export .md">Export</button>
                         {onEvaluateQuality && r.status === 'completed' && r.response && (
                           <button
                             onClick={async e => {
@@ -298,7 +298,7 @@ export function ResultsPanel({
                             className={`result-action-btn ${qualityScores.get(r.agent_id)?.passed === true ? 'rated' : qualityScores.get(r.agent_id)?.passed === false ? 'rated-down' : ''}`}
                             title={qualityScores.get(r.agent_id) ? `Score: ${(qualityScores.get(r.agent_id)!.score * 100).toFixed(0)}% — ${qualityScores.get(r.agent_id)!.reasoning}` : 'Evaluate quality'}
                           >
-                            {evaluating.has(r.agent_id) ? '⏳' : '🛡'}
+                            {evaluating.has(r.agent_id) ? '...' : 'Eval'}
                           </button>
                         )}
                         {isLong && (

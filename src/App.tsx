@@ -124,25 +124,25 @@ function App() {
   });
 
   const commands: CommandItem[] = [
-    { id: 'run-all', label: 'Run All Agents', description: 'Execute all seated agents', icon: '▶', group: 'Actions', shortcut: '⌘↵', action: handleRunAll },
-    { id: 'suggest', label: 'Suggest Agents', description: 'AI picks best agents for prompt', icon: '🤖', group: 'Actions', action: orchestration.handleSuggest },
-    { id: 'decompose', label: 'Decompose Task', description: 'Break into subtasks', icon: '📋', group: 'Actions', shortcut: '⌘D', action: () => taskDecomp.decompose(prompt) },
-    { id: 'export-layout', label: 'Export Layout', description: 'Download office config', icon: '📤', group: 'Actions', action: handleExportLayout },
-    { id: 'toggle-theme', label: 'Toggle Theme', description: 'Switch dark/light mode', icon: '🎨', group: 'View', action: toggleTheme },
-    { id: 'toggle-sidebar', label: 'Toggle Sidebar', description: 'Show/hide sidebar', icon: '📌', group: 'View', action: () => setCompactOffice(!compactOffice) },
-    { id: 'toggle-results', label: 'Toggle Results Panel', description: 'Show/hide results', icon: '📊', group: 'View', action: () => setShowResultsPanel(!showResultsPanel) },
-    { id: 'settings', label: 'Open Settings', description: 'Configure providers and budget', icon: '⚙', group: 'Navigation', shortcut: '⌘,', action: () => setShowSettings(true) },
-    { id: 'help', label: 'Show Help', description: 'View keyboard shortcuts', icon: '❓', group: 'Navigation', shortcut: '?', action: () => setShowHelp(true) },
-    { id: 'shortcuts', label: 'Keyboard Shortcuts', description: 'View all shortcuts', icon: '⌨', group: 'Navigation', action: () => setShowShortcuts(true) },
-    { id: 'mcp-tools', label: 'MCP Tool Registry', description: 'Manage tool servers', icon: '🔧', group: 'Navigation', action: () => setShowMcpTools(true) },
-    { id: 'agent-memory', label: 'Agent Memory', description: 'View learned patterns', icon: '🧠', group: 'Navigation', action: () => setShowAgentMemory(true) },
-    { id: 'cost-tracker', label: 'Cost Tracker', description: 'View spending history', icon: '💰', group: 'Navigation', action: () => setShowCostTracker(true) },
-    { id: 'leaderboard', label: 'Agent Leaderboard', description: 'Performance rankings', icon: '🏆', group: 'Navigation', action: () => setShowLeaderboard(true) },
-    { id: 'session-notes', label: 'Session Notes', description: 'Attach notes to sessions', icon: '📝', group: 'Navigation', action: () => setShowSessionNotes(true) },
-    { id: 'perf-dashboard', label: 'Performance Dashboard', description: 'Agent metrics', icon: '📈', group: 'Navigation', action: () => setShowPerfDashboard(true) },
-    { id: 'clear-office', label: 'Clear Office', description: 'Remove all agents from desks', icon: '🗑', group: 'Office', action: clearOffice },
-    { id: 'select-all', label: 'Select All Agents', description: '', icon: '✅', group: 'Office', action: selection.selectAll },
-    { id: 'deselect-all', label: 'Deselect All Agents', description: '', icon: '⬜', group: 'Office', action: selection.deselectAll },
+    { id: 'run-all', label: 'Run All Agents', description: 'Execute all seated agents', icon: '>', group: 'Actions', shortcut: '⌘↵', action: handleRunAll },
+    { id: 'suggest', label: 'Suggest Agents', description: 'AI picks best agents for prompt', icon: '+', group: 'Actions', action: orchestration.handleSuggest },
+    { id: 'decompose', label: 'Decompose Task', description: 'Break into subtasks', icon: '//', group: 'Actions', shortcut: '⌘D', action: () => taskDecomp.decompose(prompt) },
+    { id: 'export-layout', label: 'Export Layout', description: 'Download office config', icon: '↓', group: 'Actions', action: handleExportLayout },
+    { id: 'toggle-theme', label: 'Toggle Theme', description: 'Switch dark/light mode', icon: '◐', group: 'View', action: toggleTheme },
+    { id: 'toggle-sidebar', label: 'Toggle Sidebar', description: 'Show/hide sidebar', icon: '◻', group: 'View', action: () => setCompactOffice(!compactOffice) },
+    { id: 'toggle-results', label: 'Toggle Results Panel', description: 'Show/hide results', icon: '≡', group: 'View', action: () => setShowResultsPanel(!showResultsPanel) },
+    { id: 'settings', label: 'Open Settings', description: 'Configure providers and budget', icon: ':', group: 'Navigation', shortcut: '⌘,', action: () => setShowSettings(true) },
+    { id: 'help', label: 'Show Help', description: 'View keyboard shortcuts', icon: '?', group: 'Navigation', shortcut: '?', action: () => setShowHelp(true) },
+    { id: 'shortcuts', label: 'Keyboard Shortcuts', description: 'View all shortcuts', icon: '⌘', group: 'Navigation', action: () => setShowShortcuts(true) },
+    { id: 'mcp-tools', label: 'MCP Tool Registry', description: 'Manage tool servers', icon: '+', group: 'Navigation', action: () => setShowMcpTools(true) },
+    { id: 'agent-memory', label: 'Agent Memory', description: 'View learned patterns', icon: '◉', group: 'Navigation', action: () => setShowAgentMemory(true) },
+    { id: 'cost-tracker', label: 'Cost Tracker', description: 'View spending history', icon: '$', group: 'Navigation', action: () => setShowCostTracker(true) },
+    { id: 'leaderboard', label: 'Agent Leaderboard', description: 'Performance rankings', icon: '#', group: 'Navigation', action: () => setShowLeaderboard(true) },
+    { id: 'session-notes', label: 'Session Notes', description: 'Attach notes to sessions', icon: '¶', group: 'Navigation', action: () => setShowSessionNotes(true) },
+    { id: 'perf-dashboard', label: 'Performance Dashboard', description: 'Agent metrics', icon: '△', group: 'Navigation', action: () => setShowPerfDashboard(true) },
+    { id: 'clear-office', label: 'Clear Office', description: 'Remove all agents from desks', icon: '×', group: 'Office', action: clearOffice },
+    { id: 'select-all', label: 'Select All Agents', description: '', icon: '☐', group: 'Office', action: selection.selectAll },
+    { id: 'deselect-all', label: 'Deselect All Agents', description: '', icon: '◻', group: 'Office', action: selection.deselectAll },
     ...WORKFLOW_TEMPLATES.map(t => ({
       id: `wf-${t.id}`,
       label: `Workflow: ${t.label}`,
@@ -408,33 +408,33 @@ function App() {
           </div>
           <div className="header-right">
             <AgentHealthIndicator providers={agentHealth.providers} />
-            <span className="header-badge">{provider === 'anthropic' ? '🟣' : '🟢'} {provider}</span>
+            <span className="header-badge">{provider}</span>
             <button
               onClick={handleRunAll}
               disabled={!prompt.trim() || officeAgents.length === 0 || isRunning}
               className="icon-btn"
               title="Run all seated agents"
               style={{ opacity: (!prompt.trim() || officeAgents.length === 0 || isRunning) ? 0.3 : 1 }}
-            >▶▶</button>
+            >Run</button>
             {isRunning && (
               <button
                 onClick={handleCancel}
                 className="icon-btn danger"
                 title="Cancel running task"
-              >✕</button>
+              >Stop</button>
             )}
             <button onClick={() => setShowResultsPanel(!showResultsPanel)} className="icon-btn" title={showResultsPanel ? 'Hide results' : 'Show results'}>
-              {showResultsPanel ? '◀' : '▶'}
+              {showResultsPanel ? 'Hide' : 'Show'}
             </button>
-            <button onClick={() => setShowMcpTools(true)} className="icon-btn" title="MCP Tool Registry">🔧</button>
-            <button onClick={() => setShowAgentMemory(true)} className="icon-btn" title="Agent Memory">🧠</button>
-            <button onClick={() => setShowCostTracker(true)} className="icon-btn" title="Cost Tracker">💰</button>
-            <button onClick={() => setShowLeaderboard(true)} className="icon-btn" title="Agent Leaderboard">🏆</button>
-            <button onClick={() => setShowPerfDashboard(true)} className="icon-btn" title="Performance dashboard">📊</button>
+            <button onClick={() => setShowMcpTools(true)} className="icon-btn" title="MCP Tool Registry">Tools</button>
+            <button onClick={() => setShowAgentMemory(true)} className="icon-btn" title="Agent Memory">Memory</button>
+            <button onClick={() => setShowCostTracker(true)} className="icon-btn" title="Cost Tracker">Cost</button>
+            <button onClick={() => setShowLeaderboard(true)} className="icon-btn" title="Agent Leaderboard">Rank</button>
+            <button onClick={() => setShowPerfDashboard(true)} className="icon-btn" title="Performance dashboard">Stats</button>
             <button onClick={() => setShowHelp(true)} className="icon-btn" title="Help">?</button>
-            <button onClick={() => setShowSettings(true)} className="icon-btn" title="Settings">⚙</button>
+            <button onClick={() => setShowSettings(true)} className="icon-btn" title="Settings">Settings</button>
             <button onClick={() => setCompactOffice(!compactOffice)} className="icon-btn" title={compactOffice ? 'Expand' : 'Compact'}>
-              {compactOffice ? '🔽' : '🔼'}
+              {compactOffice ? 'Expand' : 'Compact'}
             </button>
           </div>
         </header>

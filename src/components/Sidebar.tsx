@@ -105,7 +105,7 @@ export const Sidebar = React.memo(function Sidebar({
             {theme === 'dark' ? '☀️' : '🌙'}
           </button>
           <button onClick={onShowCustomAgent} className="toolbar-btn" title="Add custom agent">+🤖</button>
-          <button onClick={onShowGroupSave} className="toolbar-btn" title="Save selected as group">💾</button>
+          <button onClick={onShowGroupSave} className="toolbar-btn" title="Save selected as group">Save</button>
           <button onClick={onShowPresetSave} className="toolbar-btn" title="Save office preset">🏢</button>
           <button onClick={onExportLayout} className="toolbar-btn" title="Export layout">📤</button>
           <label className="toolbar-btn" title="Import layout">
@@ -123,7 +123,7 @@ export const Sidebar = React.memo(function Sidebar({
             {sidebarSections.groups && agentGroups.map(g => (
               <div key={g.name} className="group-item">
                 <button className="group-name" onClick={() => onLoadGroup(g.name)} title={`Load ${g.name}`}>
-                  📋 {g.name} <span className="group-count">{g.agentIds.length}</span>
+                  {g.name} <span className="group-count">{g.agentIds.length}</span>
                 </button>
                 <button className="group-delete" onClick={() => onDeleteGroup(g.name)} title="Delete group">×</button>
               </div>

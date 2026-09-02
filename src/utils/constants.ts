@@ -36,7 +36,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'full-review',
     label: 'Full Code Review',
-    icon: '🔍',
+    icon: '?',
     prompt: 'Perform a comprehensive code review. Check for bugs, security issues, performance, and maintainability.',
     agentRoles: ['dev', 'qa', 'arch', 'gate'],
     workflowMode: 'review',
@@ -45,7 +45,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'feature-dev',
     label: 'Feature Development',
-    icon: '🚀',
+    icon: '>',
     prompt: 'Design and implement this feature. Break it into tasks, write code, create tests, and document it.',
     agentRoles: ['pm', 'arch', 'dev', 'qa'],
     workflowMode: 'pipeline',
@@ -54,7 +54,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'security-pentest',
     label: 'Security Pentest',
-    icon: '🛡',
+    icon: '!',
     prompt: 'Perform a security penetration test. Identify vulnerabilities, exploit paths, and remediation steps.',
     agentRoles: ['res', 'dev', 'gate'],
     workflowMode: 'debate',
@@ -63,7 +63,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'performance-opt',
     label: 'Performance Optimization',
-    icon: '⚡',
+    icon: '||',
     prompt: 'Profile and optimize this code. Identify bottlenecks, suggest improvements, measure impact.',
     agentRoles: ['dev', 'ops', 'qa'],
     workflowMode: 'pipeline',
@@ -90,7 +90,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'doc-sprint',
     label: 'Documentation Sprint',
-    icon: '📝',
+    icon: '¶',
     prompt: 'Write comprehensive documentation for this codebase. Include API docs, architecture overview, and getting started guide.',
     agentRoles: ['res', 'dev', 'designer'],
     workflowMode: 'parallel',
@@ -117,7 +117,7 @@ export const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     id: 'ui-ux-review',
     label: 'UI/UX Review',
-    icon: '🎨',
+    icon: '~',
     prompt: 'Review this UI for usability, accessibility (WCAG), visual consistency, and responsive design. Suggest improvements.',
     agentRoles: ['designer', 'dev', 'qa'],
     workflowMode: 'review',

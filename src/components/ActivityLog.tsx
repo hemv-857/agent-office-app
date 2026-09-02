@@ -24,7 +24,7 @@ export const ActivityLog = React.memo(function ActivityLog({ entries, onClear }:
     info: 'ℹ',
     success: '✓',
     warning: '⚠',
-    error: '✕',
+    error: 'x',
   };
 
   return (

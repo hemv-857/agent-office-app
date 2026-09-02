@@ -29,7 +29,7 @@ export const CompareView = React.memo(function CompareView({ results, onCopy }: 
             <div key={r.agent_id} className="compare-card">
               <div className="compare-card-header">
                 <span className="compare-agent-name">{r.agent_name}</span>
-                <button className="link-btn" onClick={() => onCopy(r.response)} title="Copy">📋</button>
+                <button className="link-btn" onClick={() => onCopy(r.response)} title="Copy">Copy</button>
               </div>
               <div className="compare-card-body">
                 <pre className="compare-response">{r.response}</pre>

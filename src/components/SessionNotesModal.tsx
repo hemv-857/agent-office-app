@@ -97,7 +97,7 @@ export const SessionNotesModal = React.memo(function SessionNotesModal({
                     autoFocus
                   />
                   <button className="prompt-send" onClick={() => handleSaveEdit(note.id)}>✓</button>
-                  <button className="prompt-send" onClick={() => setEditingId(null)}>✕</button>
+                  <button className="prompt-send" onClick={() => setEditingId(null)}>X</button>
                 </div>
               ) : (
                 <>

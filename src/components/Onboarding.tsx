@@ -23,7 +23,7 @@ const STEPS = [
   {
     title: 'Run Workflows',
     description: 'Choose a workflow mode — parallel, pipeline, debate, or synthesis — and watch your agents collaborate in real time.',
-    icon: '⚡',
+    icon: '>',
   },
   {
     title: 'Keyboard Shortcuts',
@@ -33,7 +33,7 @@ const STEPS = [
   {
     title: "You're Ready",
     description: 'Start by selecting a few agents and trying a workflow template. The agents will handle the rest.',
-    icon: '🚀',
+    icon: '+',
   },
 ];
 

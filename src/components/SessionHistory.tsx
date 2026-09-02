@@ -29,7 +29,7 @@ export function SessionHistory({ sessions, onDelete, onClear, onLoad }: SessionH
         onClick={() => setIsOpen(true)}
         title="Session history"
       >
-        📋
+        History
       </button>
     );
   }
@@ -60,7 +60,7 @@ export function SessionHistory({ sessions, onDelete, onClear, onLoad }: SessionH
       <div className="session-list">
         {filtered.length === 0 && (
           <div className="empty-state" style={{ padding: 24 }}>
-            <span className="empty-state-icon">📋</span>
+            <span className="empty-state-icon">No sessions</span>
             <p className="empty-state-desc">No sessions yet. Run agents and save results.</p>
           </div>
         )}

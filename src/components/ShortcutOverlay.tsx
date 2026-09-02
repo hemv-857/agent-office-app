@@ -58,7 +58,7 @@ export const ShortcutOverlay = React.memo(function ShortcutOverlay({ open, onClo
       <div className="shortcut-modal" onClick={e => e.stopPropagation()}>
         <div className="shortcut-header">
           <h2>Keyboard Shortcuts</h2>
-          <button className="shortcut-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="shortcut-close" onClick={onClose} aria-label="Close">X</button>
         </div>
         <div className="shortcut-grid">
           {SECTIONS.map(section => (

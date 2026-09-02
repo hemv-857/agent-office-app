@@ -27,7 +27,7 @@ export const StatusBar = React.memo(function StatusBar({
       <span className="status-sep">·</span>
       <span>{seatedCount}/8 seated</span>
       <span className="status-sep">·</span>
-      <span>{provider === 'anthropic' ? '🟣' : '🟢'} {provider}</span>
+      <span>{provider}</span>
       {totalCost > 0 && (
         <>
           <span className="status-sep">·</span>

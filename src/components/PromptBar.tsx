@@ -5,14 +5,14 @@ import type { Subtask } from '../hooks/useTaskDecomposition';
 import { TEMPLATES, WORKFLOW_TEMPLATES } from '../utils/constants';
 
 const WORKFLOW_MODES: { mode: WorkflowMode; label: string; icon: string; desc: string }[] = [
-  { mode: 'parallel', label: 'Parallel', icon: '⚡', desc: 'All agents work simultaneously' },
-  { mode: 'pipeline', label: 'Pipeline', icon: '⛓', desc: 'Each agent feeds into the next' },
-  { mode: 'synthesis', label: 'Synthesis', icon: '🧠', desc: 'Parallel then synthesize consensus' },
-  { mode: 'review', label: 'Review', icon: '🔍', desc: 'Parallel then cross-review each other' },
-  { mode: 'debate', label: 'Debate', icon: '⚔', desc: 'State positions then critique' },
-  { mode: 'quality-gate', label: 'Quality Gate', icon: '🛡', desc: 'Run then filter by quality score' },
-  { mode: 'pipeline-approval', label: 'Pipeline + Approve', icon: '✋', desc: 'Pipeline with human approval' },
-  { mode: 'conditional', label: 'Conditional', icon: '🔀', desc: 'Route based on prompt' },
+  { mode: 'parallel', label: 'Parallel', icon: '||', desc: 'All agents work simultaneously' },
+  { mode: 'pipeline', label: 'Pipeline', icon: '->', desc: 'Each agent feeds into the next' },
+  { mode: 'synthesis', label: 'Synthesis', icon: '+', desc: 'Parallel then synthesize consensus' },
+  { mode: 'review', label: 'Review', icon: '?', desc: 'Parallel then cross-review each other' },
+  { mode: 'debate', label: 'Debate', icon: 'vs', desc: 'State positions then critique' },
+  { mode: 'quality-gate', label: 'Quality Gate', icon: '!', desc: 'Run then filter by quality score' },
+  { mode: 'pipeline-approval', label: 'Pipeline + Approve', icon: '*', desc: 'Pipeline with human approval' },
+  { mode: 'conditional', label: 'Conditional', icon: '/', desc: 'Route based on prompt' },
 ];
 
 interface PromptBarProps {
@@ -94,12 +94,12 @@ export function PromptBar({
             ))}
           </div>
           <button className="link-btn" onClick={onClearQueue}>clear</button>
-          <button className="link-btn" onClick={onRunQueue} disabled={isRunning}>{isRunning ? '⏳' : '▶'} run all</button>
+          <button className="link-btn" onClick={onRunQueue} disabled={isRunning}>{isRunning ? '...' : '>'} run all</button>
         </div>
       )}
       {decomposed && (
         <div className="suggestions-bar">
-          <span className="suggestions-label">🧩 Decomposed:</span>
+          <span className="suggestions-label">Decomposed:</span>
           <span className="suggestions-reasoning">{decomposed.reasoning}</span>
           <div className="suggestions-tags">
             {decomposed.subtasks.map((st, i) => (
@@ -112,7 +112,7 @@ export function PromptBar({
       )}
       {suggestions && (
         <div className="suggestions-bar">
-          <span className="suggestions-label">✨ Head Agent:</span>
+          <span className="suggestions-label">Suggested:</span>
           <span className="suggestions-reasoning">{suggestions.reasoning}</span>
           <div className="suggestions-tags">
             {suggestions.agentIds.map(id => {
@@ -156,14 +156,14 @@ export function PromptBar({
         />
         {voiceSupported && (
           <button onClick={onVoiceToggle} className={`action-btn ${voiceListening ? 'recording' : ''}`} title={voiceListening ? 'Stop voice input' : 'Start voice input'}>
-            {voiceListening ? '🔴' : '🎙'}
+            {voiceListening ? 'REC' : 'MIC'}
           </button>
         )}
-        <button onClick={onSuggest} disabled={!prompt.trim() || suggesting || isRunning} className="action-btn suggest" title="Head Agent: pick best agents">
-          {suggesting ? '⏳' : '✨'}
+        <button onClick={onSuggest} disabled={!prompt.trim() || suggesting || isRunning} className="action-btn suggest" title="Suggest agents">
+          {suggesting ? '...' : 'Suggest'}
         </button>
         <button onClick={onDecompose} disabled={!prompt.trim() || decomposing || isRunning} className="action-btn" title="Decompose task (Ctrl+D)">
-          {decomposing ? '⏳' : '🧩'}
+          {decomposing ? '...' : 'Split'}
         </button>
         <select
           className="workflow-select"
@@ -176,7 +176,7 @@ export function PromptBar({
           ))}
         </select>
         <button onClick={onSubmit} disabled={!prompt.trim() || selectedAgents.length === 0 || isRunning} className="action-btn primary" title="Submit">
-          {isRunning ? '⏳' : '▶'}
+          {isRunning ? '...' : 'Send'}
         </button>
         <button onClick={onAddToQueue} disabled={!prompt.trim() || isRunning} className="action-btn" title="Add to queue">+Q</button>
       </div>
