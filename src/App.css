@@ -447,19 +447,23 @@ body {
 }
 
 .icon-btn {
-  width: 34px;
-  height: 34px;
+  height: 30px;
+  padding: 0 10px;
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);
   background: var(--bg-2);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-3);
-  font-size: 14px;
+  font-size: 11px;
   font-family: inherit;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   transition: all 0.15s;
+  white-space: nowrap;
 }
 
 .icon-btn:hover { background: var(--bg-3); border-color: var(--border-strong); color: var(--text-1); transform: translateY(-1px); }
@@ -668,19 +672,23 @@ body {
 .prompt-input:disabled { opacity: 0.4; }
 
 .action-btn {
-  width: 40px;
-  height: 40px;
+  height: 36px;
+  padding: 0 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);
   background: var(--bg-2);
   cursor: pointer;
-  font-size: 15px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   transition: all 0.15s;
   flex-shrink: 0;
   font-family: inherit;
+  white-space: nowrap;
 }
 
 .action-btn:hover:not(:disabled) { background: var(--bg-3); border-color: var(--border-strong); transform: translateY(-1px); }
