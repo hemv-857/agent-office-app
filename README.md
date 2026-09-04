@@ -19,6 +19,11 @@ swift run
 
 Or open `macOS/AgentOffice` in Xcode and hit Run.
 
+**Requirements:**
+- macOS 14+ (Sonoma)
+- Swift 5.9+
+- Xcode 15+ (for IDE support)
+
 ## Architecture
 
 ```
@@ -33,34 +38,10 @@ macOS/AgentOffice/Sources/
 │   ├── VoiceService.swift        # SFSpeechRecognizer integration
 │   ├── WorkflowTemplates.swift   # 15 hardcoded workflow templates
 │   └── AgentMemoryManager.swift  # Per-agent memory persistence
-└── Views/
-    ├── ContentView.swift         # HSplitView layout, sheet bindings, keyboard shortcuts
-    ├── SidebarView.swift         # Agent list, search, filters, favorites, groups/presets
-    ├── OfficeGridView.swift      # 4x2 desk grid with drag-and-drop
-    ├── HeaderView.swift          # Title, workflow progress, run/stop, provider badge
-    ├── PromptBarView.swift       # Template picker, history, voice input, workflow mode
-    ├── ResultsPanelView.swift    # Results with rating, bookmark, compare mode
-    ├── StatusBarView.swift       # Context window, budget, cost breakdown
-    ├── ToastView.swift           # Success/error/info/warning notifications
-    ├── SettingsView.swift        # Tabbed settings (General, Provider, Budget, Advanced)
-    ├── HelpView.swift            # Tabbed shortcuts/about
-    ├── CommandPaletteView.swift  # Searchable command list (⌘K)
-    ├── OnboardingView.swift      # 7-step wizard with provider setup
-    ├── AgentDetailView.swift     # Agent info, seat/remove, copy prompt
-    ├── ChatView.swift            # Chat with agent messages
-    ├── CostTrackerView.swift     # Cost by agent, summary cards
-    ├── LeaderboardView.swift     # Ranked agent list
-    ├── PipelineVisualizerView.swift  # Step-by-step pipeline view
-    ├── SessionNotesView.swift    # Notes with tag filter
-    ├── ActivityLogView.swift     # Filtered activity log
-    ├── ExportView.swift          # All/selected/bookmarked, MD/JSON
-    ├── AgentMemoryView.swift     # Memory entries with confidence
-    ├── CustomAgentView.swift     # Create custom agents
-    ├── ProjectBuilderView.swift  # Project scaffolding prompt builder
-    ├── SessionReplayView.swift   # Timeline scrubbing, play/pause
-    ├── WorkflowLogView.swift     # Real-time activity log
-    ├── WorkflowStepsView.swift   # Custom workflow steps with drag-reorder
-    └── KeyboardShortcutsHelpView.swift  # Organized shortcut sections
+├── Views/
+│   └── ... (25+ view files)
+├── Assets.xcassets/              # App icon (128/256/512/1024px)
+└── agents.json                   # Agent catalog (~290 entries)
 ```
 
 ### Data Flow
@@ -170,6 +151,37 @@ Add template to `WorkflowTemplates.swift` with name, description, prompt, workfl
 - API keys stored in UserDefaults (encrypted at rest on macOS)
 - No telemetry, no external connections except LLM APIs
 - All inputs validated at trust boundaries
+
+## Troubleshooting
+
+**Build fails with "missing module"**
+```bash
+cd macOS/AgentOffice
+swift package resolve
+swift build
+```
+
+**App crashes on launch**
+- Check Console.app for crash logs
+- Ensure macOS 14+ is installed
+- Verify `agents.json` is accessible
+
+**LLM connection issues**
+- Verify API key in Settings > Provider
+- Check network connectivity
+- For Ollama: ensure `ollama serve` is running
+
+**Voice input not working**
+- Grant microphone permission in System Settings > Privacy & Security
+- Ensure Speech Recognition is enabled
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
