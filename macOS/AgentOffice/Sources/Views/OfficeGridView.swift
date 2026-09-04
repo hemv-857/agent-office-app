@@ -14,8 +14,8 @@ struct OfficeGridView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 10) {
-                ForEach(store.desks) { desk in
-                    DeskCard(desk: desk)
+                ForEach(Array(store.desks.enumerated()), id: \.element.id) { idx, desk in
+                    DeskCard(desk: desk, deskNumber: idx + 1)
                 }
             }
             .padding(14)
@@ -27,6 +27,7 @@ struct OfficeGridView: View {
 // MARK: - Desk Card
 struct DeskCard: View {
     let desk: Desk
+    let deskNumber: Int
     @EnvironmentObject var store: AppStore
     @State private var isDragOver = false
 
@@ -57,6 +58,17 @@ struct DeskCard: View {
 
     var body: some View {
         VStack(spacing: 6) {
+            // Desk number badge
+            HStack {
+                Spacer()
+                Text("\(deskNumber)")
+                    .font(.system(size: 8, weight: .bold, design: .monospaced))
+                    .foregroundStyle(.tertiary)
+                    .padding(.horizontal, 4)
+                    .padding(.vertical, 1)
+                    .background(.quaternary, in: RoundedRectangle(cornerRadius: 3))
+            }
+
             if let agent = desk.agent {
                 // Agent avatar
                 ZStack {

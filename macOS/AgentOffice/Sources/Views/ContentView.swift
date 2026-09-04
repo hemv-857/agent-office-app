@@ -67,16 +67,40 @@ struct KeyboardShortcutsView: NSViewRepresentable {
         let view = NSView()
         DispatchQueue.main.async {
             NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+                // Cmd+K: Command Palette
                 if event.modifierFlags.contains(.command) && event.charactersIgnoringModifiers == "k" {
                     NotificationCenter.default.post(name: .commandPalette, object: nil)
                     return nil
                 }
+                // ?: Help
                 if event.charactersIgnoringModifiers == "?" && !event.modifierFlags.contains(.command) {
                     NotificationCenter.default.post(name: .showHelp, object: nil)
                     return nil
                 }
+                // Cmd+E: Export
                 if event.modifierFlags.contains(.command) && event.charactersIgnoringModifiers == "e" {
                     NotificationCenter.default.post(name: .showExport, object: nil)
+                    return nil
+                }
+                // Cmd+1-8: Select desk
+                if event.modifierFlags.contains(.command),
+                   let char = event.charactersIgnoringModifiers,
+                   let num = Int(char), (1...8).contains(num) {
+                    NotificationCenter.default.post(name: .selectDesk, object: num - 1)
+                    return nil
+                }
+                // Cmd+Up/Down: Navigate prompt history
+                if event.modifierFlags.contains(.command) && event.charactersIgnoringModifiers == "\u{1e}" {
+                    NotificationCenter.default.post(name: .promptHistoryUp, object: nil)
+                    return nil
+                }
+                if event.modifierFlags.contains(.command) && event.charactersIgnoringModifiers == "\u{1f}" {
+                    NotificationCenter.default.post(name: .promptHistoryDown, object: nil)
+                    return nil
+                }
+                // Cmd+L: Clear prompt
+                if event.modifierFlags.contains(.command) && event.charactersIgnoringModifiers == "l" {
+                    NotificationCenter.default.post(name: .clearPrompt, object: nil)
                     return nil
                 }
                 return event
@@ -136,4 +160,8 @@ extension Notification.Name {
     static let commandPalette = Notification.Name("commandPalette")
     static let showHelp = Notification.Name("showHelp")
     static let showExport = Notification.Name("showExport")
+    static let selectDesk = Notification.Name("selectDesk")
+    static let promptHistoryUp = Notification.Name("promptHistoryUp")
+    static let promptHistoryDown = Notification.Name("promptHistoryDown")
+    static let clearPrompt = Notification.Name("clearPrompt")
 }

@@ -2,12 +2,14 @@
 import SwiftUI
 
 struct HelpView: View {
+    @EnvironmentObject var store: AppStore
     @Environment(\.dismiss) var dismiss
+    @State private var selectedTab = "shortcuts"
 
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text("Keyboard Shortcuts").font(.headline)
+                Text("Help").font(.headline)
                 Spacer()
                 Button(action: { dismiss() }) {
                     Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
@@ -18,44 +20,79 @@ struct HelpView: View {
 
             Divider()
 
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    shortcutSection("General", [
-                        ("⌘K", "Command Palette"),
-                        ("⌘↵", "Run All Agents"),
-                        ("⌘.", "Stop"),
-                        ("⌘,", "Settings"),
-                        ("?", "Show Help"),
-                        ("⌘E", "Export"),
-                    ])
-                    shortcutSection("Navigation", [
-                        ("⌘S", "Toggle Sidebar"),
-                        ("⌘1-8", "Select Desk"),
-                        ("ESC", "Close Modal"),
-                    ])
-                    shortcutSection("Agent Actions", [
-                        ("Drag", "Seat Agent"),
-                        ("Click", "View Details"),
-                        ("Double-click", "Seat at Role"),
-                    ])
-                }
-                .padding()
+            // Tab picker
+            Picker("", selection: $selectedTab) {
+                Text("Shortcuts").tag("shortcuts")
+                Text("About").tag("about")
+            }
+            .pickerStyle(.segmented)
+            .padding()
+
+            if selectedTab == "shortcuts" {
+                KeyboardShortcutsHelpView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                aboutView
             }
         }
-        .frame(width: 400, height: 450)
+        .frame(width: 420, height: 480)
     }
 
-    func shortcutSection(_ title: String, _ items: [(String, String)]) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(title).font(.system(size: 13, weight: .semibold))
-            ForEach(items, id: \.1) { key, desc in
-                HStack {
-                    Text(key).font(.system(size: 11, design: .monospaced))
-                        .padding(.horizontal, 6).padding(.vertical, 2)
-                        .background(.quaternary, in: RoundedRectangle(cornerRadius: 4))
-                    Text(desc).font(.system(size: 12))
-                }
+    var aboutView: some View {
+        VStack(spacing: 16) {
+            Spacer()
+
+            // App icon
+            RoundedRectangle(cornerRadius: 16)
+                .fill(
+                    LinearGradient(
+                        colors: [.blue, .purple],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .frame(width: 64, height: 64)
+                .overlay(
+                    Image(systemName: "brain.head.profile")
+                        .font(.system(size: 28, weight: .semibold))
+                        .foregroundStyle(.white)
+                )
+
+            Text("Agent Office")
+                .font(.title2.weight(.semibold))
+
+            Text("Your AI agent command center")
+                .font(.body)
+                .foregroundStyle(.secondary)
+
+            Divider()
+
+            VStack(alignment: .leading, spacing: 8) {
+                InfoRow(label: "Version", value: "1.0.0")
+                InfoRow(label: "Agents", value: "\(store.allAgents.count) loaded")
+                InfoRow(label: "Provider", value: store.selectedProvider.displayName)
+                InfoRow(label: "Desks", value: "\(store.seatedCount)/\(store.totalDesks) seated")
             }
+            .padding()
+
+            Spacer()
+
+            Text("Built with SwiftUI for macOS 14+")
+                .font(.caption)
+                .foregroundStyle(.tertiary)
+        }
+    }
+}
+
+struct InfoRow: View {
+    let label: String
+    let value: String
+
+    var body: some View {
+        HStack {
+            Text(label).foregroundStyle(.secondary)
+            Spacer()
+            Text(value).fontWeight(.medium)
         }
     }
 }

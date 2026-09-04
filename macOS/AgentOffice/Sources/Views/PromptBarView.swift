@@ -6,6 +6,7 @@ struct PromptBarView: View {
     @FocusState private var isInputFocused: Bool
     @State private var showTemplates = false
     @StateObject private var voiceService = VoiceService()
+    @State private var historyIndex = -1
 
     var body: some View {
         VStack(spacing: 0) {
@@ -20,6 +21,28 @@ struct PromptBarView: View {
                 .buttonStyle(.plain)
                 .foregroundStyle(.secondary)
                 .help("Workflow Templates")
+
+                // Prompt history
+                if !store.promptHistory.isEmpty {
+                    Menu {
+                        ForEach(Array(store.promptHistory.prefix(20).enumerated()), id: \.offset) { idx, prompt in
+                            Button(action: { store.promptText = prompt }) {
+                                Text(prompt.prefix(60) + (prompt.count > 60 ? "..." : ""))
+                                    .font(.system(size: 11))
+                            }
+                        }
+                        Divider()
+                        Button(action: { store.promptHistory.removeAll() }) {
+                            Label("Clear History", systemImage: "trash")
+                        }
+                    } label: {
+                        Image(systemName: "clock.arrow.circlepath")
+                            .font(.system(size: 12))
+                    }
+                    .menuStyle(.borderlessButton)
+                    .frame(width: 20)
+                    .help("Prompt History")
+                }
 
                 // Workflow mode picker
                 Picker("", selection: $store.workflowMode) {
@@ -75,6 +98,21 @@ struct PromptBarView: View {
         }
         .background(.background)
         .sheet(isPresented: $showTemplates) { TemplatePickerView() }
+        .onAppear {
+            NotificationCenter.default.addObserver(forName: .promptHistoryUp, object: nil, queue: .main) { _ in
+                guard !store.promptHistory.isEmpty else { return }
+                historyIndex = min(historyIndex + 1, store.promptHistory.count - 1)
+                store.promptText = store.promptHistory[historyIndex]
+            }
+            NotificationCenter.default.addObserver(forName: .promptHistoryDown, object: nil, queue: .main) { _ in
+                historyIndex = max(historyIndex - 1, -1)
+                store.promptText = historyIndex >= 0 ? store.promptHistory[historyIndex] : ""
+            }
+            NotificationCenter.default.addObserver(forName: .clearPrompt, object: nil, queue: .main) { _ in
+                store.promptText = ""
+                historyIndex = -1
+            }
+        }
     }
 
     func toggleVoice() {
