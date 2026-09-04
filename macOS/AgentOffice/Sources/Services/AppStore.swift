@@ -26,6 +26,7 @@ final class AppStore: ObservableObject {
     @Published var showResultsPanel = true
     @Published var selectedResults: Set<UUID> = []
     @Published var compareMode = false
+    @Published var workflowHistory: [WorkflowHistoryEntry] = []
 
     // MARK: - Prompt
     @Published var promptText = ""
@@ -58,6 +59,7 @@ final class AppStore: ObservableObject {
     @Published var showWorkflowLog = false
     @Published var showWorkflowSteps = false
     @Published var showAgentMetrics = false
+    @Published var showWorkflowHistory = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic
