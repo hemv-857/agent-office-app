@@ -60,6 +60,20 @@ struct ContentView: View {
         .background(
             KeyboardShortcutsView()
         )
+        .onAppear {
+            NotificationCenter.default.addObserver(forName: .commandPalette, object: nil, queue: .main) { _ in
+                store.showCommandPalette = true
+            }
+            NotificationCenter.default.addObserver(forName: .showHelp, object: nil, queue: .main) { _ in
+                store.showHelp = true
+            }
+            NotificationCenter.default.addObserver(forName: .showExport, object: nil, queue: .main) { _ in
+                store.showExport = true
+            }
+        }
+        .onDisappear {
+            NotificationCenter.default.removeObserver(self)
+        }
     }
 }
 
