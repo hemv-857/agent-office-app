@@ -6,6 +6,49 @@ struct SidebarView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            // Seated agents quick view
+            if store.seatedCount > 0 {
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text("Seated").font(.system(size: 10, weight: .semibold)).foregroundStyle(.tertiary)
+                        Spacer()
+                        Text("\(store.seatedCount)/\(store.totalDesks)").font(.caption).foregroundStyle(.secondary)
+                    }
+                    .padding(.horizontal, 10)
+
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 6) {
+                            ForEach(store.desks.filter { $0.isOccupied }) { desk in
+                                if let agent = desk.agent {
+                                    HStack(spacing: 4) {
+                                        Text(agent.initials)
+                                            .font(.system(size: 8, weight: .semibold))
+                                            .foregroundStyle(.white)
+                                            .frame(width: 18, height: 18)
+                                            .background(Color.accentColor.opacity(0.7), in: RoundedRectangle(cornerRadius: 4))
+                                        Text(agent.name.prefix(8).description)
+                                            .font(.system(size: 9))
+                                            .lineLimit(1)
+                                        Button(action: { store.removeAgent(from: desk.role) }) {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .font(.system(size: 8))
+                                                .foregroundStyle(.secondary)
+                                        }
+                                        .buttonStyle(.plain)
+                                    }
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 3)
+                                    .background(.quaternary, in: RoundedRectangle(cornerRadius: 5))
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 8)
+                    }
+                }
+                .padding(.vertical, 6)
+                Divider()
+            }
+
             // Search
             HStack(spacing: 6) {
                 Image(systemName: "magnifyingglass")

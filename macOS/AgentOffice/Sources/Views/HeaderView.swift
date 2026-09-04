@@ -4,6 +4,14 @@ import SwiftUI
 struct HeaderView: View {
     @EnvironmentObject var store: AppStore
 
+    var completedCount: Int {
+        store.results.filter { $0.status == .done || $0.status == .error }.count
+    }
+
+    var runningCount: Int {
+        store.results.filter { $0.status == .working }.count
+    }
+
     var body: some View {
         HStack(spacing: 12) {
             // Left: Title + status
@@ -34,7 +42,19 @@ struct HeaderView: View {
                     .padding(.vertical, 2)
                     .background(.quaternary, in: Capsule())
 
-                if store.isRunning {
+                // Workflow progress
+                if store.isRunning && !store.results.isEmpty {
+                    HStack(spacing: 6) {
+                        ProgressView(value: Double(completedCount), total: Double(store.results.count))
+                            .frame(width: 60)
+                        Text("\(completedCount)/\(store.results.count)")
+                            .font(.system(size: 10, design: .monospaced))
+                    }
+                    .foregroundStyle(.blue)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(.blue.opacity(0.1), in: Capsule())
+                } else if store.isRunning {
                     HStack(spacing: 4) {
                         ProgressView()
                             .controlSize(.mini)
