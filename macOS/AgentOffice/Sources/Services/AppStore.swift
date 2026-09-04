@@ -672,6 +672,28 @@ final class AppStore: ObservableObject {
         // Update context window usage
         let runTokens = results.reduce(0) { $0 + $1.tokensUsed }
         contextWindow.usedTokens = min(contextWindow.usedTokens + runTokens, contextWindow.maxTokens)
+
+        // Add to workflow history
+        let agentNames = desks.compactMap { $0.agent?.name } 
+        let entry = WorkflowHistoryEntry(
+            timestamp: Date(),
+            prompt: promptText,
+            mode: workflowMode,
+            agents: agentNames,
+            resultCount: results.count,
+            totalTokens: runTokens,
+            totalCost: results.reduce(0) { $0 + $1.costUsd },
+            duration: 0
+        )
+        workflowHistory.append(entry)
+
+        // Send notification
+        NotificationService.shared.sendWorkflowComplete(
+            agentCount: agentNames.count,
+            resultCount: results.count,
+            duration: 0
+        )
+
         persist()
         showToast("All agents completed", type: .success)
         logActivity("Run completed — \(results.count) agents, \(runTokens) tokens", type: .success)
