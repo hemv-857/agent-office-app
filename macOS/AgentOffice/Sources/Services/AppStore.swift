@@ -123,6 +123,14 @@ final class AppStore: ObservableObject {
 
     // MARK: - Agent Loading
     func loadAgents() {
+        // Try bundle resource first
+        if let url = Bundle.main.url(forResource: "agents", withExtension: "json"),
+           let data = try? Data(contentsOf: url),
+           let decoded = try? JSONDecoder().decode([Agent].self, from: data) {
+            allAgents = decoded
+            return
+        }
+        // Fallback: relative paths for development
         let paths = [
             "../../../public/agents.json",
             "../../public/agents.json",
