@@ -129,6 +129,7 @@ struct TemplatePickerView: View {
     @EnvironmentObject var store: AppStore
     @Environment(\.dismiss) var dismiss
     @State private var searchText = ""
+    @State private var previewTemplate: WorkflowTemplate?
 
     var filtered: [WorkflowTemplate] {
         if searchText.isEmpty { return WorkflowTemplates.all }
@@ -168,19 +169,23 @@ struct TemplatePickerView: View {
                     GridItem(.flexible(), spacing: 10),
                 ], spacing: 10) {
                 ForEach(filtered) { template in
-                    TemplateCard(template: template) {
+                    TemplateCard(template: template, onPreview: {
+                        previewTemplate = template
+                    }, onApply: {
                         store.promptText = template.prompt
                         store.workflowMode = template.workflowMode
-                        // Auto-seat agents based on template roles
                         autoSeatAgents(for: template)
                         dismiss()
-                    }
+                    })
                 }
                 }
                 .padding()
             }
         }
         .frame(width: 620, height: 520)
+        .sheet(item: $previewTemplate) { template in
+            TemplatePreviewView(template: template)
+        }
     }
 
     func autoSeatAgents(for template: WorkflowTemplate) {
@@ -215,51 +220,65 @@ struct TemplatePickerView: View {
 
 struct TemplateCard: View {
     let template: WorkflowTemplate
-    let action: () -> Void
+    let onPreview: () -> Void
+    let onApply: () -> Void
 
     var body: some View {
-        Button(action: action) {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    Image(systemName: template.icon)
-                        .font(.system(size: 16))
-                        .foregroundStyle(.blue)
-                    Spacer()
-                    Text(template.workflowMode.label)
-                        .font(.system(size: 9, weight: .medium))
-                        .padding(.horizontal, 6)
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Image(systemName: template.icon)
+                    .font(.system(size: 16))
+                    .foregroundStyle(.blue)
+                Spacer()
+                Text(template.workflowMode.label)
+                    .font(.system(size: 9, weight: .medium))
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(.blue.opacity(0.1), in: Capsule())
+                    .foregroundStyle(.blue)
+            }
+
+            Text(template.label)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(.primary)
+
+            Text(template.description)
+                .font(.system(size: 11))
+                .foregroundStyle(.secondary)
+                .lineLimit(2)
+
+            HStack(spacing: 4) {
+                ForEach(template.agentRoles, id: \.self) { role in
+                    Text(role.uppercased())
+                        .font(.system(size: 8, weight: .medium))
+                        .padding(.horizontal, 4)
                         .padding(.vertical, 2)
-                        .background(.blue.opacity(0.1), in: Capsule())
-                        .foregroundStyle(.blue)
-                }
-
-                Text(template.label)
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(.primary)
-
-                Text(template.description)
-                    .font(.system(size: 11))
-                    .foregroundStyle(.secondary)
-                    .lineLimit(2)
-
-                HStack(spacing: 4) {
-                    ForEach(template.agentRoles, id: \.self) { role in
-                        Text(role.uppercased())
-                            .font(.system(size: 8, weight: .medium))
-                            .padding(.horizontal, 4)
-                            .padding(.vertical, 2)
-                            .background(.quaternary, in: RoundedRectangle(cornerRadius: 3))
-                    }
+                        .background(.quaternary, in: RoundedRectangle(cornerRadius: 3))
                 }
             }
-            .padding(12)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 10))
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.secondary.opacity(0.1), lineWidth: 1)
-            )
+
+            HStack(spacing: 8) {
+                Button(action: onPreview) {
+                    Text("Preview")
+                        .font(.system(size: 10))
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+
+                Button(action: onApply) {
+                    Text("Apply")
+                        .font(.system(size: 10))
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.small)
+            }
         }
-        .buttonStyle(.plain)
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 10))
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.secondary.opacity(0.1), lineWidth: 1)
+        )
     }
 }
