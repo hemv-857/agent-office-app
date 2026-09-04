@@ -65,6 +65,11 @@ struct StatusBarView: View {
                         .tint(budgetPercent > 80 ? .red : .green)
                     Text(String(format: "$%.2f/$%.2f", store.todayCost, store.dailyBudget))
                         .font(.system(size: 9, design: .monospaced))
+                    if budgetPercent > 80 {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .font(.system(size: 8))
+                            .foregroundStyle(.red)
+                    }
                 }
                 .help("Daily budget: \(String(format: "%.2f%%", budgetPercent)) used")
             }

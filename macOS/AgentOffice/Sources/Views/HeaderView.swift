@@ -59,6 +59,16 @@ struct HeaderView: View {
                     .padding(.vertical, 3)
                     .background(.quaternary, in: Capsule())
 
+                // Workflow log
+                Button(action: { store.showWorkflowLog = true }) {
+                    Image(systemName: "text.alignleft")
+                        .font(.system(size: 11))
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(.secondary)
+                .help("Workflow Log")
+                .badge(store.showActivityBadge ? "!" : nil)
+
                 // Run / Stop
                 if store.isRunning {
                     Button(action: store.cancelRun) {
