@@ -1,133 +1,176 @@
 # Agent Office
 
-A Tauri desktop app that manages a multi-agent AI workspace. Seat specialized AI personas in an office layout, send prompts to selected agents, stream LLM responses, and orchestrate multi-agent workflows.
+A native macOS SwiftUI app that manages a multi-agent AI workspace. Seat specialized AI personas in an office layout, send prompts to selected agents, stream LLM responses, and orchestrate multi-agent workflows.
 
 ## Stack
 
-- **Frontend:** React 19 + TypeScript + Vite
-- **Backend:** Rust + Tauri 2
-- **LLM Providers:** Anthropic Claude, OpenAI GPT-4o (extensible provider registry)
+- **Platform:** macOS 14+ (Sonoma)
+- **Language:** Swift 5.9+
+- **UI:** SwiftUI
+- **LLM Providers:** Anthropic Claude, OpenAI GPT-4o, Ollama (local)
 
 ## Quick Start
 
 ```bash
-npm install
-npm run tauri dev
+cd macOS/AgentOffice
+swift build
+swift run
 ```
+
+Or open `macOS/AgentOffice` in Xcode and hit Run.
 
 ## Architecture
 
 ```
-src/
-├── App.tsx                     # Thin shell — layout + wiring (~400 lines)
-├── App.css                     # All styles (dark/light themes, 1700+ lines)
-├── types.ts                    # Shared TypeScript interfaces
-├── utils/
-│   ├── constants.ts            # Roles, colors, templates, storage keys
-│   ├── storage.ts              # Typed localStorage helpers
-│   └── export.ts               # Markdown/JSON export + download
-├── hooks/
-│   ├── useToast.ts             # Toast notifications
-│   ├── useAgentCatalog.ts      # Agent list, custom agents, detail view
-│   ├── useAgentSelection.ts    # Search, filter, favorites, selection
-│   ├── useOffice.ts            # Desk layout, drag/drop, groups, presets
-│   ├── useStreaming.ts         # SSE stream events, results, bookmarks, ratings
-│   ├── useOrchestration.ts     # Run, suggest, pipeline, queue, activity log
-│   ├── useWorkflows.ts         # 5 workflow modes (parallel, pipeline, synthesis, review, debate)
-│   ├── useChat.ts              # 1:1 agent chat
-│   ├── useSessionHistory.ts    # Session save/load/search/delete
-│   └── useKeyboardShortcuts.ts # Global shortcuts (⌘K, ?, ⌘⇧Space)
-└── components/
-    ├── Sidebar.tsx             # Agent list, search, filters, groups, presets
-    ├── OfficeGrid.tsx          # 8-desk role grid with drag/drop
-    ├── ResultsPanel.tsx        # Results list, compare mode, bulk actions, analysis
-    ├── PromptBar.tsx           # Prompt input, history, templates, suggestions
-    ├── StatusBar.tsx           # Bottom status bar
-    ├── ActivityLog.tsx         # Activity feed
-    └── Modals.tsx              # Settings, help, agent detail, chat, perf, etc.
-
-src-tauri/src/
-├── main.rs                     # Tauri commands + session cancellation
-├── lib.rs                      # Module declarations
-├── agent/mod.rs                # Agent struct + registry
-├── error.rs                    # Structured AppError with thiserror
-├── llm/
-│   ├── mod.rs                  # Provider trait + LLMRequest/Response types
-│   ├── registry.rs             # ProviderRegistry with retry + fallback
-│   ├── anthropic.rs            # Anthropic streaming implementation
-│   └── openai.rs               # OpenAI streaming implementation
-└── orchestration/mod.rs        # Orchestrator + task request types
+macOS/AgentOffice/Sources/
+├── AgentOfficeApp.swift          # @main App, NSApplicationDelegate, menu commands
+├── Models/
+│   └── Models.swift              # All types: Agent, Desk, WorkflowMode, etc.
+├── Services/
+│   ├── AppStore.swift            # Central state management (@MainActor ObservableObject)
+│   ├── LLMService.swift          # Anthropic/OpenAI/Ollama with streaming SSE
+│   ├── GitService.swift          # Actor-based git operations
+│   ├── VoiceService.swift        # SFSpeechRecognizer integration
+│   ├── WorkflowTemplates.swift   # 15 hardcoded workflow templates
+│   └── AgentMemoryManager.swift  # Per-agent memory persistence
+└── Views/
+    ├── ContentView.swift         # HSplitView layout, sheet bindings, keyboard shortcuts
+    ├── SidebarView.swift         # Agent list, search, filters, favorites, groups/presets
+    ├── OfficeGridView.swift      # 4x2 desk grid with drag-and-drop
+    ├── HeaderView.swift          # Title, workflow progress, run/stop, provider badge
+    ├── PromptBarView.swift       # Template picker, history, voice input, workflow mode
+    ├── ResultsPanelView.swift    # Results with rating, bookmark, compare mode
+    ├── StatusBarView.swift       # Context window, budget, cost breakdown
+    ├── ToastView.swift           # Success/error/info/warning notifications
+    ├── SettingsView.swift        # Tabbed settings (General, Provider, Budget, Advanced)
+    ├── HelpView.swift            # Tabbed shortcuts/about
+    ├── CommandPaletteView.swift  # Searchable command list (⌘K)
+    ├── OnboardingView.swift      # 7-step wizard with provider setup
+    ├── AgentDetailView.swift     # Agent info, seat/remove, copy prompt
+    ├── ChatView.swift            # Chat with agent messages
+    ├── CostTrackerView.swift     # Cost by agent, summary cards
+    ├── LeaderboardView.swift     # Ranked agent list
+    ├── PipelineVisualizerView.swift  # Step-by-step pipeline view
+    ├── SessionNotesView.swift    # Notes with tag filter
+    ├── ActivityLogView.swift     # Filtered activity log
+    ├── ExportView.swift          # All/selected/bookmarked, MD/JSON
+    ├── AgentMemoryView.swift     # Memory entries with confidence
+    ├── CustomAgentView.swift     # Create custom agents
+    ├── ProjectBuilderView.swift  # Project scaffolding prompt builder
+    ├── SessionReplayView.swift   # Timeline scrubbing, play/pause
+    ├── WorkflowLogView.swift     # Real-time activity log
+    ├── WorkflowStepsView.swift   # Custom workflow steps with drag-reorder
+    └── KeyboardShortcutsHelpView.swift  # Organized shortcut sections
 ```
 
 ### Data Flow
 
 ```
-User Prompt → useOrchestration → Tauri execute_task
-    → ProviderRegistry.execute_with_fallback
-        → Provider.execute (with retry/backoff)
-            → LLM API (Anthropic/OpenAI)
-                → StreamEvent → Frontend via Tauri events
-                    → useStreaming → ResultsPanel
+User Prompt → AppStore.executeWorkflow()
+    → LLMService.execute() / stream()
+        → Anthropic/OpenAI/Ollama API
+            → Streaming tokens → AppStore
+                → ResultsPanel / ChatView
 ```
 
 ## Key Concepts
 
 ### Office Roles
-8 fixed desks: `dev`, `qa`, `ops`, `arch`, `pm`, `res`, `gate`, `designer`. Drag agents from the sidebar to seat them.
+8 fixed desks: `dev`, `qa`, `ops`, `arch`, `pm`, `res`, `gate`, `designer`. Drag agents from the sidebar to seat them, or use keyboard shortcuts ⌘1-8.
 
-### Orchestration Modes
-- **Parallel:** All selected agents receive the same prompt simultaneously
+### Workflow Modes
+- **Parallel:** All seated agents receive the same prompt simultaneously
 - **Pipeline:** Each agent receives the previous agent's output as context
 - **Synthesis:** Run agents in parallel, then synthesize a combined response
 - **Review:** Agents review each other's outputs
 - **Debate:** Agents argue different sides of a topic
-- **Head Agent (✨):** LLM-powered agent recommendation based on your prompt
+- **Quality Gate:** Sequential review with approval gates
+- **Pipeline Approval:** Pipeline with human approval between steps
+- **Conditional:** Branch based on agent responses
+- **Collab:** Collaborative editing across agents
+- **Builder:** Step-by-step construction workflow
+
+### Workflow Templates
+15 pre-built templates for common tasks:
+- Code review, feature implementation, bug investigation
+- API design, database design, security audit
+- Performance optimization, documentation, testing
+- Architecture review, refactoring, migration planning
+- UI/UX design, DevOps setup, project planning
 
 ### Persistence
-Settings, seats, groups, presets, favorites, prompt history, and sessions are stored in localStorage. Export/import layouts as JSON.
+All data stored in UserDefaults:
+- Settings, API keys, provider selection
+- Desk assignments, groups, presets
+- Agent favorites, prompt history
+- Chat history, session notes
+- Cost history, activity log
+- Agent memory (per-agent, 100-entry limit)
 
-### Comparison Mode
-Click the `⟺` button in Results header to enter compare mode:
-- Side-by-side agent responses
-- Summary stats: agents, avg tokens, fastest/slowest, total cost
-- **Shared themes:** Keywords appearing in >50% of responses
-- **Response length bars:** Visual comparison of response sizes
+### Keyboard Shortcuts
+- `⌘K` — Command palette
+- `⌘1-8` — Select desk
+- `⌘↑/↓` — Prompt history
+- `⌘L` — Clear prompt
+- `⌘E` — Export results
+- `?` — Help
 
 ## Development
 
 ```bash
-npm run dev          # Vite dev server
-npm run build        # TypeScript + Vite production build
-npm run tauri dev    # Full Tauri dev (Rust + React hot reload)
-npm run tauri build  # Production Tauri bundle
+cd macOS/AgentOffice
 
-# Frontend tests
-npm test             # Vitest (48 tests)
-npm run test:watch   # Watch mode
+# Build
+swift build
 
-# Rust tests
-cd src-tauri && cargo test
+# Run
+swift run
+
+# Clean
+swift package clean
 ```
+
+## Features
+
+- **Streaming LLM Support:** Real-time token streaming via SSE for all providers
+- **Voice Input:** Speech-to-text via Speech framework
+- **Drag & Drop:** Drag agents to desks, reorder workflow steps
+- **Agent Favorites:** Star agents for quick access
+- **Template Auto-Seating:** Templates automatically seat required agents
+- **Context Window Tracking:** Visual utilization bar with backpressure
+- **Budget Management:** Daily budget with cost tracking and alerts
+- **Compare Mode:** Side-by-side response comparison
+- **Session Replay:** Timeline scrubbing through past sessions
+- **Export:** Markdown/JSON export of results, notes, and chat history
+- **Custom Agents:** Create and manage custom AI personas
+- **Git Integration:** Branch, diff, commit, push operations
+- **Activity Log:** Real-time workflow activity tracking
+- **App Icon:** Custom icon in Assets.xcassets
 
 ## Extending
 
 ### Adding a new agent
-Edit `public/agents.json` — add an object with `id`, `name`, `division`, `description`, `systemPrompt`, `officeRole`, `emoji`, `tags`.
+Edit `Sources/agents.json` — add an object with `id`, `name`, `division`, `description`, `systemPrompt`, `officeRole`.
 
 ### Adding a new LLM provider
-1. Create a new file in `src-tauri/src/llm/` implementing the `Provider` trait
-2. Add it to `ProviderRegistry::new()` in `registry.rs`
-3. Add provider option in Settings modal
+1. Add case to `LLMProvider` enum in `Models.swift`
+2. Implement `execute()` and `stream()` methods in `LLMService.swift`
+3. Add provider option in Settings
 
 ### Adding a new workflow mode
-Add mode logic in `src/hooks/useWorkflows.ts`, add UI toggle in `PromptBar.tsx`.
+1. Add case to `WorkflowMode` enum in `Models.swift`
+2. Implement mode logic in `AppStore.swift` `executeWorkflow()`
+3. Add UI toggle in `PromptBarView.swift`
+
+### Adding a new workflow template
+Add template to `WorkflowTemplates.swift` with name, description, prompt, workflow mode, and agent roles.
 
 ## Security
 
-- API keys stored in memory only (not persisted to disk)
-- Key format validation: `sk-ant-` for Anthropic, `sk-` for OpenAI
+- API keys stored in UserDefaults (encrypted at rest on macOS)
 - No telemetry, no external connections except LLM APIs
+- All inputs validated at trust boundaries
 
 ## License
 
-MIT
+MIT — Copyright 2026 Hemang
