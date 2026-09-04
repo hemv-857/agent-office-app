@@ -246,10 +246,23 @@ final class AppStore: ObservableObject {
 
     // MARK: - Execution
     func runAll() {
-        guard !isRunning else { return }
+        guard !isRunning else { showToast("Already running", type: .error); return }
         let seated = desks.filter { $0.isOccupied }
         guard !seated.isEmpty else { showToast("No agents seated", type: .error); return }
         guard !promptText.isEmpty else { showToast("Enter a prompt", type: .error); return }
+
+        // Backpressure: check budget
+        let estimatedCost = Double(seated.count) * 0.01
+        if todayCost + estimatedCost > dailyBudget {
+            showToast("Budget exceeded — \(String(format: "$%.2f", dailyBudget - todayCost)) remaining", type: .error)
+            return
+        }
+
+        // Backpressure: check context window
+        let estimatedTokens = promptText.count / 4 * seated.count
+        if contextWindow.usedTokens + estimatedTokens > contextWindow.maxTokens {
+            showToast("Context window nearly full", type: .warning)
+        }
 
         isRunning = true
         promptHistory.insert(promptText, at: 0)

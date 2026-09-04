@@ -119,7 +119,7 @@ struct Toast: Identifiable {
     let type: ToastType
 }
 
-enum ToastType { case success, error, info }
+enum ToastType { case success, error, info, warning }
 
 // MARK: - Activity Entry
 struct ActivityEntry: Identifiable {

@@ -9,6 +9,7 @@ struct ToastView: View {
         case .success: return "checkmark.circle.fill"
         case .error: return "xmark.circle.fill"
         case .info: return "info.circle.fill"
+        case .warning: return "exclamationmark.triangle.fill"
         }
     }
 
@@ -17,6 +18,7 @@ struct ToastView: View {
         case .success: return .green
         case .error: return .red
         case .info: return .blue
+        case .warning: return .orange
         }
     }
 
