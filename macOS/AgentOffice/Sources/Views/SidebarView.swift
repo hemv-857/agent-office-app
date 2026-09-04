@@ -56,10 +56,75 @@ struct SidebarView: View {
 
             Divider()
 
+            // Groups & Presets
+            if !store.groups.isEmpty || !store.presets.isEmpty {
+                VStack(alignment: .leading, spacing: 4) {
+                    if !store.groups.isEmpty {
+                        Text("Groups").font(.system(size: 10, weight: .semibold)).foregroundStyle(.tertiary)
+                            .padding(.horizontal, 10)
+                        ForEach(store.groups) { group in
+                            Button(action: {
+                                store.clearOffice()
+                                for agentId in group.agentIds {
+                                    if let agent = store.allAgents.first(where: { $0.id == agentId }),
+                                       let desk = store.desks.first(where: { !$0.isOccupied }) {
+                                        store.seatAgent(agent, at: desk.role)
+                                    }
+                                }
+                            }) {
+                                HStack {
+                                    Image(systemName: "folder").font(.system(size: 9))
+                                    Text(group.name).font(.system(size: 11))
+                                    Spacer()
+                                    Text("\(group.agentIds.count)").font(.caption).foregroundStyle(.secondary)
+                                }
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 3)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    if !store.presets.isEmpty {
+                        Text("Presets").font(.system(size: 10, weight: .semibold)).foregroundStyle(.tertiary)
+                            .padding(.horizontal, 10)
+                        ForEach(store.presets) { preset in
+                            Button(action: { store.loadPreset(preset) }) {
+                                HStack {
+                                    Image(systemName: "bookmark").font(.system(size: 9))
+                                    Text(preset.name).font(.system(size: 11))
+                                    Spacer()
+                                    Text("\(preset.seating.count)").font(.caption).foregroundStyle(.secondary)
+                                }
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 3)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+                .padding(.vertical, 4)
+                Divider()
+            }
+
             // Bottom toolbar
             HStack(spacing: 8) {
+                Button(action: { store.showGroupSave = true }) {
+                    Image(systemName: "folder.badge.plus")
+                        .font(.system(size: 10))
+                }
+                .buttonStyle(.plain)
+                .help("Save group")
+
+                Button(action: { store.showPresetSave = true }) {
+                    Image(systemName: "bookmark.badge.plus")
+                        .font(.system(size: 10))
+                }
+                .buttonStyle(.plain)
+                .help("Save preset")
+
                 Button(action: store.clearOffice) {
                     Image(systemName: "trash")
+                        .font(.system(size: 10))
                 }
                 .buttonStyle(.plain)
                 .help("Clear office")

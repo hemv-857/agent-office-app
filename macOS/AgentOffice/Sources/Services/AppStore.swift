@@ -274,7 +274,11 @@ final class AppStore: ObservableObject {
         case .synthesis: runSynthesis(seated)
         case .review: runReview(seated)
         case .debate: runDebate(seated)
-        default: runParallel(seated)
+        case .qualityGate: runQualityGate(seated)
+        case .pipelineApproval: runPipelineApproval(seated)
+        case .conditional: runConditional(seated)
+        case .collab: runCollab(seated)
+        case .builder: runBuilder(seated)
         }
     }
 
@@ -401,6 +405,195 @@ final class AppStore: ObservableObject {
             }
             finishRun()
         }
+    }
+
+    // MARK: - Quality Gate
+    private func runQualityGate(_ seated: [Desk]) {
+        // Run parallel, then a gate agent reviews all results
+        results = seated.map { desk in
+            SessionResult(agentId: desk.agent!.id, agentName: desk.agent!.name, status: .working, startTime: Date())
+        }
+        for i in desks.indices where desks[i].isOccupied { desks[i].status = .working }
+
+        Task {
+            let service = LLMService(provider: selectedProvider, apiKey: apiKey)
+            await withTaskGroup(of: Void.self) { group in
+                for desk in seated {
+                    group.addTask { [self] in
+                        await self.executeAgent(desk.agent!, service: service)
+                    }
+                }
+            }
+            // Gate review: first agent reviews all others
+            if let gateAgent = seated.first?.agent {
+                let allResponses = results.filter { $0.agentId != gateAgent.id }
+                    .map { "**\($0.agentName)**: \($0.response)" }.joined(separator: "\n\n")
+                let gateResult = SessionResult(agentId: "gate-\(gateAgent.id)", agentName: "\(gateAgent.name) (Gate)", status: .working, startTime: Date())
+                results.append(gateResult)
+                let response = try? await service.execute(
+                    systemPrompt: "You are a quality gate reviewer. Evaluate these responses for completeness, accuracy, and quality. Approve or reject with reasons.",
+                    userMessage: "Task: \(promptText)\n\nResponses:\n\(allResponses)"
+                )
+                if let idx = results.firstIndex(where: { $0.agentId == "gate-\(gateAgent.id)" }) {
+                    results[idx].response = response?.text ?? "Gate review failed"
+                    results[idx].status = .done
+                }
+            }
+            finishRun()
+        }
+    }
+
+    // MARK: - Pipeline Approval
+    private func runPipelineApproval(_ seated: [Desk]) {
+        let ordered = seated.sorted { lhs, rhs in
+            let order: [AgentRole: Int] = [.arch: 0, .dev: 1, .qa: 2, .ops: 3, .pm: 4]
+            return (order[lhs.role] ?? 99) < (order[rhs.role] ?? 99)
+        }
+        pipelineSteps = ordered.map { PipelineStep(agentName: $0.agent!.name, agentRole: $0.role.rawValue) }
+        results = ordered.map { SessionResult(agentId: $0.agent!.id, agentName: $0.agent!.name, status: .working, startTime: Date()) }
+        isRunning = true
+
+        Task {
+            let service = LLMService(provider: selectedProvider, apiKey: apiKey)
+            var context = promptText
+            for (i, desk) in ordered.enumerated() {
+                if let deskIdx = desks.firstIndex(where: { $0.agent?.id == desk.agent?.id }) {
+                    desks[deskIdx].status = .working
+                }
+                if let stepIdx = pipelineSteps.firstIndex(where: { $0.agentName == desk.agent?.name }) {
+                    pipelineSteps[stepIdx].status = .working
+                }
+                let response = try? await service.execute(systemPrompt: desk.agent!.systemPrompt, userMessage: context)
+                let text = response?.text ?? "Error"
+                if let rIdx = results.firstIndex(where: { $0.agentId == desk.agent?.id }) {
+                    results[rIdx].response = text
+                    results[rIdx].status = .done
+                }
+                if let stepIdx = pipelineSteps.firstIndex(where: { $0.agentName == desk.agent?.name }) {
+                    pipelineSteps[stepIdx].status = .done
+                    pipelineSteps[stepIdx].output = text
+                }
+                if let deskIdx = desks.firstIndex(where: { $0.agent?.id == desk.agent?.id }) {
+                    desks[deskIdx].status = .done
+                }
+                context = "Previous agent output:\n\(text)\n\nOriginal task: \(promptText)"
+            }
+            finishRun()
+        }
+    }
+
+    // MARK: - Conditional
+    private func runConditional(_ seated: [Desk]) {
+        // Run first agent, then decide which other agents to activate based on response
+        guard let firstDesk = seated.first, let firstAgent = firstDesk.agent else { runParallel(seated); return }
+        results = [SessionResult(agentId: firstAgent.id, agentName: firstAgent.name, status: .working, startTime: Date())]
+        if let idx = desks.firstIndex(where: { $0.agent?.id == firstAgent.id }) { desks[idx].status = .working }
+
+        Task {
+            let service = LLMService(provider: selectedProvider, apiKey: apiKey)
+            let response = try? await service.execute(systemPrompt: firstAgent.systemPrompt, userMessage: promptText)
+            if let idx = results.firstIndex(where: { $0.agentId == firstAgent.id }) {
+                results[idx].response = response?.text ?? ""
+                results[idx].status = .done
+            }
+            if let idx = desks.firstIndex(where: { $0.agent?.id == firstAgent.id }) { desks[idx].status = .done }
+
+            // Run remaining agents with context from first
+            let remaining = seated.dropFirst()
+            let context = "Triage result:\n\(response?.text ?? "")\n\nOriginal task: \(promptText)"
+            for desk in remaining {
+                results.append(SessionResult(agentId: desk.agent!.id, agentName: desk.agent!.name, status: .working, startTime: Date()))
+                if let idx = desks.firstIndex(where: { $0.agent?.id == desk.agent?.id }) { desks[idx].status = .working }
+                let resp = try? await service.execute(systemPrompt: desk.agent!.systemPrompt, userMessage: context)
+                if let idx = results.firstIndex(where: { $0.agentId == desk.agent?.id }) {
+                    results[idx].response = resp?.text ?? ""
+                    results[idx].status = .done
+                }
+                if let idx = desks.firstIndex(where: { $0.agent?.id == desk.agent?.id }) { desks[idx].status = .done }
+            }
+            finishRun()
+        }
+    }
+
+    // MARK: - Collab
+    private func runCollab(_ seated: [Desk]) {
+        // Agents collaborate: each adds to a shared document
+        results = seated.map { desk in
+            SessionResult(agentId: desk.agent!.id, agentName: desk.agent!.name, status: .working, startTime: Date())
+        }
+        for i in desks.indices where desks[i].isOccupied { desks[i].status = .working }
+
+        Task {
+            let service = LLMService(provider: selectedProvider, apiKey: apiKey)
+            var sharedDoc = ""
+            for desk in seated {
+                if let idx = desks.firstIndex(where: { $0.agent?.id == desk.agent?.id }) { desks[idx].status = .working }
+                let context = sharedDoc.isEmpty ? promptText : "Shared document so far:\n\(sharedDoc)\n\nContinue from where the previous agent left off."
+                let response = try? await service.execute(systemPrompt: desk.agent!.systemPrompt, userMessage: context)
+                let text = response?.text ?? ""
+                sharedDoc += "\n\n--- \(desk.agent!.name) ---\n\(text)"
+                if let idx = results.firstIndex(where: { $0.agentId == desk.agent?.id }) {
+                    results[idx].response = text
+                    results[idx].status = .done
+                }
+                if let idx = desks.firstIndex(where: { $0.agent?.id == desk.agent?.id }) { desks[idx].status = .done }
+            }
+            finishRun()
+        }
+    }
+
+    // MARK: - Builder
+    private func runBuilder(_ seated: [Desk]) {
+        results = seated.map { desk in
+            SessionResult(agentId: desk.agent!.id, agentName: desk.agent!.name, status: .working, startTime: Date())
+        }
+        for i in desks.indices where desks[i].isOccupied { desks[i].status = .working }
+
+        let currentPrompt = promptText
+        Task {
+            let service = LLMService(provider: selectedProvider, apiKey: apiKey)
+            await withTaskGroup(of: Void.self) { group in
+                for desk in seated {
+                    group.addTask { [self] in
+                        let agent = desk.agent!
+                        let buildPrompt = "You are building a software project. Produce complete, working code files for: \(currentPrompt)\n\nFormat each file as:\n```\n// filepath: path/to/file.swift\n<code>\n```"
+                        let response = try? await service.execute(systemPrompt: agent.systemPrompt, userMessage: buildPrompt)
+                        let text = response?.text ?? "Error"
+                        let tokens = response?.tokens ?? 0
+                        let cost = response?.cost ?? 0
+                        await MainActor.run {
+                            if let idx = self.results.firstIndex(where: { $0.agentId == agent.id }) {
+                                self.results[idx].response = text
+                                self.results[idx].tokensUsed = tokens
+                                self.results[idx].costUsd = cost
+                                self.results[idx].elapsedMs = 0
+                                self.results[idx].status = .done
+                            }
+                            let files = self.parseProjectFiles(from: text)
+                            self.projectFiles.append(contentsOf: files)
+                            if let deskIdx = self.desks.firstIndex(where: { $0.agent?.id == agent.id }) {
+                                self.desks[deskIdx].status = .done
+                            }
+                        }
+                    }
+                }
+            }
+            finishRun()
+        }
+    }
+
+    private func parseProjectFiles(from text: String) -> [ProjectFile] {
+        var files: [ProjectFile] = []
+        let pattern = #"// filepath: (.+)\n([\s\S]*?)(?=// filepath:|$)"#
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return files }
+        let nsRange = NSRange(text.startIndex..., in: text)
+        for match in regex.matches(in: text, range: nsRange) {
+            if let pathRange = Range(match.range(at: 1), in: text),
+               let contentRange = Range(match.range(at: 2), in: text) {
+                files.append(ProjectFile(path: String(text[pathRange]), content: String(text[contentRange]).trimmingCharacters(in: .whitespacesAndNewlines)))
+            }
+        }
+        return files
     }
 
     private func executeAgent(_ agent: Agent, service: LLMService) async {
