@@ -13,6 +13,7 @@ final class AppStore: ObservableObject {
     @Published var filteredAgents: [Agent] = []
     @Published var searchText = ""
     @Published var selectedDivision: AgentDivision? = nil
+    @Published var favoriteAgentIds: Set<String> = []
 
     // MARK: - Office State
     @Published var desks: [Desk] = [
@@ -183,6 +184,10 @@ final class AppStore: ObservableObject {
            let p = LLMProvider(rawValue: prov) {
             selectedProvider = p
         }
+        // Load favorites
+        if let favorites = UserDefaults.standard.array(forKey: "favoriteAgents") as? [String] {
+            favoriteAgentIds = Set(favorites)
+        }
     }
 
     func persist() {
@@ -211,6 +216,7 @@ final class AppStore: ObservableObject {
         }
         UserDefaults.standard.set(apiKey, forKey: "apiKey")
         UserDefaults.standard.set(selectedProvider.rawValue, forKey: "provider")
+        UserDefaults.standard.set(Array(favoriteAgentIds), forKey: "favoriteAgents")
     }
 
     // MARK: - Filtering
@@ -226,6 +232,16 @@ final class AppStore: ObservableObject {
             filtered = filtered.filter { $0.division == division.rawValue }
         }
         filteredAgents = filtered
+    }
+
+    // MARK: - Favorites
+    func toggleFavorite(_ agentId: String) {
+        if favoriteAgentIds.contains(agentId) {
+            favoriteAgentIds.remove(agentId)
+        } else {
+            favoriteAgentIds.insert(agentId)
+        }
+        persist()
     }
 
     // MARK: - Desk Operations

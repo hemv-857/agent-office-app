@@ -87,6 +87,24 @@ struct SidebarView: View {
 
             Divider()
 
+            // Favorites section
+            if !store.favoriteAgentIds.isEmpty {
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text("Favorites").font(.system(size: 10, weight: .semibold)).foregroundStyle(.tertiary)
+                        Spacer()
+                        Text("\(store.favoriteAgentIds.count)").font(.caption).foregroundStyle(.secondary)
+                    }
+                    .padding(.horizontal, 10)
+
+                    ForEach(store.allAgents.filter { store.favoriteAgentIds.contains($0.id) }) { agent in
+                        AgentRow(agent: agent)
+                    }
+                }
+                .padding(.vertical, 4)
+                Divider()
+            }
+
             // Agent list
             ScrollView {
                 LazyVStack(spacing: 2) {
@@ -232,6 +250,15 @@ struct AgentRow: View {
             }
 
             Spacer()
+
+            // Favorite button
+            Button(action: { store.toggleFavorite(agent.id) }) {
+                Image(systemName: store.favoriteAgentIds.contains(agent.id) ? "star.fill" : "star")
+                    .font(.system(size: 10))
+                    .foregroundStyle(store.favoriteAgentIds.contains(agent.id) ? .yellow : .secondary)
+            }
+            .buttonStyle(.plain)
+            .help(store.favoriteAgentIds.contains(agent.id) ? "Remove from favorites" : "Add to favorites")
 
             if isOccupied {
                 Image(systemName: "checkmark.circle.fill")
