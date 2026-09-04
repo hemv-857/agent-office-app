@@ -634,9 +634,12 @@ final class AppStore: ObservableObject {
         for i in desks.indices where desks[i].status == .working {
             desks[i].status = .idle
         }
+        // Update context window usage
+        let runTokens = results.reduce(0) { $0 + $1.tokensUsed }
+        contextWindow.usedTokens = min(contextWindow.usedTokens + runTokens, contextWindow.maxTokens)
         persist()
         showToast("All agents completed", type: .success)
-        logActivity("Run completed — \(results.count) agents", type: .success)
+        logActivity("Run completed — \(results.count) agents, \(runTokens) tokens", type: .success)
     }
 
     func cancelRun() {
