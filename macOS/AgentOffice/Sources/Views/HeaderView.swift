@@ -1,0 +1,128 @@
+// HeaderView.swift
+import SwiftUI
+
+struct HeaderView: View {
+    @EnvironmentObject var store: AppStore
+
+    var body: some View {
+        HStack(spacing: 12) {
+            // Left: Title + status
+            HStack(spacing: 8) {
+                // Gradient icon
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(
+                        LinearGradient(
+                            colors: [.blue, .purple],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 20, height: 20)
+                    .overlay(
+                        Image(systemName: "brain.head.profile")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(.white)
+                    )
+
+                Text("Agent Office")
+                    .font(.system(size: 14, weight: .semibold))
+
+                Text(store.seatedDisplay)
+                    .font(.system(size: 11))
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(.quaternary, in: Capsule())
+
+                if store.isRunning {
+                    HStack(spacing: 4) {
+                        ProgressView()
+                            .controlSize(.mini)
+                        Text("Running")
+                            .font(.system(size: 11))
+                    }
+                    .foregroundStyle(.blue)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(.blue.opacity(0.1), in: Capsule())
+                }
+            }
+
+            Spacer()
+
+            // Right: Controls
+            HStack(spacing: 6) {
+                // Provider badge
+                Text(store.selectedProvider.displayName)
+                    .font(.system(size: 10, weight: .medium))
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 3)
+                    .background(.quaternary, in: Capsule())
+
+                // Run / Stop
+                if store.isRunning {
+                    Button(action: store.cancelRun) {
+                        Image(systemName: "stop.fill")
+                            .font(.system(size: 11))
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.red)
+                    .help("Stop all agents")
+                } else {
+                    Button(action: store.runAll) {
+                        Image(systemName: "play.fill")
+                            .font(.system(size: 11))
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.green)
+                    .help("Run all agents")
+                }
+
+                // Toggle results
+                Button(action: { store.showResultsPanel.toggle() }) {
+                    Image(systemName: store.showResultsPanel ? "sidebar.right" : "sidebar.left")
+                        .font(.system(size: 11))
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(.secondary)
+                .help("Toggle results panel")
+
+                // Toggle sidebar
+                Button(action: { store.showSidebar.toggle() }) {
+                    Image(systemName: store.showSidebar ? "sidebar.left" : "sidebar.left")
+                        .font(.system(size: 11))
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(.secondary)
+                .help("Toggle sidebar")
+
+                Divider()
+                    .frame(height: 16)
+
+                // Settings
+                Button(action: { store.showSettings = true }) {
+                    Image(systemName: "gearshape")
+                        .font(.system(size: 11))
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(.secondary)
+                .help("Settings")
+
+                // Help
+                Button(action: { store.showHelp = true }) {
+                    Image(systemName: "questionmark.circle")
+                        .font(.system(size: 11))
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(.secondary)
+                .help("Help")
+            }
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 8)
+        .background(.background)
+        .overlay(alignment: .bottom) {
+            Divider()
+        }
+    }
+}
