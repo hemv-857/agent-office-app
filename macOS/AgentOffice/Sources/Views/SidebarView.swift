@@ -110,6 +110,9 @@ struct SidebarView: View {
                 LazyVStack(spacing: 2) {
                     ForEach(store.filteredAgents) { agent in
                         AgentRow(agent: agent)
+                            .onDrag {
+                                NSItemProvider(object: agent.id as NSString)
+                            }
                     }
                 }
                 .padding(8)
