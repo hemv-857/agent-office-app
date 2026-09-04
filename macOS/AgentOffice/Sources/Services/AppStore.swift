@@ -14,6 +14,7 @@ final class AppStore: ObservableObject {
     @Published var searchText = ""
     @Published var selectedDivision: AgentDivision? = nil
     @Published var favoriteAgentIds: Set<String> = []
+    @Published var showFavoritesOnly = false
 
     // MARK: - Office State
     @Published var desks: [Desk] = [
@@ -233,6 +234,9 @@ final class AppStore: ObservableObject {
         }
         if let division = selectedDivision {
             filtered = filtered.filter { $0.division == division.rawValue }
+        }
+        if showFavoritesOnly {
+            filtered = filtered.filter { favoriteAgentIds.contains($0.id) }
         }
         filteredAgents = filtered
     }

@@ -70,8 +70,13 @@ struct SidebarView: View {
             // Filter pills
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 6) {
-                    FilterPill(title: "All", isSelected: store.selectedDivision == nil) {
+                    FilterPill(title: "All", isSelected: store.selectedDivision == nil && !store.showFavoritesOnly) {
                         store.selectedDivision = nil
+                        store.showFavoritesOnly = false
+                        store.applyFilters()
+                    }
+                    FilterPill(title: "★", isSelected: store.showFavoritesOnly) {
+                        store.showFavoritesOnly.toggle()
                         store.applyFilters()
                     }
                     ForEach(AgentDivision.allCases.filter { $0 != .custom }, id: \.self) { div in
