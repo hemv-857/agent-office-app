@@ -57,6 +57,7 @@ final class AppStore: ObservableObject {
     @Published var showSessionReplay = false
     @Published var showWorkflowLog = false
     @Published var showWorkflowSteps = false
+    @Published var showAgentMetrics = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic
