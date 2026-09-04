@@ -47,6 +47,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showProjectBuilder) { ProjectBuilderView() }
         .sheet(isPresented: $store.showSessionReplay) { SessionReplayView() }
         .sheet(isPresented: $store.showWorkflowLog) { WorkflowLogView() }
+        .sheet(isPresented: $store.showWorkflowSteps) { WorkflowStepsView() }
         .sheet(item: $store.showAgentDetail) { agent in AgentDetailView(agent: agent) }
         .sheet(item: $store.showChat) { dest in ChatView(agentId: dest.agentId, agentName: dest.agentName) }
         .sheet(isPresented: $store.showGroupSave) {
