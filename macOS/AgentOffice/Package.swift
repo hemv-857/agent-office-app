@@ -9,7 +9,8 @@ let package = Package(
             name: "AgentOffice",
             path: "Sources",
             resources: [
-                .copy("../../public/agents.json")
+                .copy("../../public/agents.json"),
+                .process("Assets.xcassets")
             ]
         )
     ]

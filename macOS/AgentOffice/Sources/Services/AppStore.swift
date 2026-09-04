@@ -170,6 +170,13 @@ final class AppStore: ObservableObject {
            let decoded = try? JSONDecoder().decode([AgentMemoryEntry].self, from: data) {
             agentMemory = decoded
         }
+        // Load chat history
+        if let data = UserDefaults.standard.data(forKey: "chatHistory"),
+           let decoded = try? JSONDecoder().decode([String: [PersistedChatMessage]].self, from: data) {
+            for (agentId, messages) in decoded {
+                chatMessages[agentId] = messages.map { ChatMessage(role: $0.role == "user" ? .user : .assistant, content: $0.content, timestamp: $0.timestamp) }
+            }
+        }
         apiKey = UserDefaults.standard.string(forKey: "apiKey") ?? ""
         if let prov = UserDefaults.standard.string(forKey: "provider"),
            let p = LLMProvider(rawValue: prov) {
@@ -192,6 +199,14 @@ final class AppStore: ObservableObject {
         }
         if let data = try? JSONEncoder().encode(agentMemory) {
             UserDefaults.standard.set(data, forKey: "agentMemory")
+        }
+        // Persist chat history
+        var chatData: [String: [PersistedChatMessage]] = [:]
+        for (agentId, messages) in chatMessages {
+            chatData[agentId] = messages.map { PersistedChatMessage(role: $0.role == .user ? "user" : "assistant", content: $0.content, timestamp: $0.timestamp) }
+        }
+        if let data = try? JSONEncoder().encode(chatData) {
+            UserDefaults.standard.set(data, forKey: "chatHistory")
         }
         UserDefaults.standard.set(apiKey, forKey: "apiKey")
         UserDefaults.standard.set(selectedProvider.rawValue, forKey: "provider")

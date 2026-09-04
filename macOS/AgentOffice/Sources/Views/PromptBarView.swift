@@ -167,18 +167,49 @@ struct TemplatePickerView: View {
                     GridItem(.flexible(), spacing: 10),
                     GridItem(.flexible(), spacing: 10),
                 ], spacing: 10) {
-                    ForEach(filtered) { template in
-                        TemplateCard(template: template) {
-                            store.promptText = template.prompt
-                            store.workflowMode = template.workflowMode
-                            dismiss()
-                        }
+                ForEach(filtered) { template in
+                    TemplateCard(template: template) {
+                        store.promptText = template.prompt
+                        store.workflowMode = template.workflowMode
+                        // Auto-seat agents based on template roles
+                        autoSeatAgents(for: template)
+                        dismiss()
                     }
+                }
                 }
                 .padding()
             }
         }
         .frame(width: 620, height: 520)
+    }
+
+    func autoSeatAgents(for template: WorkflowTemplate) {
+        // Clear current office
+        store.clearOffice()
+
+        // Map role names to AgentRole
+        let roleMap: [String: AgentRole] = [
+            "pm": .pm, "ux": .ux, "dev": .dev, "qa": .qa,
+            "be": .be, "data": .data, "ts": .ts, "support": .support,
+            "arch": .arch, "res": .res, "designer": .designer, "ops": .ops
+        ]
+
+        // Seat agents for each role in template
+        for roleStr in template.agentRoles {
+            guard let role = roleMap[roleStr] else { continue }
+            guard let desk = store.desks.first(where: { $0.role == role && !$0.isOccupied }) else { continue }
+
+            // Find first agent matching this division/role
+            let divisionMap: [String: String] = [
+                "pm": "PM", "ux": "Researcher", "dev": "Builder", "qa": "QA",
+                "be": "Builder", "data": "Researcher", "ts": "Builder", "support": "Support",
+                "arch": "Architect", "res": "Researcher", "designer": "Researcher", "ops": "Support"
+            ]
+            let division = divisionMap[roleStr] ?? "Builder"
+            if let agent = store.allAgents.first(where: { $0.division == division }) {
+                store.seatAgent(agent, at: role)
+            }
+        }
     }
 }
 

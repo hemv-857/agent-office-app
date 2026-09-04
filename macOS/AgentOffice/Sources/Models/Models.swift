@@ -172,6 +172,13 @@ struct ChatMessage: Identifiable {
     enum ChatRole { case user, assistant }
 }
 
+// MARK: - Persisted Chat Message
+struct PersistedChatMessage: Codable {
+    let role: String
+    let content: String
+    let timestamp: Date
+}
+
 // MARK: - Workflow Template
 struct WorkflowTemplate: Identifiable {
     let id: String
