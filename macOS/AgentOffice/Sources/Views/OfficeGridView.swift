@@ -184,6 +184,34 @@ struct DeskCard: View {
         .scaleEffect(isDragOver ? 1.02 : 1.0)
         .animation(.easeInOut(duration: 0.15), value: isDragOver)
         .onDrop(of: [.text], delegate: DeskDropDelegate(desk: desk, store: store, isDragOver: $isDragOver))
+        .contextMenu {
+            if let agent = desk.agent {
+                Button(action: { store.showAgentDetail = agent }) {
+                    Label("View Details", systemImage: "info.circle")
+                }
+                Button(action: { store.showChat = ChatDestination(agentId: agent.id, agentName: agent.name) }) {
+                    Label("Chat with \(agent.name)", systemImage: "bubble.left")
+                }
+                Divider()
+                Button(action: { store.toggleFavorite(agent.id) }) {
+                    Label(store.favoriteAgentIds.contains(agent.id) ? "Remove Favorite" : "Add Favorite",
+                          systemImage: store.favoriteAgentIds.contains(agent.id) ? "star.slash" : "star")
+                }
+                Divider()
+                Button(action: { store.removeAgent(from: desk.role) }) {
+                    Label("Remove from Desk", systemImage: "xmark.circle")
+                }
+                Button(action: {
+                    NSPasteboard.general.clearContents()
+                    NSPasteboard.general.setString(agent.systemPrompt, forType: .string)
+                    store.showToast("Prompt copied", type: .success)
+                }) {
+                    Label("Copy System Prompt", systemImage: "doc.on.doc")
+                }
+            } else {
+                Text("Empty desk")
+            }
+        }
     }
 }
 
