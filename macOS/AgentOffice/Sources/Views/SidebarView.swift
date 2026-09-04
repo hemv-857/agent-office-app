@@ -101,7 +101,7 @@ struct AgentRow: View {
     let agent: Agent
     @EnvironmentObject var store: AppStore
 
-    var isSeated: Bool {
+    var isOccupied: Bool {
         store.desks.contains { $0.agent?.id == agent.id }
     }
 
@@ -125,16 +125,16 @@ struct AgentRow: View {
 
             Spacer()
 
-            if isSeated {
+            if isOccupied {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 12))
                     .foregroundStyle(.green)
             }
         }
         .padding(6)
-        .background(isSeated ? Color.accentColor.opacity(0.08) : Color.clear, in: RoundedRectangle(cornerRadius: 6))
+        .background(isOccupied ? Color.accentColor.opacity(0.08) : Color.clear, in: RoundedRectangle(cornerRadius: 6))
         .onTapGesture {
-            if isSeated {
+            if isOccupied {
                 if let desk = store.desks.first(where: { $0.agent?.id == agent.id }) {
                     store.removeAgent(from: desk.role)
                 }

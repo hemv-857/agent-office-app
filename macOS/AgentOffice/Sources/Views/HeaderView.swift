@@ -99,6 +99,20 @@ struct HeaderView: View {
                 Divider()
                     .frame(height: 16)
 
+                // Command palette
+                Button(action: { store.showCommandPalette = true }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "command").font(.system(size: 9))
+                        Text("K").font(.system(size: 10, weight: .medium))
+                    }
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 3)
+                    .background(.quaternary, in: RoundedRectangle(cornerRadius: 4))
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(.secondary)
+                .help("Command Palette (⌘K)")
+
                 // Settings
                 Button(action: { store.showSettings = true }) {
                     Image(systemName: "gearshape")

@@ -79,7 +79,7 @@ struct DeskCard: View {
                         .foregroundStyle(.secondary.opacity(0.6))
                 }
                 .buttonStyle(.plain)
-                .opacity(isSeated ? 1 : 0)
+                .opacity(desk.isOccupied ? 1 : 0)
 
             } else {
                 // Empty desk
@@ -110,8 +110,6 @@ struct DeskCard: View {
         .animation(.easeInOut(duration: 0.15), value: isDragOver)
         .onDrop(of: [.text], delegate: DeskDropDelegate(desk: desk, store: store, isDragOver: $isDragOver))
     }
-
-    private var isSeated: Bool { desk.agent != nil }
 }
 
 // MARK: - Drop Delegate

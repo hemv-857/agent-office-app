@@ -32,6 +32,9 @@ struct Agent: Identifiable, Codable, Hashable {
     let officeRole: String
     let systemPrompt: String
     var emoji: String
+    var color: String = "#6366f1"
+    var domain: String = ""
+    var isCustom: Bool = false
 
     var initials: String {
         let words = name.split(separator: " ")
@@ -43,7 +46,7 @@ struct Agent: Identifiable, Codable, Hashable {
 }
 
 // MARK: - Agent Status
-enum AgentStatus: String, Codable {
+enum AgentStatus: String, Codable, CaseIterable {
     case idle, working, done, error, blocked
 }
 
@@ -53,7 +56,6 @@ struct Desk: Identifiable {
     let role: AgentRole
     var agent: Agent?
     var status: AgentStatus = .idle
-
     var isOccupied: Bool { agent != nil }
 }
 
@@ -68,7 +70,11 @@ struct SessionResult: Identifiable {
     var costUsd: Double = 0
     var elapsedMs: Double = 0
     var startTime: Date?
+    var isBookmarked = false
+    var rating: RatingType?
 }
+
+enum RatingType: String, Codable { case up, down }
 
 // MARK: - Workflow Mode
 enum WorkflowMode: String, CaseIterable, Codable {
@@ -106,24 +112,14 @@ enum LLMProvider: String, CaseIterable, Codable {
     }
 }
 
-// MARK: - Provider Model
-struct ProviderModel: Identifiable, Hashable {
-    let id: String
-    let name: String
-    let provider: LLMProvider
-}
-
 // MARK: - Toast
 struct Toast: Identifiable {
     let id = UUID()
     let message: String
     let type: ToastType
-    var timestamp = Date()
 }
 
-enum ToastType {
-    case success, error, info
-}
+enum ToastType { case success, error, info }
 
 // MARK: - Activity Entry
 struct ActivityEntry: Identifiable {
@@ -133,6 +129,111 @@ struct ActivityEntry: Identifiable {
     let timestamp: Date
 }
 
-enum ActivityType {
-    case success, error, info, warning
+enum ActivityType: String { case success, error, info, warning }
+
+// MARK: - Group
+struct AgentGroup: Identifiable, Codable, Hashable {
+    var id = UUID()
+    var name: String
+    var agentIds: [String]
+}
+
+// MARK: - Preset
+struct OfficePreset: Identifiable, Codable, Hashable {
+    var id = UUID()
+    var name: String
+    var seating: [String: String] // role -> agentId
+}
+
+// MARK: - Session Note
+struct SessionNote: Identifiable, Codable {
+    var id = UUID()
+    var text: String
+    var tags: [String]
+    var timestamp: Date
+}
+
+// MARK: - Cost Entry
+struct CostEntry: Identifiable, Codable {
+    var id = UUID()
+    var agentName: String
+    var cost: Double
+    var tokens: Int
+    var timestamp: Date
+}
+
+// MARK: - Chat Message
+struct ChatMessage: Identifiable {
+    let id = UUID()
+    let role: ChatRole
+    let content: String
+    let timestamp: Date
+
+    enum ChatRole { case user, assistant }
+}
+
+// MARK: - Workflow Template
+struct WorkflowTemplate: Identifiable {
+    let id: String
+    let label: String
+    let icon: String
+    let prompt: String
+    let agentRoles: [String]
+    let workflowMode: WorkflowMode
+    let description: String
+}
+
+// MARK: - Pipeline Step
+struct PipelineStep: Identifiable {
+    let id = UUID()
+    let agentName: String
+    let agentRole: String
+    var status: AgentStatus = .idle
+    var output: String = ""
+}
+
+// MARK: - Git Branch
+struct GitBranch: Identifiable {
+    let id = UUID()
+    let name: String
+    let isCurrent: Bool
+}
+
+// MARK: - Context Window
+struct ContextWindow {
+    var maxTokens: Int = 200_000
+    var usedTokens: Int = 0
+    var utilization: Double {
+        maxTokens > 0 ? Double(usedTokens) / Double(maxTokens) : 0
+    }
+}
+
+// MARK: - Project Builder
+struct ProjectFile: Identifiable {
+    let id = UUID()
+    let path: String
+    let content: String
+}
+
+struct BuildTask: Identifiable {
+    let id = UUID()
+    let label: String
+    var status: AgentStatus = .idle
+}
+
+// MARK: - Agent Memory
+struct AgentMemoryEntry: Identifiable, Codable {
+    var id = UUID()
+    var agentId: String
+    var pattern: String
+    var context: String
+    var confidence: Double
+    var timestamp: Date
+}
+
+// MARK: - Chat Destination
+struct ChatDestination: Identifiable {
+    let id = UUID()
+    let agentId: String
+    let agentName: String
 }
