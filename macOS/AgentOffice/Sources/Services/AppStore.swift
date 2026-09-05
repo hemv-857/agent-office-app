@@ -68,6 +68,8 @@ final class AppStore: ObservableObject {
     @Published var showChains = false
     @Published var showBatchRun = false
     @Published var showConversationHistory = false
+    @Published var showComparison = false
+    @Published var showPromptTemplates = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic
