@@ -37,9 +37,28 @@ macOS/AgentOffice/Sources/
 │   ├── GitService.swift          # Actor-based git operations
 │   ├── VoiceService.swift        # SFSpeechRecognizer integration
 │   ├── WorkflowTemplates.swift   # 15 hardcoded workflow templates
-│   └── AgentMemoryManager.swift  # Per-agent memory persistence
+│   ├── AgentMemoryManager.swift  # Per-agent memory persistence
+│   ├── AgentSkillTracker.swift   # Agent skill tracking and ratings
+│   ├── AgentCollaborationMatrix.swift  # Agent collaboration tracking
+│   ├── AgentAvailabilityTracker.swift  # Agent availability and queues
+│   ├── WorkflowOptimizer.swift   # Workflow optimization suggestions
+│   ├── WorkflowScheduler.swift   # Scheduled workflow execution
+│   ├── WorkflowChainBuilder.swift # Complex multi-step workflows
+│   ├── WorkflowAnalyticsService.swift  # Workflow analytics and trends
+│   ├── NotificationService.swift # System notifications
+│   ├── ThemeManager.swift        # App theming
+│   ├── PerformanceMonitor.swift  # Performance metrics
+│   ├── CacheManager.swift        # In-memory caching
+│   ├── DataExportService.swift   # Data export
+│   ├── DataImportService.swift   # Data import
+│   ├── BackupManager.swift       # Backup management
+│   ├── PluginManager.swift       # Plugin system
+│   ├── CommandRegistry.swift     # Custom commands
+│   └── WebhookService.swift      # Webhook integrations
 ├── Views/
-│   └── ... (25+ view files)
+│   └── ... (35+ view files)
+├── Tests/
+│   └── AgentOfficeTests.swift    # Comprehensive test suite
 ├── Assets.xcassets/              # App icon (128/256/512/1024px)
 └── agents.json                   # Agent catalog (~290 entries)
 ```
@@ -79,6 +98,18 @@ User Prompt → AppStore.executeWorkflow()
 - Architecture review, refactoring, migration planning
 - UI/UX design, DevOps setup, project planning
 
+### Agent System
+- **Skill Tracking:** Track agent performance, ratings, and specializations
+- **Collaboration Matrix:** Track which agents work well together
+- **Availability:** Manage agent availability and task queues
+- **Optimization:** Get suggestions for improving workflow efficiency
+
+### Workflow Engine
+- **Scheduling:** Schedule workflows with daily/weekly/monthly recurrence
+- **Chains:** Build complex multi-step workflows with conditions
+- **Analytics:** Track workflow performance and trends
+- **History:** View complete workflow execution history
+
 ### Persistence
 All data stored in UserDefaults:
 - Settings, API keys, provider selection
@@ -87,6 +118,8 @@ All data stored in UserDefaults:
 - Chat history, session notes
 - Cost history, activity log
 - Agent memory (per-agent, 100-entry limit)
+- Workflow history, analytics
+- Backups, webhooks, plugins
 
 ### Keyboard Shortcuts
 - `⌘K` — Command palette
@@ -95,6 +128,48 @@ All data stored in UserDefaults:
 - `⌘L` — Clear prompt
 - `⌘E` — Export results
 - `?` — Help
+
+## Features
+
+### Core
+- **Streaming LLM Support:** Real-time token streaming via SSE for all providers
+- **Voice Input:** Speech-to-text via Speech framework
+- **Drag & Drop:** Drag agents to desks, reorder workflow steps
+- **Agent Favorites:** Star agents for quick access
+- **Template Auto-Seating:** Templates automatically seat required agents
+
+### Agent Management
+- **Skill Tracking:** Track agent performance and ratings
+- **Collaboration Matrix:** See which agents work well together
+- **Availability:** Manage agent availability and queues
+- **Performance Metrics:** View agent usage and efficiency
+
+### Workflow Engine
+- **10 Workflow Modes:** Parallel, pipeline, synthesis, review, debate, and more
+- **15 Templates:** Pre-built templates for common tasks
+- **Scheduling:** Schedule workflows with recurrence
+- **Chains:** Build complex multi-step workflows
+- **History:** View complete workflow execution history
+
+### Data & Export
+- **Export:** Markdown/JSON export of results, notes, and chat history
+- **Import:** Import data from JSON files
+- **Backups:** Create, restore, and manage backups
+- **Webhooks:** Integrate with external services
+
+### UI/UX
+- **Themes:** Multiple app themes (auto, light, dark, ocean, forest, sunset)
+- **Animations:** Smooth animations and transitions
+- **Skeleton Loading:** Skeleton loading placeholders
+- **Context Window:** Visual utilization bar with backpressure
+- **Budget Management:** Daily budget with cost tracking and alerts
+- **Compare Mode:** Side-by-side response comparison
+
+### Advanced
+- **Plugin System:** Register and manage plugins
+- **Custom Commands:** Create custom commands with triggers
+- **Performance Monitoring:** Track memory, CPU, and API metrics
+- **Caching:** In-memory cache with size limits
 
 ## Development
 
@@ -109,24 +184,10 @@ swift run
 
 # Clean
 swift package clean
+
+# Test
+swift test
 ```
-
-## Features
-
-- **Streaming LLM Support:** Real-time token streaming via SSE for all providers
-- **Voice Input:** Speech-to-text via Speech framework
-- **Drag & Drop:** Drag agents to desks, reorder workflow steps
-- **Agent Favorites:** Star agents for quick access
-- **Template Auto-Seating:** Templates automatically seat required agents
-- **Context Window Tracking:** Visual utilization bar with backpressure
-- **Budget Management:** Daily budget with cost tracking and alerts
-- **Compare Mode:** Side-by-side response comparison
-- **Session Replay:** Timeline scrubbing through past sessions
-- **Export:** Markdown/JSON export of results, notes, and chat history
-- **Custom Agents:** Create and manage custom AI personas
-- **Git Integration:** Branch, diff, commit, push operations
-- **Activity Log:** Real-time workflow activity tracking
-- **App Icon:** Custom icon in Assets.xcassets
 
 ## Extending
 
@@ -146,11 +207,17 @@ Edit `Sources/agents.json` — add an object with `id`, `name`, `division`, `des
 ### Adding a new workflow template
 Add template to `WorkflowTemplates.swift` with name, description, prompt, workflow mode, and agent roles.
 
+### Adding a plugin
+1. Create a plugin class implementing the Plugin protocol
+2. Register with `PluginManager.shared.registerPlugin()`
+3. Add hooks for desired events
+
 ## Security
 
 - API keys stored in UserDefaults (encrypted at rest on macOS)
 - No telemetry, no external connections except LLM APIs
 - All inputs validated at trust boundaries
+- Webhook authentication via Bearer tokens
 
 ## Troubleshooting
 
