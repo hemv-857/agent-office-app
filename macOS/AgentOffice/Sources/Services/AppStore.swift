@@ -78,6 +78,9 @@ final class AppStore: ObservableObject {
     @Published var showCostProjection = false
     @Published var showTTS = false
     @Published var showOnboardingProgress = false
+    @Published var showCommandHistory = false
+    @Published var showShortcutsCustomize = false
+    @Published var showRateLimit = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic

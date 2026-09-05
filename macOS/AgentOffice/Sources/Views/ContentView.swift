@@ -66,6 +66,8 @@ struct ContentView: View {
         .sheet(isPresented: $store.showChangelog) { ChangelogView() }
         .sheet(isPresented: $store.showCostProjection) { CostProjectionView() }
         .sheet(isPresented: $store.showOnboardingProgress) { OnboardingProgressView() }
+        .sheet(isPresented: $store.showCommandHistory) { CommandHistoryView() }
+        .sheet(isPresented: $store.showShortcutsCustomize) { KeyboardShortcutCustomizationView() }
         .sheet(item: $store.showAgentDetail) { agent in AgentDetailView(agent: agent) }
         .sheet(item: $store.showChat) { dest in ChatView(agentId: dest.agentId, agentName: dest.agentName) }
         .sheet(isPresented: $store.showGroupSave) {
