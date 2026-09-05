@@ -60,7 +60,7 @@ struct Desk: Identifiable {
 }
 
 // MARK: - Session Result
-struct SessionResult: Identifiable {
+struct SessionResult: Identifiable, Codable {
     let id = UUID()
     let agentId: String
     let agentName: String
