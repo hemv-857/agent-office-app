@@ -104,6 +104,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showCostOptimization) { WorkflowCostOptimizationView() }
         .sheet(isPresented: $store.showSystemHealth) { WorkflowSystemHealthView() }
         .sheet(isPresented: $store.showCollaborationNetwork) { WorkflowAgentCollaborationNetworkView() }
+        .sheet(isPresented: $store.showNotificationsCenter) { WorkflowNotificationsCenterView() }
         // Keyboard shortcuts
         .background(
             KeyboardShortcutsView()
