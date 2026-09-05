@@ -70,6 +70,8 @@ final class AppStore: ObservableObject {
     @Published var showConversationHistory = false
     @Published var showComparison = false
     @Published var showPromptTemplates = false
+    @Published var showTaskQueue = false
+    @Published var showStorage = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic
