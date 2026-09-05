@@ -68,6 +68,9 @@ struct ContentView: View {
         .sheet(isPresented: $store.showOnboardingProgress) { OnboardingProgressView() }
         .sheet(isPresented: $store.showCommandHistory) { CommandHistoryView() }
         .sheet(isPresented: $store.showShortcutsCustomize) { KeyboardShortcutCustomizationView() }
+        .sheet(isPresented: $store.showAgentModels) { AgentModelConfigView() }
+        .sheet(isPresented: $store.showTemplateCategories) { WorkflowTemplateCategoriesView() }
+        .sheet(isPresented: $store.showPerformanceComparison) { AgentPerformanceComparisonView() }
         .sheet(item: $store.showAgentDetail) { agent in AgentDetailView(agent: agent) }
         .sheet(item: $store.showChat) { dest in ChatView(agentId: dest.agentId, agentName: dest.agentName) }
         .sheet(isPresented: $store.showGroupSave) {
