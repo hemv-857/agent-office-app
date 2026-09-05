@@ -84,6 +84,27 @@ final class AppStore: ObservableObject {
     @Published var showAgentModels = false
     @Published var showTemplateCategories = false
     @Published var showPerformanceComparison = false
+    @Published var showBulkActions = false
+    @Published var showAgentScheduler = false
+    @Published var showPromptLibrary = false
+    @Published var showTemplateDesigner = false
+    @Published var showWorkspaceLayout = false
+    @Published var showAnalyticsDashboard = false
+    @Published var showWorkspaceQuickSwitch = false
+    @Published var showAgentStatus = false
+    @Published var showAgentProgress = false
+    @Published var showAgentPerformance = false
+    @Published var showAgentMetrics2 = false
+    @Published var showAgentActivity = false
+    @Published var showAgentCollaboration = false
+    @Published var showAgentInteractions = false
+    @Published var showAgentSummary = false
+    @Published var showAgentTasks = false
+    @Published var showAgentDetails = false
+    @Published var showSystemDiagnostics = false
+    @Published var showExecutionQueue = false
+    @Published var showWorkspaceDashboard = false
+    @Published var showPerformanceReport = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic

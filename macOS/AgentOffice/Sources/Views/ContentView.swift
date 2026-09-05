@@ -79,6 +79,27 @@ struct ContentView: View {
         .sheet(isPresented: $store.showPresetSave) {
             PresetSaveView()
         }
+        .sheet(isPresented: $store.showBulkActions) { WorkflowBulkActionsView() }
+        .sheet(isPresented: $store.showAgentScheduler) { WorkflowAgentSchedulerView() }
+        .sheet(isPresented: $store.showPromptLibrary) { WorkflowPromptLibraryView() }
+        .sheet(isPresented: $store.showTemplateDesigner) { WorkflowTemplateDesignerView() }
+        .sheet(isPresented: $store.showWorkspaceLayout) { WorkflowWorkspaceLayoutView() }
+        .sheet(isPresented: $store.showAnalyticsDashboard) { WorkflowAnalyticsDashboardView() }
+        .sheet(isPresented: $store.showWorkspaceQuickSwitch) { WorkspaceQuickSwitchView() }
+        .sheet(isPresented: $store.showAgentStatus) { WorkflowAgentStatusView() }
+        .sheet(isPresented: $store.showAgentProgress) { WorkflowAgentProgressView() }
+        .sheet(isPresented: $store.showAgentPerformance) { WorkflowAgentPerformanceView() }
+        .sheet(isPresented: $store.showAgentMetrics2) { WorkflowAgentMetricsView() }
+        .sheet(isPresented: $store.showAgentActivity) { WorkflowAgentActivityView() }
+        .sheet(isPresented: $store.showAgentCollaboration) { WorkflowAgentCollaborationView() }
+        .sheet(isPresented: $store.showAgentInteractions) { WorkflowAgentInteractionView() }
+        .sheet(isPresented: $store.showAgentSummary) { WorkflowAgentSummaryView() }
+        .sheet(isPresented: $store.showAgentTasks) { WorkflowAgentTaskView() }
+        .sheet(isPresented: $store.showAgentDetails) { WorkflowAgentDetailView() }
+        .sheet(isPresented: $store.showSystemDiagnostics) { WorkflowSystemDiagnosticsView() }
+        .sheet(isPresented: $store.showExecutionQueue) { WorkflowExecutionQueueView() }
+        .sheet(isPresented: $store.showWorkspaceDashboard) { WorkflowWorkspaceDashboardView() }
+        .sheet(isPresented: $store.showPerformanceReport) { WorkflowPerformanceReportView() }
         // Keyboard shortcuts
         .background(
             KeyboardShortcutsView()
