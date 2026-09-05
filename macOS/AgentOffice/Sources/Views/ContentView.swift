@@ -102,6 +102,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showPerformanceReport) { WorkflowPerformanceReportView() }
         .sheet(isPresented: $store.showBackupRestore) { WorkspaceBackupRestoreView() }
         .sheet(isPresented: $store.showCostOptimization) { WorkflowCostOptimizationView() }
+        .sheet(isPresented: $store.showSystemHealth) { WorkflowSystemHealthView() }
         // Keyboard shortcuts
         .background(
             KeyboardShortcutsView()
