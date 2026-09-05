@@ -53,6 +53,21 @@ struct CommandPaletteView: View {
             Command(label: "Add Custom Agent", shortcut: nil, icon: "person.badge.plus") { store.showCustomAgent = true; dismiss() },
             Command(label: "Save Group", shortcut: nil, icon: "folder.badge.plus") { store.showGroupSave = true; dismiss() },
             Command(label: "Save Preset", shortcut: nil, icon: "bookmark.badge.plus") { store.showPresetSave = true; dismiss() },
+
+            // New views
+            Command(label: "Bulk Actions", shortcut: nil, icon: "checkmark.square") { store.showBulkActions = true; dismiss() },
+            Command(label: "Agent Scheduler", shortcut: nil, icon: "calendar") { store.showAgentScheduler = true; dismiss() },
+            Command(label: "Prompt Library", shortcut: nil, icon: "text.book.closed") { store.showPromptLibrary = true; dismiss() },
+            Command(label: "Template Designer", shortcut: nil, icon: "plus.square.on.square") { store.showTemplateDesigner = true; dismiss() },
+            Command(label: "Workspace Layout", shortcut: nil, icon: "rectangle.grid.2x2") { store.showWorkspaceLayout = true; dismiss() },
+            Command(label: "Analytics Dashboard", shortcut: nil, icon: "chart.pie") { store.showAnalyticsDashboard = true; dismiss() },
+            Command(label: "Quick Switch", shortcut: nil, icon: "arrow.triangle.2.circlepath") { store.showWorkspaceQuickSwitch = true; dismiss() },
+            Command(label: "Agent Status", shortcut: nil, icon: "person.circle") { store.showAgentStatus = true; dismiss() },
+            Command(label: "Agent Progress", shortcut: nil, icon: "chart.bar.fill") { store.showAgentProgress = true; dismiss() },
+            Command(label: "System Diagnostics", shortcut: nil, icon: "stethoscope") { store.showSystemDiagnostics = true; dismiss() },
+            Command(label: "Execution Queue", shortcut: nil, icon: "list.number") { store.showExecutionQueue = true; dismiss() },
+            Command(label: "Workspace Dashboard", shortcut: nil, icon: "square.grid.3x3") { store.showWorkspaceDashboard = true; dismiss() },
+            Command(label: "Performance Report", shortcut: nil, icon: "doc.text.magnifyingglass") { store.showPerformanceReport = true; dismiss() },
         ]
     }
 
