@@ -108,6 +108,7 @@ final class AppStore: ObservableObject {
     @Published var showBackupRestore = false
     @Published var showCostOptimization = false
     @Published var showSystemHealth = false
+    @Published var showCollaborationNetwork = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic
