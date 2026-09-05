@@ -173,10 +173,16 @@ struct ChatMessage: Identifiable {
 }
 
 // MARK: - Persisted Chat Message
-struct PersistedChatMessage: Codable {
+struct PersistedChatMessage: Identifiable, Codable {
+    let id = UUID()
     let role: String
     let content: String
     let timestamp: Date
+    let agentId: String?
+
+    enum CodingKeys: String, CodingKey {
+        case role, content, timestamp, agentId
+    }
 }
 
 // MARK: - Workflow Template

@@ -67,6 +67,7 @@ final class AppStore: ObservableObject {
     @Published var showCommands = false
     @Published var showChains = false
     @Published var showBatchRun = false
+    @Published var showConversationHistory = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic
@@ -219,7 +220,7 @@ final class AppStore: ObservableObject {
         // Persist chat history
         var chatData: [String: [PersistedChatMessage]] = [:]
         for (agentId, messages) in chatMessages {
-            chatData[agentId] = messages.map { PersistedChatMessage(role: $0.role == .user ? "user" : "assistant", content: $0.content, timestamp: $0.timestamp) }
+            chatData[agentId] = messages.map { PersistedChatMessage(role: $0.role == .user ? "user" : "assistant", content: $0.content, timestamp: $0.timestamp, agentId: agentId) }
         }
         if let data = try? JSONEncoder().encode(chatData) {
             UserDefaults.standard.set(data, forKey: "chatHistory")

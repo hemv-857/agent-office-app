@@ -56,6 +56,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showCommands) { CommandRegistryView() }
         .sheet(isPresented: $store.showChains) { WorkflowChainView() }
         .sheet(isPresented: $store.showBatchRun) { BatchRunView() }
+        .sheet(isPresented: $store.showConversationHistory) { ConversationHistoryView() }
         .sheet(item: $store.showAgentDetail) { agent in AgentDetailView(agent: agent) }
         .sheet(item: $store.showChat) { dest in ChatView(agentId: dest.agentId, agentName: dest.agentName) }
         .sheet(isPresented: $store.showGroupSave) {
