@@ -61,6 +61,11 @@ struct ContentView: View {
         .sheet(isPresented: $store.showPromptTemplates) { PromptTemplatesView() }
         .sheet(isPresented: $store.showTaskQueue) { TaskQueueView() }
         .sheet(isPresented: $store.showStorage) { StorageView() }
+        .sheet(isPresented: $store.showClipboard) { ClipboardHistoryView() }
+        .sheet(isPresented: $store.showDiagnostics) { DiagnosticsView() }
+        .sheet(isPresented: $store.showChangelog) { ChangelogView() }
+        .sheet(isPresented: $store.showCostProjection) { CostProjectionView() }
+        .sheet(isPresented: $store.showOnboardingProgress) { OnboardingProgressView() }
         .sheet(item: $store.showAgentDetail) { agent in AgentDetailView(agent: agent) }
         .sheet(item: $store.showChat) { dest in ChatView(agentId: dest.agentId, agentName: dest.agentName) }
         .sheet(isPresented: $store.showGroupSave) {
