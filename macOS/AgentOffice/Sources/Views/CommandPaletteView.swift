@@ -68,6 +68,12 @@ struct CommandPaletteView: View {
             Command(label: "Execution Queue", shortcut: nil, icon: "list.number") { store.showExecutionQueue = true; dismiss() },
             Command(label: "Workspace Dashboard", shortcut: nil, icon: "square.grid.3x3") { store.showWorkspaceDashboard = true; dismiss() },
             Command(label: "Performance Report", shortcut: nil, icon: "doc.text.magnifyingglass") { store.showPerformanceReport = true; dismiss() },
+            Command(label: "Backup & Restore", shortcut: nil, icon: "arrow.clockwise.circle") { store.showBackupRestore = true; dismiss() },
+            Command(label: "Cost Optimization", shortcut: nil, icon: "lightbulb.min") { store.showCostOptimization = true; dismiss() },
+            Command(label: "System Health", shortcut: nil, icon: "heart.text.square") { store.showSystemHealth = true; dismiss() },
+            Command(label: "Collaboration Network", shortcut: nil, icon: "point.3.connected.trianglepath.dotted") { store.showCollaborationNetwork = true; dismiss() },
+            Command(label: "Notifications", shortcut: nil, icon: "bell.badge") { store.showNotificationsCenter = true; dismiss() },
+            Command(label: "Workspace Settings", shortcut: nil, icon: "wrench.and.screwdriver") { store.showWorkspaceSettings = true; dismiss() },
         ]
     }
 
