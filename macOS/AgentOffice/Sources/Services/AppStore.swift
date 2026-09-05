@@ -110,6 +110,7 @@ final class AppStore: ObservableObject {
     @Published var showSystemHealth = false
     @Published var showCollaborationNetwork = false
     @Published var showNotificationsCenter = false
+    @Published var showWorkspaceSettings = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic
