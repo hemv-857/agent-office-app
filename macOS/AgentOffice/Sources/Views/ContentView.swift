@@ -51,6 +51,11 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentMetrics) { AgentMetricsView() }
         .sheet(isPresented: $store.showWorkflowHistory) { WorkflowHistoryView() }
         .sheet(isPresented: $store.showQuickActions) { QuickActionsView() }
+        .sheet(isPresented: $store.showAnalytics) { AnalyticsDashboardView() }
+        .sheet(isPresented: $store.showPlugins) { PluginConfigView() }
+        .sheet(isPresented: $store.showCommands) { CommandRegistryView() }
+        .sheet(isPresented: $store.showChains) { WorkflowChainView() }
+        .sheet(isPresented: $store.showBatchRun) { BatchRunView() }
         .sheet(item: $store.showAgentDetail) { agent in AgentDetailView(agent: agent) }
         .sheet(item: $store.showChat) { dest in ChatView(agentId: dest.agentId, agentName: dest.agentName) }
         .sheet(isPresented: $store.showGroupSave) {
