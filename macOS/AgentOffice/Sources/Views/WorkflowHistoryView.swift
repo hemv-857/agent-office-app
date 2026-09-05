@@ -97,7 +97,7 @@ struct WorkflowHistoryView: View {
 }
 
 // MARK: - Workflow History Entry
-struct WorkflowHistoryEntry: Identifiable {
+struct WorkflowHistoryEntry: Identifiable, Codable {
     let id = UUID()
     let timestamp: Date
     let prompt: String
