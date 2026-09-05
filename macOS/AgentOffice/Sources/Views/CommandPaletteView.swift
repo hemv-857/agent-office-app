@@ -17,11 +17,14 @@ struct CommandPaletteView: View {
 
     var commands: [Command] {
         [
+            // Core
             Command(label: "Run All Agents", shortcut: "⌘↵", icon: "play.fill") { store.runAll(); dismiss() },
             Command(label: "Stop", shortcut: "⌘.", icon: "stop.fill") { store.cancelRun(); dismiss() },
             Command(label: "Clear Office", shortcut: nil, icon: "trash") { store.clearOffice(); dismiss() },
             Command(label: "Toggle Sidebar", shortcut: "⌘S", icon: "sidebar.left") { store.showSidebar.toggle(); dismiss() },
             Command(label: "Toggle Results", shortcut: nil, icon: "sidebar.right") { store.showResultsPanel.toggle(); dismiss() },
+
+            // Views
             Command(label: "Settings", shortcut: "⌘,", icon: "gearshape") { store.showSettings = true; dismiss() },
             Command(label: "Help", shortcut: "?", icon: "questionmark.circle") { store.showHelp = true; dismiss() },
             Command(label: "Cost Tracker", shortcut: nil, icon: "dollarsign.circle") { store.showCostTracker = true; dismiss() },
@@ -30,7 +33,23 @@ struct CommandPaletteView: View {
             Command(label: "Activity Log", shortcut: nil, icon: "list.bullet") { store.showActivityLog = true; dismiss() },
             Command(label: "Pipeline Visualizer", shortcut: nil, icon: "arrow.triangle.branch") { store.showPipelineVisualizer = true; dismiss() },
             Command(label: "Agent Memory", shortcut: nil, icon: "brain") { store.showAgentMemory = true; dismiss() },
+
+            // New features
+            Command(label: "Analytics Dashboard", shortcut: nil, icon: "chart.line.uptrend.xyaxis") { store.showAnalytics = true; dismiss() },
+            Command(label: "Batch Run", shortcut: nil, icon: "square.stack") { store.showBatchRun = true; dismiss() },
+            Command(label: "Compare Agents", shortcut: nil, icon: "arrow.left.arrow.right") { store.showComparison = true; dismiss() },
+            Command(label: "Conversation History", shortcut: nil, icon: "bubble.left.and.bubble.right") { store.showConversationHistory = true; dismiss() },
+            Command(label: "Prompt Templates", shortcut: nil, icon: "doc.text") { store.showPromptTemplates = true; dismiss() },
+            Command(label: "Task Queue", shortcut: nil, icon: "list.number") { store.showTaskQueue = true; dismiss() },
+            Command(label: "Workflow Chains", shortcut: nil, icon: "link") { store.showChains = true; dismiss() },
+            Command(label: "Plugins", shortcut: nil, icon: "puzzlepiece") { store.showPlugins = true; dismiss() },
+            Command(label: "Custom Commands", shortcut: nil, icon: "command") { store.showCommands = true; dismiss() },
+
+            // Data
             Command(label: "Export Results", shortcut: "⌘E", icon: "square.and.arrow.up") { store.showExport = true; dismiss() },
+            Command(label: "Storage", shortcut: nil, icon: "internaldrive") { store.showStorage = true; dismiss() },
+
+            // Agent management
             Command(label: "Add Custom Agent", shortcut: nil, icon: "person.badge.plus") { store.showCustomAgent = true; dismiss() },
             Command(label: "Save Group", shortcut: nil, icon: "folder.badge.plus") { store.showGroupSave = true; dismiss() },
             Command(label: "Save Preset", shortcut: nil, icon: "bookmark.badge.plus") { store.showPresetSave = true; dismiss() },
