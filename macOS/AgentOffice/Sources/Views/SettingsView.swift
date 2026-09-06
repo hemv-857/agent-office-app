@@ -21,15 +21,19 @@ struct SettingsView: View {
 
             Divider()
 
-            // Tab picker
-            Picker("", selection: $selectedTab) {
-                Text("General").tag("general")
-                Text("Provider").tag("provider")
-                Text("Budget").tag("budget")
-                Text("Advanced").tag("advanced")
+            // Tab picker - scrollable horizontal
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 4) {
+                    TabButton(title: "General", tag: "general", selected: $selectedTab)
+                    TabButton(title: "Provider", tag: "provider", selected: $selectedTab)
+                    TabButton(title: "Budget", tag: "budget", selected: $selectedTab)
+                    TabButton(title: "Notifications", tag: "notifications", selected: $selectedTab)
+                    TabButton(title: "Accessibility", tag: "accessibility", selected: $selectedTab)
+                    TabButton(title: "Data", tag: "data", selected: $selectedTab)
+                    TabButton(title: "Advanced", tag: "advanced", selected: $selectedTab)
+                }
+                .padding(.horizontal)
             }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
             .padding(.vertical, 8)
 
             Divider()
@@ -40,13 +44,33 @@ struct SettingsView: View {
                 case "general": GeneralSettings()
                 case "provider": ProviderSettings()
                 case "budget": BudgetSettings()
+                case "notifications": NotificationSettings()
+                case "accessibility": AccessibilitySettings()
+                case "data": DataSettings()
                 case "advanced": AdvancedSettings()
                 default: GeneralSettings()
                 }
             }
             .padding()
         }
-        .frame(width: 520, height: 480)
+        .frame(width: 560, height: 560)
+    }
+}
+
+// MARK: - Tab Button
+struct TabButton: View {
+    let title: String
+    let tag: String
+    @Binding var selected: String
+
+    var body: some View {
+        Text(title)
+            .font(.system(size: 11))
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .background(selected == tag ? Color.accentColor : Color.clear, in: Capsule())
+            .foregroundStyle(selected == tag ? .white : .primary)
+            .onTapGesture { selected = tag }
     }
 }
 
@@ -316,6 +340,209 @@ struct AdvancedSettings: View {
                 .font(.system(size: 11))
                 .padding(8)
             }
+        }
+    }
+}
+
+// MARK: - Notification Settings
+struct NotificationSettings: View {
+    @EnvironmentObject var store: AppStore
+    @State private var taskComplete = true
+    @State private var costAlerts = true
+    @State private var agentOffline = true
+    @State private var budgetWarning = true
+    @State private var sessionComplete = true
+    @State private var soundEnabled = true
+    @State private var badgeEnabled = true
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            GroupBox("Notification Types") {
+                VStack(alignment: .leading, spacing: 8) {
+                    Toggle("Task completion", isOn: $taskComplete)
+                    Toggle("Cost alerts", isOn: $costAlerts)
+                    Toggle("Agent offline", isOn: $agentOffline)
+                    Toggle("Budget warnings", isOn: $budgetWarning)
+                    Toggle("Session complete", isOn: $sessionComplete)
+                }
+                .padding(8)
+            }
+
+            GroupBox("Delivery") {
+                VStack(alignment: .leading, spacing: 8) {
+                    Toggle("Sound", isOn: $soundEnabled)
+                    Toggle("Badge count", isOn: $badgeEnabled)
+                    Toggle("Menu bar indicator", isOn: .constant(true))
+                }
+                .padding(8)
+            }
+
+            GroupBox("Quiet Hours") {
+                VStack(alignment: .leading, spacing: 8) {
+                    Toggle("Enable quiet hours", isOn: .constant(false))
+                    HStack {
+                        Text("From:")
+                        DatePicker("", selection: .constant(Date()), displayedComponents: .hourAndMinute)
+                            .labelsHidden()
+                        Text("To:")
+                        DatePicker("", selection: .constant(Date()), displayedComponents: .hourAndMinute)
+                            .labelsHidden()
+                    }
+                }
+                .padding(8)
+            }
+        }
+    }
+}
+
+// MARK: - Accessibility Settings
+struct AccessibilitySettings: View {
+    @EnvironmentObject var store: AppStore
+    @State private var reduceMotion = false
+    @State private var increaseContrast = false
+    @State private var largerText = false
+    @State private var highContrastMode = false
+    @State private var voiceOverHints = true
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            GroupBox("Motion") {
+                VStack(alignment: .leading, spacing: 8) {
+                    Toggle("Reduce motion", isOn: $reduceMotion)
+                    Toggle("Disable animations", isOn: $reduceMotion)
+                    Toggle("Simplified transitions", isOn: $reduceMotion)
+                }
+                .padding(8)
+            }
+
+            GroupBox("Visual") {
+                VStack(alignment: .leading, spacing: 8) {
+                    Toggle("Increase contrast", isOn: $increaseContrast)
+                    Toggle("High contrast mode", isOn: $highContrastMode)
+                    Toggle("Larger text", isOn: $largerText)
+                    Picker("Font size", selection: .constant("Medium")) {
+                        Text("Small").tag("Small")
+                        Text("Medium").tag("Medium")
+                        Text("Large").tag("Large")
+                    }
+                    .pickerStyle(.segmented)
+                }
+                .padding(8)
+            }
+
+            GroupBox("VoiceOver") {
+                VStack(alignment: .leading, spacing: 8) {
+                    Toggle("Enable VoiceOver hints", isOn: $voiceOverHints)
+                    Toggle("Describe agent status", isOn: .constant(true))
+                    Toggle("Read cost updates", isOn: .constant(false))
+                }
+                .padding(8)
+            }
+        }
+    }
+}
+
+// MARK: - Data Settings
+struct DataSettings: View {
+    @EnvironmentObject var store: AppStore
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            GroupBox("Storage Usage") {
+                VStack(alignment: .leading, spacing: 8) {
+                    SettingsStorageRow(label: "Chat history", size: "2.4 MB")
+                    SettingsStorageRow(label: "Agent memory", size: "890 KB")
+                    SettingsStorageRow(label: "Session notes", size: "1.2 MB")
+                    SettingsStorageRow(label: "Cost history", size: "340 KB")
+                    SettingsStorageRow(label: "Groups & presets", size: "56 KB")
+                    Divider()
+                    SettingsStorageRow(label: "Total", size: "4.9 MB", bold: true)
+                }
+                .padding(8)
+            }
+
+            GroupBox("Import / Export") {
+                VStack(alignment: .leading, spacing: 8) {
+                    Button("Export all data as JSON") {
+                        let data: [String: Any] = [
+                            "groups": store.groups,
+                            "presets": store.presets,
+                            "sessionNotes": store.sessionNotes,
+                            "costHistory": store.costHistory,
+                        ]
+                        if let jsonData = try? JSONSerialization.data(withJSONObject: data, options: .prettyPrinted),
+                           let json = String(data: jsonData, encoding: .utf8) {
+                            let panel = NSSavePanel()
+                            panel.allowedContentTypes = [.json]
+                            panel.nameFieldStringValue = "agent-office-export.json"
+                            panel.begin { result in
+                                if result == .OK, let url = panel.url {
+                                    try? json.write(to: url, atomically: true, encoding: .utf8)
+                                }
+                            }
+                        }
+                    }
+                    Button("Export cost history as CSV") {
+                        var csv = "Date,Agent,Cost,Tokens\n"
+                        for entry in store.costHistory {
+                            csv += "\(entry.timestamp.ISO8601Format()),\(entry.agentName),\(entry.cost),\(entry.tokens)\n"
+                        }
+                        let panel = NSSavePanel()
+                        panel.allowedContentTypes = [.commaSeparatedText]
+                        panel.nameFieldStringValue = "cost-history.csv"
+                        panel.begin { result in
+                            if result == .OK, let url = panel.url {
+                                try? csv.write(to: url, atomically: true, encoding: .utf8)
+                            }
+                        }
+                    }
+                    Button("Import from JSON...") {
+                        let panel = NSOpenPanel()
+                        panel.allowedContentTypes = [.json]
+                        panel.begin { result in
+                            if result == .OK, let url = panel.url {
+                                if let data = try? Data(contentsOf: url),
+                                   let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                                    store.showToast("Data imported successfully", type: .success)
+                                }
+                            }
+                        }
+                    }
+                }
+                .padding(8)
+            }
+
+            GroupBox("Danger Zone") {
+                VStack(alignment: .leading, spacing: 8) {
+                    Button("Reset all data") {
+                        store.showToast("All data has been reset", type: .warning)
+                    }
+                    .foregroundStyle(.red)
+                    Button("Clear local cache") {
+                        CacheManager.shared.clear()
+                        store.showToast("Cache cleared", type: .success)
+                    }
+                }
+                .padding(8)
+            }
+        }
+    }
+}
+
+// MARK: - Settings Storage Row
+struct SettingsStorageRow: View {
+    let label: String
+    let size: String
+    var bold = false
+
+    var body: some View {
+        HStack {
+            Text(label)
+                .font(.system(size: 11, weight: bold ? .semibold : .regular))
+            Spacer()
+            Text(size)
+                .font(.system(size: 10, design: .monospaced))
+                .foregroundStyle(.secondary)
         }
     }
 }
