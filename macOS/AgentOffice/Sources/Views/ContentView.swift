@@ -257,6 +257,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentScheduler) { WorkflowAgentAgentSchedulerView() }
         .sheet(isPresented: $store.showTemplateDesigner) { WorkflowAgentPromptDesignerView() }
         .sheet(isPresented: $store.showWorkspaceLayout) { WorkflowAgentWorkspaceLayoutView() }
+        .sheet(isPresented: $store.showShortcutsCustomize) { WorkflowAgentAgentShortcutsCustomizeView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(

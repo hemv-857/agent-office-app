@@ -225,6 +225,7 @@ struct CommandPaletteView: View {
             Command(label: "Agent Scheduler", shortcut: nil, icon: "calendar.badge.clock") { store.showAgentScheduler = true; dismiss() },
             Command(label: "Prompt Designer", shortcut: nil, icon: "pencil.and.ruler") { store.showTemplateDesigner = true; dismiss() },
             Command(label: "Workspace Layout", shortcut: nil, icon: "rectangle.3.group") { store.showWorkspaceLayout = true; dismiss() },
+            Command(label: "Customize Shortcuts", shortcut: nil, icon: "keyboard") { store.showShortcutsCustomize = true; dismiss() },
         ]
     }
 
