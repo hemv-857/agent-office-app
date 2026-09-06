@@ -253,6 +253,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showPerformanceDashboard) { WorkflowAgentAgentPerformanceDashboardView() }
         .sheet(isPresented: $store.showAgentModels) { WorkflowAgentAgentModelUsageView() }
         .sheet(isPresented: $store.showRateLimit) { WorkflowAgentAgentRateLimitView() }
+        .sheet(isPresented: $store.showBulkActions) { WorkflowAgentBulkActionsView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
