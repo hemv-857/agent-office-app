@@ -140,6 +140,8 @@ struct CommandPaletteView: View {
             Command(label: "Cost Breakdown", shortcut: nil, icon: "chart.pie") { store.showCostBreakdownDetail = true; dismiss() },
             Command(label: "Cost Optimization Detail", shortcut: nil, icon: "wand.and.stars") { store.showCostOptimizationDetail = true; dismiss() },
             Command(label: "Performance Report", shortcut: nil, icon: "doc.richtext") { store.showPerformanceReport = true; dismiss() },
+            Command(label: "Agent Dashboard", shortcut: nil, icon: "square.grid.2x2") { store.showAgentDashboard = true; dismiss() },
+            Command(label: "Settings Manager", shortcut: nil, icon: "gearshape") { store.showSettingsManager = true; dismiss() },
         ]
     }
 

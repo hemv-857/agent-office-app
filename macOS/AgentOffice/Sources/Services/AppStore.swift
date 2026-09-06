@@ -105,6 +105,8 @@ final class AppStore: ObservableObject {
     @Published var showExecutionQueue = false
     @Published var showWorkspaceDashboard = false
     @Published var showPerformanceReport = false
+    @Published var showAgentDashboard = false
+    @Published var showSettingsManager = false
     @Published var showBackupRestore = false
     @Published var showCostOptimization = false
     @Published var showSystemHealth = false
