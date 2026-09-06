@@ -182,6 +182,7 @@ struct CommandPaletteView: View {
             Command(label: "System Info", shortcut: nil, icon: "info.circle") { store.showSystemInfo = true; dismiss() },
             Command(label: "Agent Training", shortcut: nil, icon: "brain.head.profile") { store.showAgentTraining = true; dismiss() },
             Command(label: "Workflow Scheduler", shortcut: nil, icon: "calendar.badge.clock") { store.showWorkflowScheduler = true; dismiss() },
+            Command(label: "Agent Collaboration", shortcut: nil, icon: "arrow.triangle.merge") { store.showAgentCollaboration = true; dismiss() },
         ]
     }
 
