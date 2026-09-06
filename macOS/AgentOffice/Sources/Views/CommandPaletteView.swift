@@ -172,6 +172,7 @@ struct CommandPaletteView: View {
             Command(label: "Agent Status Dashboard", shortcut: nil, icon: "person.circle.fill") { store.showAgentStatusDashboard = true; dismiss() },
             Command(label: "Template Editor", shortcut: nil, icon: "pencil.and.list.clipboard") { store.showWorkflowTemplateEditor = true; dismiss() },
             Command(label: "Quick Setup", shortcut: nil, icon: "bolt.fill") { store.showQuickSetup = true; dismiss() },
+            Command(label: "Error Handling", shortcut: nil, icon: "exclamationmark.triangle") { store.showErrorHandling = true; dismiss() },
         ]
     }
 
