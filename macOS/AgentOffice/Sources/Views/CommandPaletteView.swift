@@ -194,6 +194,7 @@ struct CommandPaletteView: View {
             Command(label: "Workflow Design", shortcut: nil, icon: "flowchart") { store.showWorkflowDesign = true; dismiss() },
             Command(label: "Agent Onboarding", shortcut: nil, icon: "hand.wave") { store.showAgentOnboarding = true; dismiss() },
             Command(label: "Agent Insights", shortcut: nil, icon: "lightbulb") { store.showAgentInsights = true; dismiss() },
+            Command(label: "Cost Forecast", shortcut: nil, icon: "chart.line.uptrend.xyaxis") { store.showCostForecast = true; dismiss() },
         ]
     }
 

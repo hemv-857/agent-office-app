@@ -64,6 +64,7 @@ final class AppStore: ObservableObject {
     @Published var showWorkflowDesign = false
     @Published var showAgentOnboarding = false
     @Published var showAgentInsights = false
+    @Published var showCostForecast = false
     @Published var showWorkflowHistory = false
     @Published var showQuickActions = false
     @Published var showAnalytics = false
