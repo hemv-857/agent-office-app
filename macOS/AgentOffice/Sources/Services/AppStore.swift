@@ -60,6 +60,7 @@ final class AppStore: ObservableObject {
     @Published var showWorkflowLog = false
     @Published var showWorkflowSteps = false
     @Published var showAgentMetrics = false
+    @Published var showSessionRestore = false
     @Published var showWorkflowHistory = false
     @Published var showQuickActions = false
     @Published var showAnalytics = false

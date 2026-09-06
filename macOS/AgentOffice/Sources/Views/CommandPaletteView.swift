@@ -190,6 +190,7 @@ struct CommandPaletteView: View {
             Command(label: "Model Performance", shortcut: nil, icon: "speedometer") { store.showModelPerformance = true; dismiss() },
             Command(label: "Prompt Templates", shortcut: nil, icon: "doc.text") { store.showPromptTemplates = true; dismiss() },
             Command(label: "Agent Metrics", shortcut: nil, icon: "chart.bar") { store.showAgentMetrics = true; dismiss() },
+            Command(label: "Session Restore", shortcut: nil, icon: "arrow.clockwise") { store.showSessionRestore = true; dismiss() },
         ]
     }
 
