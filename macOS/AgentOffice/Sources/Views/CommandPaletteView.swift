@@ -159,6 +159,7 @@ struct CommandPaletteView: View {
             Command(label: "Onboarding Wizard", shortcut: nil, icon: "sparkles") { store.showOnboardingWizard = true; dismiss() },
             Command(label: "Workflow Queue", shortcut: nil, icon: "list.bullet.rectangle") { store.showWorkflowQueue = true; dismiss() },
             Command(label: "Cost Optimization Advisor", shortcut: nil, icon: "lightbulb.fill") { store.showCostOptimizationAdvisor = true; dismiss() },
+            Command(label: "System Health Report", shortcut: nil, icon: "heart.text.square") { store.showHealthReport = true; dismiss() },
         ]
     }
 

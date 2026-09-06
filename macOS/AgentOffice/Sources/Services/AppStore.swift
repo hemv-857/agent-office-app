@@ -124,6 +124,7 @@ final class AppStore: ObservableObject {
     @Published var showOnboardingWizard = false
     @Published var showWorkflowQueue = false
     @Published var showCostOptimizationAdvisor = false
+    @Published var showHealthReport = false
     @Published var showBackupRestore = false
     @Published var showCostOptimization = false
     @Published var showSystemHealth = false
