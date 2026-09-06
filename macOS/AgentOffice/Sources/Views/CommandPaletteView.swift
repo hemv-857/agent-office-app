@@ -124,6 +124,8 @@ struct CommandPaletteView: View {
             Command(label: "Cost Alerts", shortcut: nil, icon: "exclamationmark.circle") { store.showCostAlert = true; dismiss() },
             Command(label: "Workflow Analytics", shortcut: nil, icon: "chart.bar.doc.horizontal") { store.showWorkflowAnalytics = true; dismiss() },
             Command(label: "Agent Communication", shortcut: nil, icon: "bubble.left.and.bubble.right.fill") { store.showAgentCommunication = true; dismiss() },
+            Command(label: "Session Manager", shortcut: nil, icon: "folder") { store.showSessionManager = true; dismiss() },
+            Command(label: "Agent Settings", shortcut: nil, icon: "slider.horizontal.3") { store.showAgentSettings = true; dismiss() },
         ]
     }
 
