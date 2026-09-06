@@ -5,23 +5,13 @@ struct WorkflowAgentErrorLogView: View {
     @EnvironmentObject var store: AppStore
     @Environment(\.dismiss) var dismiss
 
-    @State private var selectedSeverity = "all"
-
-    private let errors: [(Date, String, String, String, Color)] = [
-        (Date().addingTimeInterval(-300), "Builder", "Rate limit exceeded (429)", "critical", .red),
-        (Date().addingTimeInterval(-600), "Tester", "Timeout waiting for API response", "warning", .orange),
-        (Date().addingTimeInterval(-900), "Reviewer", "Invalid JSON in response body", "warning", .orange),
-        (Date().addingTimeInterval(-1200), "Builder", "Model hallucination detected", "critical", .red),
-        (Date().addingTimeInterval(-1500), "Planner", "Budget limit reached", "warning", .orange),
-        (Date().addingTimeInterval(-1800), "Security", "Authentication token expired", "critical", .red),
-        (Date().addingTimeInterval(-2100), "Architect", "Rate limit warning (80%)", "info", .blue),
-        (Date().addingTimeInterval(-2400), "Tester", "Incomplete response from model", "warning", .orange),
-    ]
-
-    private let errorStats: [(String, Int, Color)] = [
-        ("Critical", 3, .red),
-        ("Warning", 4, .orange),
-        ("Info", 1, .blue),
+    private let errors: [(String, String, String, String, String, Color)] = [
+        ("2026-01-15 10:32", "Builder", "High", "Rate limit exceeded", "Retry with exponential backoff", .red),
+        ("2026-01-15 10:45", "Architect", "Medium", "Invalid API response format", "Added validation layer", .orange),
+        ("2026-01-14 14:22", "Reviewer", "Low", "Typo in comment", "Auto-fixed on commit", .blue),
+        ("2026-01-14 16:10", "Tester", "High", "Flaky integration test", "Quarantined, investigating", .red),
+        ("2026-01-13 09:30", "Security", "Critical", "CVE-2026-1234 in dependency", "Updated to v2.1.0", .red),
+        ("2026-01-13 11:45", "Planner", "Medium", "Sprint overallocation", "Rebalanced assignments", .orange),
     ]
 
     var body: some View {
@@ -29,8 +19,6 @@ struct WorkflowAgentErrorLogView: View {
             HStack {
                 Text("Error Log").font(.headline)
                 Spacer()
-                Text("\(errors.count) errors")
-                    .font(.caption).foregroundStyle(.secondary)
                 Button(action: { dismiss() }) {
                     Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
                 }
@@ -40,117 +28,101 @@ struct WorkflowAgentErrorLogView: View {
 
             Divider()
 
-            // Stats
-            HStack(spacing: 12) {
-                ForEach(errorStats, id: \.0) { stat in
-                    ErrorStatBadge(label: stat.0, count: stat.1, color: stat.2)
+            // Filter
+            HStack(spacing: 6) {
+                ForEach(["All", "Critical", "High", "Medium", "Low"], id: \.self) { filter in
+                    Text(filter)
+                        .font(.system(size: 9))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(.quaternary, in: Capsule())
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal)
-            .padding(.vertical, 8)
+            .padding(.vertical, 6)
 
-            // Filter
-            ScrollView(.horizontal) {
-                HStack(spacing: 6) {
-                    ForEach(["all", "critical", "warning", "info"], id: \.self) { filter in
-                        Text(filter.capitalized)
-                            .font(.system(size: 10))
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 5)
-                            .background(selectedSeverity == filter ? Color.accentColor : Color(nsColor: .controlBackgroundColor), in: Capsule())
-                            .foregroundStyle(selectedSeverity == filter ? .white : .primary)
-                            .onTapGesture { selectedSeverity = filter }
+            Divider()
+
+            ScrollView {
+                VStack(spacing: 4) {
+                    ForEach(errors.indices, id: \.self) { i in
+                        ErrorLogRow(
+                            timestamp: errors[i].0,
+                            agent: errors[i].1,
+                            severity: errors[i].2,
+                            message: errors[i].3,
+                            resolution: errors[i].4,
+                            color: errors[i].5
+                        )
                     }
                 }
-                .padding(.horizontal)
+                .padding()
             }
-            .padding(.bottom, 8)
-
-            // Error list
-            List {
-                ForEach(errors.indices, id: \.self) { i in
-                    ErrorLogRow(
-                        date: errors[i].0,
-                        agent: errors[i].1,
-                        message: errors[i].2,
-                        severity: errors[i].3,
-                        severityColor: errors[i].4
-                    )
-                }
-            }
-            .listStyle(.plain)
 
             Divider()
 
             HStack {
-                Button("Clear Log") {
-                    store.showToast("Error log cleared", type: .success)
+                Button("Export") {
+                    store.showToast("Error log exported", type: .success)
                 }
                 .buttonStyle(.bordered)
-                Spacer()
-                Button("Done") { dismiss() }
+                Button("Clear Resolved") { }
                     .buttonStyle(.bordered)
+                Spacer()
+                Button("Done") { dismiss() }.buttonStyle(.bordered)
             }
             .padding()
         }
-        .frame(width: 520, height: 560)
-    }
-}
-
-// MARK: - Error Stat Badge
-struct ErrorStatBadge: View {
-    let label: String
-    let count: Int
-    let color: Color
-
-    var body: some View {
-        VStack(spacing: 4) {
-            Text("\(count)")
-                .font(.system(size: 16, weight: .bold, design: .monospaced))
-                .foregroundStyle(color)
-            Text(label)
-                .font(.system(size: 9))
-                .foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
-        .background(color.opacity(0.08), in: RoundedRectangle(cornerRadius: 8))
+        .frame(width: 560, height: 480)
     }
 }
 
 // MARK: - Error Log Row
 struct ErrorLogRow: View {
-    let date: Date
+    let timestamp: String
     let agent: String
-    let message: String
     let severity: String
-    let severityColor: Color
+    let message: String
+    let resolution: String
+    let color: Color
 
     var body: some View {
-        HStack(spacing: 10) {
-            Circle()
-                .fill(severityColor)
-                .frame(width: 8, height: 8)
-            VStack(alignment: .leading, spacing: 2) {
-                HStack {
-                    Text(agent)
-                        .font(.system(size: 11, weight: .semibold))
-                    Text(severity.uppercased())
-                        .font(.system(size: 8, weight: .bold))
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(severityColor.opacity(0.15), in: Capsule())
-                        .foregroundStyle(severityColor)
-                }
-                Text(message)
-                    .font(.system(size: 10))
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 8) {
+                Text(timestamp)
+                    .font(.system(size: 9, design: .monospaced))
                     .foregroundStyle(.secondary)
-                Text(date, style: .relative)
-                    .font(.system(size: 8))
-                    .foregroundStyle(.secondary)
+                    .frame(width: 100, alignment: .leading)
+                Circle()
+                    .fill(color)
+                    .frame(width: 8, height: 8)
+                Text(agent)
+                    .font(.system(size: 10, weight: .semibold))
+                    .frame(width: 60, alignment: .leading)
+                Text(severity)
+                    .font(.system(size: 9, weight: .semibold))
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(color.opacity(0.15), in: Capsule())
+                    .foregroundStyle(color)
             }
-            Spacer()
+
+            Text(message)
+                .font(.system(size: 10))
+                .padding(.leading, 108)
+
+            HStack {
+                Text("Resolution:")
+                    .font(.system(size: 9))
+                    .foregroundStyle(.secondary)
+                Text(resolution)
+                    .font(.system(size: 9))
+                    .foregroundStyle(.green)
+            }
+            .padding(.leading, 108)
         }
-        .padding(.vertical, 4)
+        .padding(10)
+        .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 6))
     }
 }
