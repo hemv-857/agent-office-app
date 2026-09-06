@@ -210,6 +210,7 @@ struct CommandPaletteView: View {
             Command(label: "Agent Memory", shortcut: nil, icon: "brain") { store.showAgentMemoryManager = true; dismiss() },
             Command(label: "Collaboration Rules", shortcut: nil, icon: "checkmark.shield") { store.showCollaborationRules = true; dismiss() },
             Command(label: "Cost Breakdown", shortcut: nil, icon: "dollarsign.circle") { store.showCostBreakdownByDay = true; dismiss() },
+            Command(label: "Workload Distribution", shortcut: nil, icon: "chart.pie") { store.showWorkloadDistribution = true; dismiss() },
         ]
     }
 

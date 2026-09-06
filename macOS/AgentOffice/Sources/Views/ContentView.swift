@@ -242,6 +242,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentMemoryManager) { WorkflowAgentAgentMemoryView() }
         .sheet(isPresented: $store.showCollaborationRules) { WorkflowAgentCollaborationRulesView() }
         .sheet(isPresented: $store.showCostBreakdownByDay) { WorkflowAgentCostBreakdownView() }
+        .sheet(isPresented: $store.showWorkloadDistribution) { WorkflowAgentWorkloadDistributionView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
