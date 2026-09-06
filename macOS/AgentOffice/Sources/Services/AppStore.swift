@@ -185,6 +185,7 @@ final class AppStore: ObservableObject {
     @Published var showAgentComparison = false
     @Published var showAgentPerformanceTrend = false
     @Published var showAgentErrorLog = false
+    @Published var showAgentTaskQueue = false
     @Published var showStorageDetails = false
     @Published var showAgentSchedulingCalendar = false
     @Published var showAgentInteractionMatrix = false
@@ -199,7 +200,6 @@ final class AppStore: ObservableObject {
     @Published var showErrorLog = false
     @Published var showPromptTemplateLibrary = false
     @Published var showResponseQualityAnalyzer = false
-    @Published var showAgentTaskQueue = false
     @Published var showPerformanceDashboard = false
     @Published var showRoleAssignmentMatrix = false
     @Published var showAgentCostOptimization = false

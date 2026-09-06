@@ -199,6 +199,7 @@ struct CommandPaletteView: View {
             Command(label: "Agent Comparison", shortcut: nil, icon: "chart.bar.xaxis") { store.showAgentComparison = true; dismiss() },
             Command(label: "Agent Performance Trend", shortcut: nil, icon: "chart.xyaxis.line") { store.showAgentPerformanceTrend = true; dismiss() },
             Command(label: "Agent Error Log", shortcut: nil, icon: "exclamationmark.triangle") { store.showAgentErrorLog = true; dismiss() },
+            Command(label: "Agent Task Queue", shortcut: nil, icon: "list.bullet.rectangle") { store.showAgentTaskQueue = true; dismiss() },
         ]
     }
 
