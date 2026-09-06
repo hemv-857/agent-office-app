@@ -5,13 +5,13 @@ struct WorkflowAgentCollaborationRulesView: View {
     @EnvironmentObject var store: AppStore
     @Environment(\.dismiss) var dismiss
 
-    @State private var rules: [(String, String, String, Bool)] = [
-        ("Architect → Builder", "Architect must approve design before Builder starts", "design_approval", true),
-        ("Builder → Reviewer", "All code must be reviewed before merge", "code_review", true),
-        ("Reviewer → Tester", "Tests run after review passes", "test_after_review", true),
-        ("Tester → Planner", "Failed tests notify Planner for re-prioritization", "test_failure_notify", true),
-        ("Security → Builder", "Security scans run on every PR", "security_scan", false),
-        ("Planner → Architect", "New requirements trigger architecture review", "requirement_review", true),
+    private let rules: [(String, String, String, Bool)] = [
+        ("Architect → Builder", "Design handoff required", "Builder must acknowledge design doc", true),
+        ("Builder → Reviewer", "PR template enforced", "All fields required before submit", true),
+        ("Reviewer → Tester", "Approval triggers tests", "Auto-run integration suite", true),
+        ("Tester → Builder", "Failures block merge", "Builder notified immediately", true),
+        ("Security → All", "Scan on every PR", "Critical findings block merge", true),
+        ("Planner → Architect", "Sprint plan shared", "Architect reviews capacity", false),
     ]
 
     var body: some View {
@@ -28,56 +28,63 @@ struct WorkflowAgentCollaborationRulesView: View {
 
             Divider()
 
-            List {
-                ForEach(rules.indices, id: \.self) { i in
-                    CollaborationRuleRow(
-                        flow: rules[i].0,
-                        rule: rules[i].1,
-                        enabled: rules[i].3,
-                        onToggle: { rules[i].3.toggle() }
-                    )
+            ScrollView {
+                VStack(spacing: 8) {
+                    ForEach(rules.indices, id: \.self) { i in
+                        CollabRuleRow(
+                            pair: rules[i].0,
+                            title: rules[i].1,
+                            description: rules[i].2,
+                            enabled: rules[i].3
+                        )
+                    }
                 }
+                .padding()
             }
-            .listStyle(.plain)
 
             Divider()
 
             HStack {
-                Button("Add Rule") {
-                    store.showToast("Rule added", type: .success)
-                }
-                .buttonStyle(.bordered)
-                Spacer()
-                Button("Done") { dismiss() }
+                Button("Add Rule") { }
                     .buttonStyle(.bordered)
+                Spacer()
+                Button("Done") { dismiss() }.buttonStyle(.bordered)
             }
             .padding()
         }
-        .frame(width: 520, height: 480)
+        .frame(width: 500, height: 440)
     }
 }
 
 // MARK: - Collaboration Rule Row
-struct CollaborationRuleRow: View {
-    let flow: String
-    let rule: String
+struct CollabRuleRow: View {
+    let pair: String
+    let title: String
+    let description: String
     let enabled: Bool
-    let onToggle: () -> Void
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 10) {
+            Image(systemName: enabled ? "checkmark.shield.fill" : "shield")
+                .foregroundStyle(enabled ? .green : .secondary)
+                .frame(width: 20)
             VStack(alignment: .leading, spacing: 2) {
-                Text(flow)
-                    .font(.system(size: 11, weight: .semibold))
-                Text(rule)
-                    .font(.system(size: 10))
+                HStack(spacing: 6) {
+                    Text(pair)
+                        .font(.system(size: 10, weight: .semibold))
+                    Text(title)
+                        .font(.system(size: 10, weight: .medium))
+                }
+                Text(description)
+                    .font(.system(size: 9))
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            Toggle("", isOn: Binding(get: { enabled }, set: { _ in onToggle() }))
+            Toggle("", isOn: .constant(enabled))
                 .toggleStyle(.switch)
                 .labelsHidden()
         }
-        .padding(.vertical, 4)
+        .padding(10)
+        .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 6))
     }
 }
