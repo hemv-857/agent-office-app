@@ -177,6 +177,7 @@ struct CommandPaletteView: View {
             Command(label: "API Key Manager", shortcut: nil, icon: "key.fill") { store.showAPIKeyManager = true; dismiss() },
             Command(label: "Theme Customizer", shortcut: nil, icon: "paintbrush.fill") { store.showThemeCustomizer = true; dismiss() },
             Command(label: "Keyboard Shortcuts", shortcut: nil, icon: "keyboard") { store.showKeyboardShortcutsEditor = true; dismiss() },
+            Command(label: "Data Management", shortcut: nil, icon: "internaldrive") { store.showDataManagement = true; dismiss() },
         ]
     }
 

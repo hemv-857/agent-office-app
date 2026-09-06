@@ -209,6 +209,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAPIKeyManager) { WorkflowAgentAPIKeyManagerView() }
         .sheet(isPresented: $store.showThemeCustomizer) { WorkflowAgentThemeCustomizerView() }
         .sheet(isPresented: $store.showKeyboardShortcutsEditor) { WorkflowAgentKeyboardShortcutsEditorView() }
+        .sheet(isPresented: $store.showDataManagement) { WorkflowAgentDataManagementView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
