@@ -176,38 +176,70 @@ struct SidebarView: View {
             }
 
             // Bottom toolbar
-            HStack(spacing: 8) {
-                Button(action: { store.showGroupSave = true }) {
-                    Image(systemName: "folder.badge.plus")
-                        .font(.system(size: 10))
+            VStack(spacing: 4) {
+                // Quick actions
+                HStack(spacing: 4) {
+                    SidebarQuickAction(icon: "list.bullet", title: "Roster") { store.showAgentRoster = true }
+                    SidebarQuickAction(icon: "text.book.closed", title: "Snippets") { store.showQuickSnippets = true }
+                    SidebarQuickAction(icon: "chart.bar.fill", title: "Tokens") { store.showTokenUsage = true }
+                    SidebarQuickAction(icon: "heart.text.square", title: "Health") { store.showSystemHealth = true }
                 }
-                .buttonStyle(.plain)
-                .help("Save group")
 
-                Button(action: { store.showPresetSave = true }) {
-                    Image(systemName: "bookmark.badge.plus")
-                        .font(.system(size: 10))
+                HStack(spacing: 8) {
+                    Button(action: { store.showGroupSave = true }) {
+                        Image(systemName: "folder.badge.plus")
+                            .font(.system(size: 10))
+                    }
+                    .buttonStyle(.plain)
+                    .help("Save group")
+
+                    Button(action: { store.showPresetSave = true }) {
+                        Image(systemName: "bookmark.badge.plus")
+                            .font(.system(size: 10))
+                    }
+                    .buttonStyle(.plain)
+                    .help("Save preset")
+
+                    Button(action: store.clearOffice) {
+                        Image(systemName: "trash")
+                            .font(.system(size: 10))
+                    }
+                    .buttonStyle(.plain)
+                    .help("Clear office")
+
+                    Spacer()
+
+                    Text("\(store.allAgents.count) agents")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
-                .buttonStyle(.plain)
-                .help("Save preset")
-
-                Button(action: store.clearOffice) {
-                    Image(systemName: "trash")
-                        .font(.system(size: 10))
-                }
-                .buttonStyle(.plain)
-                .help("Clear office")
-
-                Spacer()
-
-                Text("\(store.allAgents.count) agents")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             }
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
         }
         .background(.background)
+    }
+}
+
+// MARK: - Sidebar Quick Action
+struct SidebarQuickAction: View {
+    let icon: String
+    let title: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 2) {
+                Image(systemName: icon)
+                    .font(.system(size: 10))
+                Text(title)
+                    .font(.system(size: 7))
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 4)
+            .background(.quaternary, in: RoundedRectangle(cornerRadius: 4))
+        }
+        .buttonStyle(.plain)
     }
 }
 
