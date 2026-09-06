@@ -127,6 +127,10 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentLeaderboard) { WorkflowAgentLeaderboardDetailView() }
         .sheet(isPresented: $store.showSystemStatusDashboard) { WorkflowSystemStatusDashboardView() }
         .sheet(isPresented: $store.showStorageDetails) { WorkflowWorkspaceStorageDetailView() }
+        .sheet(isPresented: $store.showAgentSchedulingCalendar) { WorkflowAgentSchedulingCalendarView() }
+        .sheet(isPresented: $store.showAgentInteractionMatrix) { WorkflowAgentInteractionMatrixView() }
+        .sheet(isPresented: $store.showAgentTaskHistory) { WorkflowAgentTaskHistoryView() }
+        .sheet(isPresented: $store.showAgentAvailability) { WorkflowAgentAvailabilityView() }
         // Keyboard shortcuts
         .background(
             KeyboardShortcutsView()
