@@ -138,6 +138,8 @@ struct CommandPaletteView: View {
             Command(label: "Performance Detail", shortcut: nil, icon: "chart.bar.xaxis.ascending.badge") { store.showPerformanceDashboardDetail = true; dismiss() },
             Command(label: "Workflow Execution", shortcut: nil, icon: "play.circle") { store.showWorkflowExecution = true; dismiss() },
             Command(label: "Cost Breakdown", shortcut: nil, icon: "chart.pie") { store.showCostBreakdownDetail = true; dismiss() },
+            Command(label: "Cost Optimization Detail", shortcut: nil, icon: "wand.and.stars") { store.showCostOptimizationDetail = true; dismiss() },
+            Command(label: "Performance Report", shortcut: nil, icon: "doc.richtext") { store.showPerformanceReport = true; dismiss() },
         ]
     }
 
