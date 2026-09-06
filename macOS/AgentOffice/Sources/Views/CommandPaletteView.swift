@@ -84,6 +84,10 @@ struct CommandPaletteView: View {
             Command(label: "Role Assignment", shortcut: nil, icon: "person.3.sequence") { store.showRoleAssignment = true; dismiss() },
             Command(label: "Performance Trend", shortcut: nil, icon: "chart.line.uptrend.xyaxis") { store.showPerformanceTrend = true; dismiss() },
             Command(label: "Agent Skill Tags", shortcut: nil, icon: "tag") { store.showAgentSkillTags = true; dismiss() },
+            Command(label: "Agent Health", shortcut: nil, icon: "heart.text.square") { store.showAgentHealthDetail = true; dismiss() },
+            Command(label: "Workspace Overview", shortcut: nil, icon: "square.grid.3x3") { store.showWorkspaceOverview = true; dismiss() },
+            Command(label: "Budget Forecast", shortcut: nil, icon: "chart.line.downtrend.xyaxis") { store.showBudgetForecast = true; dismiss() },
+            Command(label: "Onboarding", shortcut: nil, icon: "checkmark.seal") { store.showOnboardingChecklist = true; dismiss() },
         ]
     }
 

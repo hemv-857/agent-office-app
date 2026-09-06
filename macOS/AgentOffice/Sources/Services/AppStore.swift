@@ -123,6 +123,9 @@ final class AppStore: ObservableObject {
     @Published var showAgentSkillTags = false
     @Published var showOnboardingChecklist = false
     @Published var showSessionComparisonDetail = false
+    @Published var showAgentHealthDetail = false
+    @Published var showWorkspaceOverview = false
+    @Published var showBudgetForecast = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic

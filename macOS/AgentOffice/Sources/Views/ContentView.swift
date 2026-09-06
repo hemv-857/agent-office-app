@@ -118,6 +118,9 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentSkillTags) { WorkflowAgentSkillTagsView() }
         .sheet(isPresented: $store.showOnboardingChecklist) { WorkflowAgentOnboardingChecklistView() }
         .sheet(isPresented: $store.showSessionComparisonDetail) { WorkflowSessionComparisonDetailView() }
+        .sheet(isPresented: $store.showAgentHealthDetail) { WorkflowAgentHealthDetailView() }
+        .sheet(isPresented: $store.showWorkspaceOverview) { WorkflowWorkspaceOverviewView() }
+        .sheet(isPresented: $store.showBudgetForecast) { WorkflowBudgetForecastView() }
         // Keyboard shortcuts
         .background(
             KeyboardShortcutsView()
