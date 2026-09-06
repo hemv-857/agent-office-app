@@ -133,7 +133,6 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentAvailability) { WorkflowAgentAvailabilityView() }
         .sheet(isPresented: $store.showPerformanceComparison) { WorkflowAgentPerformanceComparisonView() }
         .sheet(isPresented: $store.showAgentMemoryManager) { WorkflowAgentMemoryManagerView() }
-        .sheet(isPresented: $store.showCollaborationRules) { WorkflowAgentCollaborationRulesView() }
         .sheet(isPresented: $store.showCostBreakdownByDay) { WorkflowCostBreakdownByDayView() }
         .sheet(isPresented: $store.showWorkloadDistribution) { WorkflowAgentWorkloadDistributionView() }
         .sheet(isPresented: $store.showQualityScores) { WorkflowAgentQualityScoreView() }
@@ -242,6 +241,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentTaskHistory) { WorkflowAgentAgentTaskHistoryView() }
         .sheet(isPresented: $store.showAgentMemoryManager) { WorkflowAgentAgentMemoryView() }
         .sheet(isPresented: $store.showCollaborationRules) { WorkflowAgentCollaborationRulesView() }
+        .sheet(isPresented: $store.showCostBreakdownByDay) { WorkflowAgentCostBreakdownView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
