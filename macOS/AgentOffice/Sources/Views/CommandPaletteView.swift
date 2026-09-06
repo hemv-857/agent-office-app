@@ -157,6 +157,8 @@ struct CommandPaletteView: View {
             Command(label: "Role Editor", shortcut: nil, icon: "person.crop.circle.badge.gearshape") { store.showAgentRoleEditor = true; dismiss() },
             Command(label: "Metrics Dashboard", shortcut: nil, icon: "chart.pie.fill") { store.showMetricsDashboard = true; dismiss() },
             Command(label: "Onboarding Wizard", shortcut: nil, icon: "sparkles") { store.showOnboardingWizard = true; dismiss() },
+            Command(label: "Workflow Queue", shortcut: nil, icon: "list.bullet.rectangle") { store.showWorkflowQueue = true; dismiss() },
+            Command(label: "Cost Optimization Advisor", shortcut: nil, icon: "lightbulb.fill") { store.showCostOptimizationAdvisor = true; dismiss() },
         ]
     }
 

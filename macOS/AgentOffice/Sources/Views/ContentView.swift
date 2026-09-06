@@ -189,6 +189,8 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentRoleEditor) { WorkflowAgentRoleEditorView() }
         .sheet(isPresented: $store.showMetricsDashboard) { WorkflowMetricsDashboardView() }
         .sheet(isPresented: $store.showOnboardingWizard) { WorkflowAgentOnboardingWizardView() }
+        .sheet(isPresented: $store.showWorkflowQueue) { WorkflowAgentWorkflowQueueView() }
+        .sheet(isPresented: $store.showCostOptimizationAdvisor) { WorkflowAgentCostOptimizationAdvisorView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
