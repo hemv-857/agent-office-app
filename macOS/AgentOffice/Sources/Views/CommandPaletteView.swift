@@ -148,6 +148,7 @@ struct CommandPaletteView: View {
             Command(label: "Settings Validator", shortcut: nil, icon: "checkmark.shield") { store.showSettingsValidator = true; dismiss() },
             Command(label: "Settings Manager Detail", shortcut: nil, icon: "gearshape.2") { store.showSettingsManagerDetail = true; dismiss() },
             Command(label: "Settings Validator Detail", shortcut: nil, icon: "checkmark.shield.fill") { store.showSettingsValidatorDetail = true; dismiss() },
+            Command(label: "Collaboration Analytics", shortcut: nil, icon: "chart.bar.fill") { store.showCollaborationAnalytics = true; dismiss() },
         ]
     }
 
