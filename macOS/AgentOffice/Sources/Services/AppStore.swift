@@ -149,6 +149,7 @@ final class AppStore: ObservableObject {
     @Published var showPerformanceDashboard = false
     @Published var showRoleAssignmentMatrix = false
     @Published var showAgentCostOptimization = false
+    @Published var showCollaborationTimeline = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic

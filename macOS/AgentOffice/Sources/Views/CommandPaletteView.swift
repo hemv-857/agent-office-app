@@ -112,6 +112,8 @@ struct CommandPaletteView: View {
             Command(label: "Performance Dashboard", shortcut: nil, icon: "gauge.with.dots.needle.67percent") { store.showPerformanceDashboard = true; dismiss() },
             Command(label: "Role Assignments", shortcut: nil, icon: "person.3.sequence") { store.showRoleAssignmentMatrix = true; dismiss() },
             Command(label: "Cost Optimization", shortcut: nil, icon: "dollarsign.circle") { store.showAgentCostOptimization = true; dismiss() },
+            Command(label: "Onboarding Progress", shortcut: nil, icon: "figure.walk") { store.showOnboardingProgress = true; dismiss() },
+            Command(label: "Collaboration Timeline", shortcut: nil, icon: "timeline-selection") { store.showCollaborationTimeline = true; dismiss() },
         ]
     }
 
