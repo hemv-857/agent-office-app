@@ -112,6 +112,10 @@ struct ContentView: View {
         .sheet(isPresented: $store.showQuickSnippets) { WorkflowQuickPromptSnippetsView() }
         .sheet(isPresented: $store.showAuditLog) { WorkflowAuditLogView() }
         .sheet(isPresented: $store.showTokenUsage) { WorkflowTokenUsageView() }
+        .sheet(isPresented: $store.showModelPerformance) { WorkflowModelPerformanceView() }
+        .sheet(isPresented: $store.showRoleAssignment) { WorkflowAgentRoleAssignmentView() }
+        .sheet(isPresented: $store.showPerformanceTrend) { WorkflowPerformanceTrendView() }
+        .sheet(isPresented: $store.showAgentSkillTags) { WorkflowAgentSkillTagsView() }
         // Keyboard shortcuts
         .background(
             KeyboardShortcutsView()
