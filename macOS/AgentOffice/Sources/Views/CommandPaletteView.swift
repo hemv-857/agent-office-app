@@ -218,6 +218,7 @@ struct CommandPaletteView: View {
             Command(label: "Response Quality", shortcut: nil, icon: "checkmark.circle.badge.star") { store.showResponseQualityAnalyzer = true; dismiss() },
             Command(label: "Performance Compare", shortcut: nil, icon: "chart.bar.xaxis.ascending") { store.showPerformanceComparison = true; dismiss() },
             Command(label: "Performance Heatmap", shortcut: nil, icon: "square.grid.3x3") { store.showPerformanceHeatmap = true; dismiss() },
+            Command(label: "Performance Dashboard", shortcut: nil, icon: "gauge.with.dots.needle.67percent") { store.showPerformanceDashboard = true; dismiss() },
         ]
     }
 

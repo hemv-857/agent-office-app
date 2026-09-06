@@ -250,6 +250,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showResponseQualityAnalyzer) { WorkflowAgentResponseQualityView() }
         .sheet(isPresented: $store.showPerformanceComparison) { WorkflowAgentPerformanceComparisonView() }
         .sheet(isPresented: $store.showPerformanceHeatmap) { WorkflowAgentAgentPerformanceHeatmapView() }
+        .sheet(isPresented: $store.showPerformanceDashboard) { WorkflowAgentAgentPerformanceDashboardView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
