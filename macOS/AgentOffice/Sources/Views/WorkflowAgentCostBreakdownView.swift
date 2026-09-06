@@ -5,23 +5,19 @@ struct WorkflowAgentCostBreakdownView: View {
     @EnvironmentObject var store: AppStore
     @Environment(\.dismiss) var dismiss
 
-    private let categories: [(String, Double, Double, Color)] = [
-        ("API Calls", 8.42, 45.7, .blue),
-        ("Token Usage", 6.18, 33.6, .purple),
-        ("Caching Savings", -2.14, 0.0, .green),
-        ("Overhead", 1.20, 6.5, .orange),
-        ("Other", 0.54, 2.9, .gray),
+    private let breakdown: [(String, Double, Double, Color)] = [
+        ("LLM API Calls", 45.20, 68.5, .blue),
+        ("Agent Memory", 8.50, 12.9, .green),
+        ("Storage", 3.20, 4.8, .orange),
+        ("Compute", 6.80, 10.3, .purple),
+        ("Network", 2.30, 3.5, .cyan),
     ]
-
-    private let total = 14.20
 
     var body: some View {
         VStack(spacing: 0) {
             HStack {
                 Text("Cost Breakdown").font(.headline)
                 Spacer()
-                Text("This month")
-                    .font(.caption).foregroundStyle(.secondary)
                 Button(action: { dismiss() }) {
                     Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
                 }
@@ -33,12 +29,13 @@ struct WorkflowAgentCostBreakdownView: View {
 
             // Total
             HStack {
-                Text("Total Cost")
-                    .font(.system(size: 14, weight: .medium))
+                Text("This Month")
+                    .font(.system(size: 13))
+                    .foregroundStyle(.secondary)
                 Spacer()
-                Text(String(format: "$%.2f", total))
+                Text("$66.00")
                     .font(.system(size: 22, weight: .bold, design: .monospaced))
-                    .foregroundStyle(.blue)
+                    .foregroundStyle(.primary)
             }
             .padding(.horizontal)
             .padding(.vertical, 8)
@@ -46,13 +43,13 @@ struct WorkflowAgentCostBreakdownView: View {
             Divider()
 
             ScrollView {
-                VStack(spacing: 6) {
-                    ForEach(categories.indices, id: \.self) { i in
+                VStack(spacing: 8) {
+                    ForEach(breakdown.indices, id: \.self) { i in
                         CostBreakdownRow(
-                            name: categories[i].0,
-                            amount: categories[i].1,
-                            percentage: categories[i].2,
-                            color: categories[i].3
+                            category: breakdown[i].0,
+                            amount: breakdown[i].1,
+                            percentage: breakdown[i].2,
+                            color: breakdown[i].3
                         )
                     }
                 }
@@ -62,8 +59,8 @@ struct WorkflowAgentCostBreakdownView: View {
             Divider()
 
             HStack {
-                Button("Export") {
-                    store.showToast("Breakdown exported", type: .success)
+                Button("Export CSV") {
+                    store.showToast("CSV exported", type: .success)
                 }
                 .buttonStyle(.bordered)
                 Spacer()
@@ -71,36 +68,37 @@ struct WorkflowAgentCostBreakdownView: View {
             }
             .padding()
         }
-        .frame(width: 480, height: 440)
+        .frame(width: 420, height: 420)
     }
 }
 
 // MARK: - Cost Breakdown Row
 struct CostBreakdownRow: View {
-    let name: String
+    let category: String
     let amount: Double
     let percentage: Double
     let color: Color
 
     var body: some View {
-        HStack(spacing: 10) {
-            RoundedRectangle(cornerRadius: 2)
-                .fill(color)
-                .frame(width: 4, height: 24)
-            Text(name)
-                .font(.system(size: 11, weight: .medium))
-                .frame(width: 100, alignment: .leading)
+        VStack(alignment: .leading, spacing: 4) {
+            HStack {
+                Circle()
+                    .fill(color)
+                    .frame(width: 8, height: 8)
+                Text(category)
+                    .font(.system(size: 11, weight: .semibold))
+                Spacer()
+                Text(String(format: "$%.2f", amount))
+                    .font(.system(size: 11, design: .monospaced))
+                Text(String(format: "%.1f%%", percentage))
+                    .font(.system(size: 10))
+                    .foregroundStyle(.secondary)
+            }
+
             ProgressView(value: percentage / 100.0)
-                .frame(maxWidth: .infinity)
                 .tint(color)
-            Text(String(format: "$%.2f", amount))
-                .font(.system(size: 11, design: .monospaced))
-                .frame(width: 50, alignment: .trailing)
-            Text(String(format: "%.1f%%", percentage))
-                .font(.system(size: 9, design: .monospaced))
-                .foregroundStyle(.secondary)
-                .frame(width: 35, alignment: .trailing)
         }
-        .padding(.vertical, 4)
+        .padding(10)
+        .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 6))
     }
 }
