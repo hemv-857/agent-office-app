@@ -209,6 +209,7 @@ struct CommandPaletteView: View {
             Command(label: "Agent Interaction Matrix", shortcut: nil, icon: "square.grid.3x3") { store.showAgentInteractionMatrix = true; dismiss() },
             Command(label: "Agent Task History", shortcut: nil, icon: "clock.arrow.circlepath") { store.showAgentTaskHistory = true; dismiss() },
             Command(label: "Agent Memory", shortcut: nil, icon: "brain") { store.showAgentMemoryManager = true; dismiss() },
+            Command(label: "Collaboration Rules", shortcut: nil, icon: "checkmark.shield") { store.showCollaborationRules = true; dismiss() },
         ]
     }
 
