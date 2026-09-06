@@ -187,6 +187,7 @@ final class AppStore: ObservableObject {
     @Published var showAgentErrorLog = false
     @Published var showAgentTaskQueue = false
     @Published var showAgentSkillMatrix = false
+    @Published var showAgentWorkload = false
     @Published var showStorageDetails = false
     @Published var showAgentSchedulingCalendar = false
     @Published var showAgentInteractionMatrix = false
