@@ -106,6 +106,12 @@ struct ContentView: View {
         .sheet(isPresented: $store.showCollaborationNetwork) { WorkflowAgentCollaborationNetworkView() }
         .sheet(isPresented: $store.showNotificationsCenter) { WorkflowNotificationsCenterView() }
         .sheet(isPresented: $store.showWorkspaceSettings) { WorkflowWorkspaceSettingsView() }
+        .sheet(isPresented: $store.showAgentRoster) { WorkflowAgentRosterView() }
+        .sheet(isPresented: $store.showSessionTimeline) { WorkflowSessionTimelineView() }
+        .sheet(isPresented: $store.showSkillTree) { WorkflowSkillTreeVisualizerView() }
+        .sheet(isPresented: $store.showQuickSnippets) { WorkflowQuickPromptSnippetsView() }
+        .sheet(isPresented: $store.showAuditLog) { WorkflowAuditLogView() }
+        .sheet(isPresented: $store.showTokenUsage) { WorkflowTokenUsageView() }
         // Keyboard shortcuts
         .background(
             KeyboardShortcutsView()

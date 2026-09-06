@@ -74,6 +74,12 @@ struct CommandPaletteView: View {
             Command(label: "Collaboration Network", shortcut: nil, icon: "point.3.connected.trianglepath.dotted") { store.showCollaborationNetwork = true; dismiss() },
             Command(label: "Notifications", shortcut: nil, icon: "bell.badge") { store.showNotificationsCenter = true; dismiss() },
             Command(label: "Workspace Settings", shortcut: nil, icon: "wrench.and.screwdriver") { store.showWorkspaceSettings = true; dismiss() },
+            Command(label: "Agent Roster", shortcut: nil, icon: "person.3.sequence") { store.showAgentRoster = true; dismiss() },
+            Command(label: "Session Timeline", shortcut: nil, icon: "timeline") { store.showSessionTimeline = true; dismiss() },
+            Command(label: "Skill Tree", shortcut: nil, icon: "point.3.connected.trianglepath.dotted") { store.showSkillTree = true; dismiss() },
+            Command(label: "Prompt Snippets", shortcut: nil, icon: "text.bubble") { store.showQuickSnippets = true; dismiss() },
+            Command(label: "Audit Log", shortcut: nil, icon: "doc.text.magnifyingglass") { store.showAuditLog = true; dismiss() },
+            Command(label: "Token Usage", shortcut: nil, icon: "text.word.spacing") { store.showTokenUsage = true; dismiss() },
         ]
     }
 
