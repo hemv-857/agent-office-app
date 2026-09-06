@@ -223,6 +223,7 @@ struct CommandPaletteView: View {
             Command(label: "Rate Limits", shortcut: nil, icon: "speedometer") { store.showRateLimit = true; dismiss() },
             Command(label: "Bulk Actions", shortcut: nil, icon: "square.stack.3d.up") { store.showBulkActions = true; dismiss() },
             Command(label: "Agent Scheduler", shortcut: nil, icon: "calendar.badge.clock") { store.showAgentScheduler = true; dismiss() },
+            Command(label: "Prompt Designer", shortcut: nil, icon: "pencil.and.ruler") { store.showTemplateDesigner = true; dismiss() },
         ]
     }
 
