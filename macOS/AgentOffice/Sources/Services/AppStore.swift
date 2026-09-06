@@ -101,6 +101,7 @@ final class AppStore: ObservableObject {
     @Published var showSettingsPresets = false
     @Published var showAgentDebug = false
     @Published var showActivityTimeline = false
+    @Published var showModelPerformance = false
     @Published var showAgentInteractions = false
     @Published var showAgentSummary = false
     @Published var showAgentTasks = false
@@ -163,7 +164,6 @@ final class AppStore: ObservableObject {
     @Published var showQuickSnippets = false
     @Published var showAuditLog = false
     @Published var showTokenUsage = false
-    @Published var showModelPerformance = false
     @Published var showRoleAssignment = false
     @Published var showPerformanceTrend = false
     @Published var showAgentSkillTags = false
