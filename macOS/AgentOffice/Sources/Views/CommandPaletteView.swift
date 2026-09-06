@@ -136,6 +136,8 @@ struct CommandPaletteView: View {
             Command(label: "Task History Tracker", shortcut: nil, icon: "clock.arrow.circlepath") { store.showTaskHistoryTracker = true; dismiss() },
             Command(label: "Task Queue Manager", shortcut: nil, icon: "list.number.rtl") { store.showTaskQueueManager = true; dismiss() },
             Command(label: "Performance Detail", shortcut: nil, icon: "chart.bar.xaxis.ascending.badge") { store.showPerformanceDashboardDetail = true; dismiss() },
+            Command(label: "Workflow Execution", shortcut: nil, icon: "play.circle") { store.showWorkflowExecution = true; dismiss() },
+            Command(label: "Cost Breakdown", shortcut: nil, icon: "chart.pie") { store.showCostBreakdownDetail = true; dismiss() },
         ]
     }
 

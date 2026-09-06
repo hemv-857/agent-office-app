@@ -171,6 +171,8 @@ final class AppStore: ObservableObject {
     @Published var showTaskHistoryTracker = false
     @Published var showTaskQueueManager = false
     @Published var showPerformanceDashboardDetail = false
+    @Published var showWorkflowExecution = false
+    @Published var showCostBreakdownDetail = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic
