@@ -233,6 +233,7 @@ struct CommandPaletteView: View {
             Command(label: "Interaction Matrix", shortcut: nil, icon: "square.grid.3x3") { store.showAgentInteractionMatrix = true; dismiss() },
             Command(label: "Agent Availability", shortcut: nil, icon: "person.crop.circle.badge.checkmark") { store.showAgentAvailability = true; dismiss() },
             Command(label: "Agent Memory", shortcut: nil, icon: "brain") { store.showAgentMemoryManager = true; dismiss() },
+            Command(label: "Agent Cost Breakdown", shortcut: nil, icon: "dollarsign.circle") { store.showCostBreakdownByDay = true; dismiss() },
         ]
     }
 
