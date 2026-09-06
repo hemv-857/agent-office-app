@@ -211,6 +211,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showKeyboardShortcutsEditor) { WorkflowAgentKeyboardShortcutsEditorView() }
         .sheet(isPresented: $store.showDataManagement) { WorkflowAgentDataManagementView() }
         .sheet(isPresented: $store.showPerformanceMonitor) { WorkflowAgentPerformanceMonitorView() }
+        .sheet(isPresented: $store.showSystemInfo) { WorkflowAgentSystemInfoView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(

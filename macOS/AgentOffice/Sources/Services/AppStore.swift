@@ -144,6 +144,7 @@ final class AppStore: ObservableObject {
     @Published var showKeyboardShortcutsEditor = false
     @Published var showDataManagement = false
     @Published var showPerformanceMonitor = false
+    @Published var showSystemInfo = false
     @Published var showBackupRestore = false
     @Published var showCostOptimization = false
     @Published var showSystemHealth = false
