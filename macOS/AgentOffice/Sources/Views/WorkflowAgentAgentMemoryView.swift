@@ -30,7 +30,7 @@ struct WorkflowAgentAgentMemoryView: View {
 
             // Summary
             HStack(spacing: 16) {
-                MemoryStatPill(label: "Total Memories", value: "817", color: .blue)
+                MemoryStatPill(label: "Total", value: "817", color: .blue)
                 MemoryStatPill(label: "Shared", value: "580", color: .green)
                 MemoryStatPill(label: "Private", value: "146", color: .orange)
                 MemoryStatPill(label: "Archived", value: "91", color: .gray)
@@ -73,7 +73,7 @@ struct WorkflowAgentAgentMemoryView: View {
     }
 }
 
-// MARK: - Stat Pill
+// MARK: - Memory Stat Pill
 struct MemoryStatPill: View {
     let label: String
     let value: String
