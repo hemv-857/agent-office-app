@@ -65,6 +65,7 @@ final class AppStore: ObservableObject {
     @Published var showAgentOnboarding = false
     @Published var showAgentInsights = false
     @Published var showCostForecast = false
+    @Published var showAgentLeaderboard = false
     @Published var showWorkflowHistory = false
     @Published var showQuickActions = false
     @Published var showAnalytics = false
@@ -180,7 +181,6 @@ final class AppStore: ObservableObject {
     @Published var showAgentCommunicationLog = false
     @Published var showAgentDependencyGraph = false
     @Published var showSystemPreferences = false
-    @Published var showAgentLeaderboard = false
     @Published var showSystemStatusDashboard = false
     @Published var showStorageDetails = false
     @Published var showAgentSchedulingCalendar = false
