@@ -227,6 +227,7 @@ struct CommandPaletteView: View {
             Command(label: "Workspace Layout", shortcut: nil, icon: "rectangle.3.group") { store.showWorkspaceLayout = true; dismiss() },
             Command(label: "Customize Shortcuts", shortcut: nil, icon: "keyboard") { store.showShortcutsCustomize = true; dismiss() },
             Command(label: "Template Categories", shortcut: nil, icon: "folder") { store.showTemplateCategories = true; dismiss() },
+            Command(label: "Budget Forecast", shortcut: nil, icon: "chart.line.uptrend.xyaxis") { store.showBudgetForecast = true; dismiss() },
         ]
     }
 
