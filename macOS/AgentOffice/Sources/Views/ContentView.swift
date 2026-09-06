@@ -181,6 +181,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showSettingsManagerDetail) { WorkflowAgentSettingsManagerDetailView() }
         .sheet(isPresented: $store.showSettingsValidatorDetail) { WorkflowAgentSettingsValidatorDetailView() }
         .sheet(isPresented: $store.showCollaborationAnalytics) { WorkflowAgentCollaborationAnalyticsView() }
+        .sheet(isPresented: $store.showExecutionHistory) { WorkflowExecutionHistoryView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
