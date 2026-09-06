@@ -229,6 +229,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showCostForecast) { WorkflowAgentCostForecastView() }
         .sheet(isPresented: $store.showAgentLeaderboard) { WorkflowAgentAgentLeaderboardView() }
         .sheet(isPresented: $store.showAgentComparison) { WorkflowAgentAgentComparisonView() }
+        .sheet(isPresented: $store.showAgentPerformanceTrend) { WorkflowAgentAgentPerformanceTrendView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(

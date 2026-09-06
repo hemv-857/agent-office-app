@@ -183,6 +183,7 @@ final class AppStore: ObservableObject {
     @Published var showSystemPreferences = false
     @Published var showSystemStatusDashboard = false
     @Published var showAgentComparison = false
+    @Published var showAgentPerformanceTrend = false
     @Published var showStorageDetails = false
     @Published var showAgentSchedulingCalendar = false
     @Published var showAgentInteractionMatrix = false
