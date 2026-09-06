@@ -97,6 +97,7 @@ final class AppStore: ObservableObject {
     @Published var showAgentMetrics2 = false
     @Published var showAgentActivity = false
     @Published var showAgentCollaboration = false
+    @Published var showAgentHealth = false
     @Published var showAgentInteractions = false
     @Published var showAgentSummary = false
     @Published var showAgentTasks = false
