@@ -88,6 +88,9 @@ struct CommandPaletteView: View {
             Command(label: "Workspace Overview", shortcut: nil, icon: "square.grid.3x3") { store.showWorkspaceOverview = true; dismiss() },
             Command(label: "Budget Forecast", shortcut: nil, icon: "chart.line.downtrend.xyaxis") { store.showBudgetForecast = true; dismiss() },
             Command(label: "Onboarding", shortcut: nil, icon: "checkmark.seal") { store.showOnboardingChecklist = true; dismiss() },
+            Command(label: "Communication Log", shortcut: nil, icon: "bubble.left.and.bubble.right") { store.showAgentCommunicationLog = true; dismiss() },
+            Command(label: "Dependency Graph", shortcut: nil, icon: "point.3.connected.trianglepath.dotted") { store.showAgentDependencyGraph = true; dismiss() },
+            Command(label: "System Preferences", shortcut: nil, icon: "gearshape.2") { store.showSystemPreferences = true; dismiss() },
         ]
     }
 
