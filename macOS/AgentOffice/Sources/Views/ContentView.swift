@@ -205,6 +205,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showWorkflowTemplateEditor) { WorkflowAgentWorkflowTemplateEditorView() }
         .sheet(isPresented: $store.showQuickSetup) { WorkflowAgentQuickSetupView() }
         .sheet(isPresented: $store.showErrorHandling) { WorkflowAgentErrorHandlingView() }
+        .sheet(isPresented: $store.showModelComparison) { WorkflowAgentModelComparisonView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
