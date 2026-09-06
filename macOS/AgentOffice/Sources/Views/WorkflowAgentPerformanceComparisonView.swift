@@ -1,19 +1,22 @@
-// WorkflowAgentPerformanceComparisonView.swift
+// WorkflowAgentAgentPerformanceComparisonView.swift
 import SwiftUI
 
 struct WorkflowAgentPerformanceComparisonView: View {
     @EnvironmentObject var store: AppStore
     @Environment(\.dismiss) var dismiss
 
-    @State private var selectedAgents: Set<String> = ["Architect", "Builder", "Reviewer"]
-
     private let agents = ["Architect", "Builder", "Reviewer", "Tester", "Planner", "Security"]
+    private let metrics = ["Latency", "Throughput", "Error Rate", "Memory", "CPU"]
 
-    private let metrics: [(String, [String: Double])] = [
-        ("Tasks Completed", ["Architect": 24, "Builder": 48, "Reviewer": 32, "Tester": 18, "Planner": 12, "Security": 8]),
-        ("Success Rate", ["Architect": 92.8, "Builder": 88.5, "Reviewer": 95.2, "Tester": 90.1, "Planner": 85.3, "Security": 97.0]),
-        ("Avg Response Time", ["Architect": 2.3, "Builder": 1.8, "Reviewer": 3.1, "Tester": 2.0, "Planner": 1.5, "Security": 2.8]),
-        ("Cost Efficiency", ["Architect": 85.0, "Builder": 78.0, "Reviewer": 92.0, "Tester": 88.0, "Planner": 90.0, "Security": 95.0]),
+    @State private var selectedMetric = "Latency"
+    @State private var selectedAgents = Set(["Architect", "Builder", "Reviewer"])
+
+    private let data: [String: [String: Double]] = [
+        "Latency": ["Architect": 1.2, "Builder": 0.8, "Reviewer": 1.5, "Tester": 2.1, "Planner": 1.8, "Security": 3.2],
+        "Throughput": ["Architect": 45, "Builder": 85, "Reviewer": 32, "Tester": 28, "Planner": 22, "Security": 15],
+        "Error Rate": ["Architect": 0.5, "Builder": 0.8, "Reviewer": 0.3, "Tester": 1.2, "Planner": 0.6, "Security": 0.2],
+        "Memory": ["Architect": 128, "Builder": 256, "Reviewer": 96, "Tester": 180, "Planner": 80, "Security": 64],
+        "CPU": ["Architect": 15, "Builder": 35, "Reviewer": 12, "Tester": 28, "Planner": 8, "Security": 5],
     ]
 
     var body: some View {
@@ -30,53 +33,63 @@ struct WorkflowAgentPerformanceComparisonView: View {
 
             Divider()
 
-            // Agent selector
-            ScrollView(.horizontal) {
-                HStack(spacing: 6) {
-                    ForEach(agents, id: \.self) { agent in
-                        Text(agent)
-                            .font(.system(size: 10))
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 5)
-                            .background(selectedAgents.contains(agent) ? Color.accentColor : Color(nsColor: .controlBackgroundColor), in: Capsule())
-                            .foregroundStyle(selectedAgents.contains(agent) ? .white : .primary)
-                            .onTapGesture {
-                                if selectedAgents.contains(agent) {
-                                    selectedAgents.remove(agent)
-                                } else {
-                                    selectedAgents.insert(agent)
-                                }
-                            }
-                    }
+            // Metric picker
+            HStack {
+                Text("Metric:")
+                    .font(.system(size: 10))
+                    .foregroundStyle(.secondary)
+                Picker("", selection: $selectedMetric) {
+                    ForEach(metrics, id: \.self) { Text($0) }
                 }
-                .padding(.horizontal)
+                .pickerStyle(.segmented)
+                .frame(maxWidth: 300)
             }
+            .padding(.horizontal)
             .padding(.vertical, 8)
 
-            // Metrics comparison
-            ScrollView {
-                VStack(spacing: 12) {
-                    ForEach(metrics.indices, id: \.self) { i in
-                        let metric = metrics[i]
-                        GroupBox(metric.0) {
-                            VStack(spacing: 6) {
-                                ForEach(Array(selectedAgents.sorted()), id: \.self) { agent in
-                                    if let value = metric.1[agent] {
-                                        HStack(spacing: 8) {
-                                            Text(agent)
-                                                .font(.system(size: 10, weight: .medium))
-                                                .frame(width: 70, alignment: .leading)
-                                            ProgressView(value: value / 100.0)
-                                                .frame(maxWidth: .infinity)
-                                            Text(String(format: "%.1f", value))
-                                                .font(.system(size: 9, design: .monospaced))
-                                                .frame(width: 40, alignment: .trailing)
-                                        }
+            Divider()
+
+            // Agent selection
+            HStack {
+                Text("Agents:")
+                    .font(.system(size: 10))
+                    .foregroundStyle(.secondary)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 6) {
+                        ForEach(agents, id: \.self) { agent in
+                            Text(agent)
+                                .font(.system(size: 9))
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(selectedAgents.contains(agent) ? .blue : Color(nsColor: .controlBackgroundColor), in: Capsule())
+                                .foregroundStyle(selectedAgents.contains(agent) ? .white : .primary)
+                                .onTapGesture {
+                                    if selectedAgents.contains(agent) {
+                                        selectedAgents.remove(agent)
+                                    } else {
+                                        selectedAgents.insert(agent)
                                     }
                                 }
-                            }
-                            .padding(8)
                         }
+                    }
+                }
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+
+            Divider()
+
+            // Comparison chart
+            ScrollView {
+                VStack(spacing: 8) {
+                    ForEach(agents.filter { selectedAgents.contains($0) }, id: \.self) { agent in
+                        let value = data[selectedMetric]?[agent] ?? 0
+                        ComparisonChartRow(
+                            agent: agent,
+                            value: value,
+                            maxValue: getMaxValue(for: selectedMetric),
+                            label: getLabel(for: selectedMetric)
+                        )
                     }
                 }
                 .padding()
@@ -86,11 +99,60 @@ struct WorkflowAgentPerformanceComparisonView: View {
 
             HStack {
                 Spacer()
-                Button("Done") { dismiss() }
-                    .buttonStyle(.bordered)
+                Button("Done") { dismiss() }.buttonStyle(.bordered)
             }
             .padding()
         }
-        .frame(width: 520, height: 560)
+        .frame(width: 480, height: 440)
+    }
+
+    private func getMaxValue(for metric: String) -> Double {
+        switch metric {
+        case "Latency": return 5.0
+        case "Throughput": return 100
+        case "Error Rate": return 2.0
+        case "Memory": return 300
+        case "CPU": return 50
+        default: return 100
+        }
+    }
+
+    private func getLabel(for metric: String) -> String {
+        switch metric {
+        case "Latency": return "s"
+        case "Throughput": return "req/s"
+        case "Error Rate": return "%"
+        case "Memory": return "MB"
+        case "CPU": return "%"
+        default: return ""
+        }
+    }
+}
+
+// MARK: - Comparison Chart Row
+struct ComparisonChartRow: View {
+    let agent: String
+    let value: Double
+    let maxValue: Double
+    let label: String
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Text(agent)
+                .font(.system(size: 11, weight: .semibold))
+                .frame(width: 70, alignment: .leading)
+
+            GeometryReader { geo in
+                Rectangle()
+                    .fill(.blue.opacity(0.3))
+                    .frame(width: geo.size.width * min(value / maxValue, 1.0), height: 24)
+                    .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 4))
+            }
+            .frame(height: 24)
+
+            Text(String(format: "%.1f %@", value, label))
+                .font(.system(size: 10, design: .monospaced))
+                .frame(width: 60, alignment: .trailing)
+        }
     }
 }
