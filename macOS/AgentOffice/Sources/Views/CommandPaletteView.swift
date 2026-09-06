@@ -171,6 +171,7 @@ struct CommandPaletteView: View {
             Command(label: "Workflow Optimization", shortcut: nil, icon: "wand.and.stars") { store.showWorkflowOptimization = true; dismiss() },
             Command(label: "Agent Status Dashboard", shortcut: nil, icon: "person.circle.fill") { store.showAgentStatusDashboard = true; dismiss() },
             Command(label: "Template Editor", shortcut: nil, icon: "pencil.and.list.clipboard") { store.showWorkflowTemplateEditor = true; dismiss() },
+            Command(label: "Quick Setup", shortcut: nil, icon: "bolt.fill") { store.showQuickSetup = true; dismiss() },
         ]
     }
 
