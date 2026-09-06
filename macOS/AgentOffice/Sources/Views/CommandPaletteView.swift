@@ -102,6 +102,8 @@ struct CommandPaletteView: View {
             Command(label: "Memory Manager", shortcut: nil, icon: "brain") { store.showAgentMemoryManager = true; dismiss() },
             Command(label: "Collaboration Rules", shortcut: nil, icon: "list.bullet.rectangle") { store.showCollaborationRules = true; dismiss() },
             Command(label: "Cost by Day", shortcut: nil, icon: "calendar.badge.clock") { store.showCostBreakdownByDay = true; dismiss() },
+            Command(label: "Workload Distribution", shortcut: nil, icon: "chart.bar") { store.showWorkloadDistribution = true; dismiss() },
+            Command(label: "Quality Scores", shortcut: nil, icon: "star.square") { store.showQualityScores = true; dismiss() },
         ]
     }
 

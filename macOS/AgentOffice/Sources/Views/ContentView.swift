@@ -135,6 +135,8 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentMemoryManager) { WorkflowAgentMemoryManagerView() }
         .sheet(isPresented: $store.showCollaborationRules) { WorkflowAgentCollaborationRulesView() }
         .sheet(isPresented: $store.showCostBreakdownByDay) { WorkflowCostBreakdownByDayView() }
+        .sheet(isPresented: $store.showWorkloadDistribution) { WorkflowAgentWorkloadDistributionView() }
+        .sheet(isPresented: $store.showQualityScores) { WorkflowAgentQualityScoreView() }
         // Keyboard shortcuts
         .background(
             KeyboardShortcutsView()
