@@ -132,6 +132,8 @@ struct CommandPaletteView: View {
             Command(label: "Session Summary", shortcut: nil, icon: "doc.text.magnifyingglass") { store.showSessionSummary = true; dismiss() },
             Command(label: "Task Dispatcher", shortcut: nil, icon: "arrow.up.circle") { store.showTaskDispatcher = true; dismiss() },
             Command(label: "Performance Tracker", shortcut: nil, icon: "chart.line.uptrend.xyaxis.circle") { store.showPerformanceTracker = true; dismiss() },
+            Command(label: "Workload Analyzer", shortcut: nil, icon: "chart.bar.doc.horizontal") { store.showWorkloadAnalyzer = true; dismiss() },
+            Command(label: "Task History Tracker", shortcut: nil, icon: "clock.arrow.circlepath") { store.showTaskHistoryTracker = true; dismiss() },
         ]
     }
 
