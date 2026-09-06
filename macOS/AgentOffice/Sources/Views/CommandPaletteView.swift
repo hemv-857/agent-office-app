@@ -178,6 +178,7 @@ struct CommandPaletteView: View {
             Command(label: "Theme Customizer", shortcut: nil, icon: "paintbrush.fill") { store.showThemeCustomizer = true; dismiss() },
             Command(label: "Keyboard Shortcuts", shortcut: nil, icon: "keyboard") { store.showKeyboardShortcutsEditor = true; dismiss() },
             Command(label: "Data Management", shortcut: nil, icon: "internaldrive") { store.showDataManagement = true; dismiss() },
+            Command(label: "Performance Monitor", shortcut: nil, icon: "gauge.with.dots.needle.67percent") { store.showPerformanceMonitor = true; dismiss() },
         ]
     }
 
