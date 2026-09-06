@@ -114,6 +114,8 @@ struct CommandPaletteView: View {
             Command(label: "Cost Optimization", shortcut: nil, icon: "dollarsign.circle") { store.showAgentCostOptimization = true; dismiss() },
             Command(label: "Onboarding Progress", shortcut: nil, icon: "figure.walk") { store.showOnboardingProgress = true; dismiss() },
             Command(label: "Collaboration Timeline", shortcut: nil, icon: "timeline-selection") { store.showCollaborationTimeline = true; dismiss() },
+            Command(label: "Session Comparison", shortcut: nil, icon: "rectangle.split.2x1") { store.showSessionComparison = true; dismiss() },
+            Command(label: "Quick Actions", shortcut: nil, icon: "bolt.circle") { store.showQuickActions = true; dismiss() },
         ]
     }
 
