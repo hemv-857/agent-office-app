@@ -213,6 +213,7 @@ struct CommandPaletteView: View {
             Command(label: "Workload Distribution", shortcut: nil, icon: "chart.pie") { store.showWorkloadDistribution = true; dismiss() },
             Command(label: "Quality Scores", shortcut: nil, icon: "star.square") { store.showQualityScores = true; dismiss() },
             Command(label: "Sentiment Analysis", shortcut: nil, icon: "face.smiling") { store.showSentimentAnalysis = true; dismiss() },
+            Command(label: "Error Log", shortcut: nil, icon: "exclamationmark.triangle") { store.showErrorLog = true; dismiss() },
         ]
     }
 
