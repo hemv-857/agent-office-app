@@ -230,6 +230,7 @@ struct CommandPaletteView: View {
             Command(label: "Budget Forecast", shortcut: nil, icon: "chart.line.uptrend.xyaxis") { store.showBudgetForecast = true; dismiss() },
             Command(label: "Storage Details", shortcut: nil, icon: "externaldrive") { store.showStorageDetails = true; dismiss() },
             Command(label: "Scheduling Calendar", shortcut: nil, icon: "calendar") { store.showAgentSchedulingCalendar = true; dismiss() },
+            Command(label: "Interaction Matrix", shortcut: nil, icon: "square.grid.3x3") { store.showAgentInteractionMatrix = true; dismiss() },
         ]
     }
 
