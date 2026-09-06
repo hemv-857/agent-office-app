@@ -226,6 +226,7 @@ struct CommandPaletteView: View {
             Command(label: "Prompt Designer", shortcut: nil, icon: "pencil.and.ruler") { store.showTemplateDesigner = true; dismiss() },
             Command(label: "Workspace Layout", shortcut: nil, icon: "rectangle.3.group") { store.showWorkspaceLayout = true; dismiss() },
             Command(label: "Customize Shortcuts", shortcut: nil, icon: "keyboard") { store.showShortcutsCustomize = true; dismiss() },
+            Command(label: "Template Categories", shortcut: nil, icon: "folder") { store.showTemplateCategories = true; dismiss() },
         ]
     }
 
