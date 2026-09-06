@@ -219,6 +219,7 @@ struct CommandPaletteView: View {
             Command(label: "Performance Compare", shortcut: nil, icon: "chart.bar.xaxis.ascending") { store.showPerformanceComparison = true; dismiss() },
             Command(label: "Performance Heatmap", shortcut: nil, icon: "square.grid.3x3") { store.showPerformanceHeatmap = true; dismiss() },
             Command(label: "Performance Dashboard", shortcut: nil, icon: "gauge.with.dots.needle.67percent") { store.showPerformanceDashboard = true; dismiss() },
+            Command(label: "Agent Model Usage", shortcut: nil, icon: "cpu") { store.showAgentModels = true; dismiss() },
         ]
     }
 
