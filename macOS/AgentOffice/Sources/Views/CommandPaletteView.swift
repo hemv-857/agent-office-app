@@ -152,6 +152,7 @@ struct CommandPaletteView: View {
             Command(label: "Execution History", shortcut: nil, icon: "clock.arrow.circlepath") { store.showExecutionHistory = true; dismiss() },
             Command(label: "Cost Prediction", shortcut: nil, icon: "chart.line.downtrend.xyaxis") { store.showCostPrediction = true; dismiss() },
             Command(label: "Execution Timeline", shortcut: nil, icon: "timeline.selection") { store.showExecutionTimeline = true; dismiss() },
+            Command(label: "Session Detail", shortcut: nil, icon: "doc.text.fill") { store.showSessionDetail = true; dismiss() },
         ]
     }
 
