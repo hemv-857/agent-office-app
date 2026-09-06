@@ -224,6 +224,7 @@ struct CommandPaletteView: View {
             Command(label: "Bulk Actions", shortcut: nil, icon: "square.stack.3d.up") { store.showBulkActions = true; dismiss() },
             Command(label: "Agent Scheduler", shortcut: nil, icon: "calendar.badge.clock") { store.showAgentScheduler = true; dismiss() },
             Command(label: "Prompt Designer", shortcut: nil, icon: "pencil.and.ruler") { store.showTemplateDesigner = true; dismiss() },
+            Command(label: "Workspace Layout", shortcut: nil, icon: "rectangle.3.group") { store.showWorkspaceLayout = true; dismiss() },
         ]
     }
 
