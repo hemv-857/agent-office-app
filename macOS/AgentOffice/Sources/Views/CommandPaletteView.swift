@@ -206,6 +206,7 @@ struct CommandPaletteView: View {
             Command(label: "Agent Dependency Graph", shortcut: nil, icon: "point.3.connected.trianglepath.dotted") { store.showAgentDependencyGraph = true; dismiss() },
             Command(label: "Agent Availability", shortcut: nil, icon: "person.crop.circle.badge.checkmark") { store.showAgentAvailability = true; dismiss() },
             Command(label: "Agent Scheduling", shortcut: nil, icon: "calendar") { store.showAgentSchedulingCalendar = true; dismiss() },
+            Command(label: "Agent Interaction Matrix", shortcut: nil, icon: "square.grid.3x3") { store.showAgentInteractionMatrix = true; dismiss() },
         ]
     }
 
