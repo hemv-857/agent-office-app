@@ -183,6 +183,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showCollaborationAnalytics) { WorkflowAgentCollaborationAnalyticsView() }
         .sheet(isPresented: $store.showExecutionHistory) { WorkflowExecutionHistoryView() }
         .sheet(isPresented: $store.showCostPrediction) { WorkflowCostPredictionView() }
+        .sheet(isPresented: $store.showExecutionTimeline) { WorkflowExecutionTimelineView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
