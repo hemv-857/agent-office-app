@@ -156,6 +156,7 @@ struct CommandPaletteView: View {
             Command(label: "Import / Export", shortcut: nil, icon: "arrow.triangle.2.circlepath") { store.showImportExportManager = true; dismiss() },
             Command(label: "Role Editor", shortcut: nil, icon: "person.crop.circle.badge.gearshape") { store.showAgentRoleEditor = true; dismiss() },
             Command(label: "Metrics Dashboard", shortcut: nil, icon: "chart.pie.fill") { store.showMetricsDashboard = true; dismiss() },
+            Command(label: "Onboarding Wizard", shortcut: nil, icon: "sparkles") { store.showOnboardingWizard = true; dismiss() },
         ]
     }
 
