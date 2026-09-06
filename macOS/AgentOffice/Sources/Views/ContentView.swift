@@ -150,6 +150,8 @@ struct ContentView: View {
         .sheet(isPresented: $store.showSessionComparison) { WorkflowAgentSessionComparisonView() }
         .sheet(isPresented: $store.showDataPipeline) { WorkflowAgentDataPipelineView() }
         .sheet(isPresented: $store.showIntegrationTest) { WorkflowAgentIntegrationTestView() }
+        .sheet(isPresented: $store.showSystemHealthMonitor) { WorkflowAgentSystemHealthMonitorView() }
+        .sheet(isPresented: $store.showWorkflowOptimizer) { WorkflowAgentWorkflowOptimizerView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(

@@ -118,6 +118,8 @@ struct CommandPaletteView: View {
             Command(label: "Quick Actions", shortcut: nil, icon: "bolt.circle") { store.showQuickActions = true; dismiss() },
             Command(label: "Data Pipeline", shortcut: nil, icon: "arrow.triangle.branch") { store.showDataPipeline = true; dismiss() },
             Command(label: "Integration Tests", shortcut: nil, icon: "testtube.2") { store.showIntegrationTest = true; dismiss() },
+            Command(label: "System Health", shortcut: nil, icon: "heart.text.clipboard") { store.showSystemHealthMonitor = true; dismiss() },
+            Command(label: "Workflow Optimizer", shortcut: nil, icon: "wand.and.stars") { store.showWorkflowOptimizer = true; dismiss() },
         ]
     }
 
