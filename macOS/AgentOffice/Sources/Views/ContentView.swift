@@ -152,6 +152,8 @@ struct ContentView: View {
         .sheet(isPresented: $store.showIntegrationTest) { WorkflowAgentIntegrationTestView() }
         .sheet(isPresented: $store.showSystemHealthMonitor) { WorkflowAgentSystemHealthMonitorView() }
         .sheet(isPresented: $store.showWorkflowOptimizer) { WorkflowAgentWorkflowOptimizerView() }
+        .sheet(isPresented: $store.showActivityFeed) { WorkflowAgentActivityFeedView() }
+        .sheet(isPresented: $store.showCostAlert) { WorkflowAgentCostAlertView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(

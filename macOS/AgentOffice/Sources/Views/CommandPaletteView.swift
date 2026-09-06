@@ -120,6 +120,8 @@ struct CommandPaletteView: View {
             Command(label: "Integration Tests", shortcut: nil, icon: "testtube.2") { store.showIntegrationTest = true; dismiss() },
             Command(label: "System Health", shortcut: nil, icon: "heart.text.clipboard") { store.showSystemHealthMonitor = true; dismiss() },
             Command(label: "Workflow Optimizer", shortcut: nil, icon: "wand.and.stars") { store.showWorkflowOptimizer = true; dismiss() },
+            Command(label: "Activity Feed", shortcut: nil, icon: "list.dash") { store.showActivityFeed = true; dismiss() },
+            Command(label: "Cost Alerts", shortcut: nil, icon: "exclamationmark.circle") { store.showCostAlert = true; dismiss() },
         ]
     }
 

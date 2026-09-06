@@ -155,6 +155,8 @@ final class AppStore: ObservableObject {
     @Published var showIntegrationTest = false
     @Published var showSystemHealthMonitor = false
     @Published var showWorkflowOptimizer = false
+    @Published var showActivityFeed = false
+    @Published var showCostAlert = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic
