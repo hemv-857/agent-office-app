@@ -116,6 +116,8 @@ struct CommandPaletteView: View {
             Command(label: "Collaboration Timeline", shortcut: nil, icon: "timeline-selection") { store.showCollaborationTimeline = true; dismiss() },
             Command(label: "Session Comparison", shortcut: nil, icon: "rectangle.split.2x1") { store.showSessionComparison = true; dismiss() },
             Command(label: "Quick Actions", shortcut: nil, icon: "bolt.circle") { store.showQuickActions = true; dismiss() },
+            Command(label: "Data Pipeline", shortcut: nil, icon: "arrow.triangle.branch") { store.showDataPipeline = true; dismiss() },
+            Command(label: "Integration Tests", shortcut: nil, icon: "testtube.2") { store.showIntegrationTest = true; dismiss() },
         ]
     }
 

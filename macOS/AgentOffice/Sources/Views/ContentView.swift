@@ -148,6 +148,8 @@ struct ContentView: View {
         .sheet(isPresented: $store.showOnboardingProgress) { WorkflowAgentOnboardingProgressView() }
         .sheet(isPresented: $store.showCollaborationTimeline) { WorkflowAgentCollaborationTimelineView() }
         .sheet(isPresented: $store.showSessionComparison) { WorkflowAgentSessionComparisonView() }
+        .sheet(isPresented: $store.showDataPipeline) { WorkflowAgentDataPipelineView() }
+        .sheet(isPresented: $store.showIntegrationTest) { WorkflowAgentIntegrationTestView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
