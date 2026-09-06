@@ -162,6 +162,7 @@ struct CommandPaletteView: View {
             Command(label: "System Health Report", shortcut: nil, icon: "heart.text.square") { store.showHealthReport = true; dismiss() },
             Command(label: "Template Manager", shortcut: nil, icon: "square.stack.3d.up.fill") { store.showTemplateManager = true; dismiss() },
             Command(label: "Cost Breakdown", shortcut: nil, icon: "chart.bar.fill") { store.showCostBreakdown = true; dismiss() },
+            Command(label: "Analytics Summary", shortcut: nil, icon: "chart.bar.doc.horizontal.fill") { store.showAnalyticsSummary = true; dismiss() },
         ]
     }
 

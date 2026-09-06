@@ -127,6 +127,7 @@ final class AppStore: ObservableObject {
     @Published var showHealthReport = false
     @Published var showTemplateManager = false
     @Published var showCostBreakdown = false
+    @Published var showAnalyticsSummary = false
     @Published var showBackupRestore = false
     @Published var showCostOptimization = false
     @Published var showSystemHealth = false
