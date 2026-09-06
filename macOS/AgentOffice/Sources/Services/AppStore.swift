@@ -136,6 +136,7 @@ final class AppStore: ObservableObject {
     @Published var showAgentInteractionMatrix = false
     @Published var showAgentTaskHistory = false
     @Published var showAgentAvailability = false
+    @Published var showAgentMemoryManager = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic

@@ -131,6 +131,8 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentInteractionMatrix) { WorkflowAgentInteractionMatrixView() }
         .sheet(isPresented: $store.showAgentTaskHistory) { WorkflowAgentTaskHistoryView() }
         .sheet(isPresented: $store.showAgentAvailability) { WorkflowAgentAvailabilityView() }
+        .sheet(isPresented: $store.showPerformanceComparison) { WorkflowAgentPerformanceComparisonView() }
+        .sheet(isPresented: $store.showAgentMemoryManager) { WorkflowAgentMemoryManagerView() }
         // Keyboard shortcuts
         .background(
             KeyboardShortcutsView()

@@ -91,6 +91,15 @@ struct CommandPaletteView: View {
             Command(label: "Communication Log", shortcut: nil, icon: "bubble.left.and.bubble.right") { store.showAgentCommunicationLog = true; dismiss() },
             Command(label: "Dependency Graph", shortcut: nil, icon: "point.3.connected.trianglepath.dotted") { store.showAgentDependencyGraph = true; dismiss() },
             Command(label: "System Preferences", shortcut: nil, icon: "gearshape.2") { store.showSystemPreferences = true; dismiss() },
+            Command(label: "Leaderboard", shortcut: nil, icon: "trophy") { store.showAgentLeaderboard = true; dismiss() },
+            Command(label: "System Status", shortcut: nil, icon: "network") { store.showSystemStatusDashboard = true; dismiss() },
+            Command(label: "Storage Details", shortcut: nil, icon: "internaldrive") { store.showStorageDetails = true; dismiss() },
+            Command(label: "Agent Schedule", shortcut: nil, icon: "calendar") { store.showAgentSchedulingCalendar = true; dismiss() },
+            Command(label: "Interaction Matrix", shortcut: nil, icon: "squareshape.split.3x3") { store.showAgentInteractionMatrix = true; dismiss() },
+            Command(label: "Task History", shortcut: nil, icon: "clock.arrow.circlepath") { store.showAgentTaskHistory = true; dismiss() },
+            Command(label: "Agent Availability", shortcut: nil, icon: "person.crop.circle.badge.checkmark") { store.showAgentAvailability = true; dismiss() },
+            Command(label: "Performance Compare", shortcut: nil, icon: "chart.bar.xaxis.ascending") { store.showPerformanceComparison = true; dismiss() },
+            Command(label: "Memory Manager", shortcut: nil, icon: "brain") { store.showAgentMemoryManager = true; dismiss() },
         ]
     }
 
