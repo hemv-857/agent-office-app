@@ -234,6 +234,7 @@ struct CommandPaletteView: View {
             Command(label: "Agent Availability", shortcut: nil, icon: "person.crop.circle.badge.checkmark") { store.showAgentAvailability = true; dismiss() },
             Command(label: "Agent Memory", shortcut: nil, icon: "brain") { store.showAgentMemoryManager = true; dismiss() },
             Command(label: "Agent Cost Breakdown", shortcut: nil, icon: "dollarsign.circle") { store.showCostBreakdownByDay = true; dismiss() },
+            Command(label: "Performance Report", shortcut: nil, icon: "doc.text") { store.showPerformanceReport = true; dismiss() },
         ]
     }
 
