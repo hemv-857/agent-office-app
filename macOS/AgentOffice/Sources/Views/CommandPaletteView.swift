@@ -191,6 +191,7 @@ struct CommandPaletteView: View {
             Command(label: "Prompt Templates", shortcut: nil, icon: "doc.text") { store.showPromptTemplates = true; dismiss() },
             Command(label: "Agent Metrics", shortcut: nil, icon: "chart.bar") { store.showAgentMetrics = true; dismiss() },
             Command(label: "Session Restore", shortcut: nil, icon: "arrow.clockwise") { store.showSessionRestore = true; dismiss() },
+            Command(label: "Workflow Design", shortcut: nil, icon: "flowchart") { store.showWorkflowDesign = true; dismiss() },
         ]
     }
 
