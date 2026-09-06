@@ -5,13 +5,13 @@ struct WorkflowAgentSentimentAnalysisView: View {
     @EnvironmentObject var store: AppStore
     @Environment(\.dismiss) var dismiss
 
-    private let entries: [(String, String, String, Color, Double)] = [
-        ("Architect", "Excellent design patterns applied", "Just now", .green, 0.92),
-        ("Builder", "Minor compilation issue resolved", "5 min ago", .blue, 0.78),
-        ("Reviewer", "Thorough review with helpful feedback", "12 min ago", .green, 0.88),
-        ("Tester", "Test coverage improved to 85%", "20 min ago", .green, 0.95),
-        ("Planner", "Sprint goal on track", "30 min ago", .green, 0.85),
-        ("Security", "No vulnerabilities detected", "45 min ago", .green, 0.90),
+    private let sentiments: [(String, Double, Double, Double, String)] = [
+        ("Architect", 0.72, 0.18, 0.10, "Positive"),
+        ("Builder", 0.65, 0.25, 0.10, "Positive"),
+        ("Reviewer", 0.45, 0.30, 0.25, "Neutral"),
+        ("Tester", 0.55, 0.28, 0.17, "Positive"),
+        ("Planner", 0.68, 0.22, 0.10, "Positive"),
+        ("Security", 0.30, 0.35, 0.35, "Neutral"),
     ]
 
     var body: some View {
@@ -19,9 +19,6 @@ struct WorkflowAgentSentimentAnalysisView: View {
             HStack {
                 Text("Sentiment Analysis").font(.headline)
                 Spacer()
-                Text("Overall: Positive")
-                    .font(.caption)
-                    .foregroundStyle(.green)
                 Button(action: { dismiss() }) {
                     Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
                 }
@@ -31,32 +28,51 @@ struct WorkflowAgentSentimentAnalysisView: View {
 
             Divider()
 
+            // Summary
+            HStack(spacing: 16) {
+                VStack(spacing: 4) {
+                    Text("65%")
+                        .font(.system(size: 16, weight: .bold, design: .monospaced))
+                        .foregroundStyle(.green)
+                    Text("Avg Positive")
+                        .font(.system(size: 9))
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+                VStack(spacing: 4) {
+                    Text("26%")
+                        .font(.system(size: 16, weight: .bold, design: .monospaced))
+                        .foregroundStyle(.orange)
+                    Text("Avg Neutral")
+                        .font(.system(size: 9))
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+                VStack(spacing: 4) {
+                    Text("9%")
+                        .font(.system(size: 16, weight: .bold, design: .monospaced))
+                        .foregroundStyle(.red)
+                    Text("Avg Negative")
+                        .font(.system(size: 9))
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+
+            Divider()
+
             ScrollView {
                 VStack(spacing: 8) {
-                    // Overall sentiment bar
-                    GroupBox("Overall Sentiment") {
-                        HStack(spacing: 12) {
-                            SentimentPill(label: "Positive", count: 5, color: .green)
-                            SentimentPill(label: "Neutral", count: 1, color: .blue)
-                            SentimentPill(label: "Negative", count: 0, color: .red)
-                        }
-                        .padding(8)
-                    }
-
-                    // Agent sentiments
-                    GroupBox("Agent Sentiments") {
-                        VStack(spacing: 6) {
-                            ForEach(entries.indices, id: \.self) { i in
-                                SentimentRow(
-                                    agent: entries[i].0,
-                                    message: entries[i].1,
-                                    time: entries[i].2,
-                                    sentiment: entries[i].3,
-                                    score: entries[i].4
-                                )
-                            }
-                        }
-                        .padding(8)
+                    ForEach(sentiments.indices, id: \.self) { i in
+                        SentimentRow(
+                            agent: sentiments[i].0,
+                            positive: sentiments[i].1,
+                            neutral: sentiments[i].2,
+                            negative: sentiments[i].3,
+                            overall: sentiments[i].4
+                        )
                     }
                 }
                 .padding()
@@ -66,69 +82,87 @@ struct WorkflowAgentSentimentAnalysisView: View {
 
             HStack {
                 Spacer()
-                Button("Done") { dismiss() }
-                    .buttonStyle(.bordered)
+                Button("Done") { dismiss() }.buttonStyle(.bordered)
             }
             .padding()
         }
-        .frame(width: 520, height: 480)
-    }
-}
-
-// MARK: - Sentiment Pill
-struct SentimentPill: View {
-    let label: String
-    let count: Int
-    let color: Color
-
-    var body: some View {
-        VStack(spacing: 4) {
-            Text("\(count)")
-                .font(.system(size: 16, weight: .bold, design: .monospaced))
-                .foregroundStyle(color)
-            Text(label)
-                .font(.system(size: 9))
-                .foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
-        .background(color.opacity(0.08), in: RoundedRectangle(cornerRadius: 8))
+        .frame(width: 460, height: 440)
     }
 }
 
 // MARK: - Sentiment Row
 struct SentimentRow: View {
     let agent: String
-    let message: String
-    let time: String
-    let sentiment: Color
-    let score: Double
+    let positive: Double
+    let neutral: Double
+    let negative: Double
+    let overall: String
 
     var body: some View {
-        HStack(spacing: 10) {
-            Circle()
-                .fill(sentiment)
-                .frame(width: 8, height: 8)
-            VStack(alignment: .leading, spacing: 2) {
-                HStack {
-                    Text(agent)
-                        .font(.system(size: 11, weight: .semibold))
-                    Spacer()
-                    Text(time)
-                        .font(.system(size: 8))
-                        .foregroundStyle(.secondary)
-                }
-                Text(message)
-                    .font(.system(size: 10))
-                    .foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text(agent)
+                    .font(.system(size: 11, weight: .semibold))
+                Spacer()
+                Text(overall)
+                    .font(.system(size: 9, weight: .semibold))
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(overallColor.opacity(0.15), in: Capsule())
+                    .foregroundStyle(overallColor)
             }
-            Text(String(format: "%.0f%%", score * 100))
-                .font(.system(size: 9, weight: .medium, design: .monospaced))
-                .padding(.horizontal, 6)
-                .padding(.vertical, 2)
-                .background(sentiment.opacity(0.15), in: Capsule())
+
+            // Stacked bar
+            GeometryReader { geo in
+                HStack(spacing: 0) {
+                    Rectangle()
+                        .fill(.green)
+                        .frame(width: geo.size.width * positive)
+                    Rectangle()
+                        .fill(.orange)
+                        .frame(width: geo.size.width * neutral)
+                    Rectangle()
+                        .fill(.red)
+                        .frame(width: geo.size.width * negative)
+                }
+            }
+            .frame(height: 16)
+            .clipShape(RoundedRectangle(cornerRadius: 4))
+
+            // Legend
+            HStack(spacing: 16) {
+                SentimentLegend(label: "Positive", value: positive, color: .green)
+                SentimentLegend(label: "Neutral", value: neutral, color: .orange)
+                SentimentLegend(label: "Negative", value: negative, color: .red)
+            }
         }
-        .padding(8)
-        .background(.quaternary, in: RoundedRectangle(cornerRadius: 8))
+        .padding(10)
+        .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 6))
+    }
+
+    private var overallColor: Color {
+        switch overall {
+        case "Positive": return .green
+        case "Negative": return .red
+        default: return .orange
+        }
+    }
+}
+
+// MARK: - Sentiment Legend
+struct SentimentLegend: View {
+    let label: String
+    let value: Double
+    let color: Color
+
+    var body: some View {
+        HStack(spacing: 4) {
+            Circle()
+                .fill(color)
+                .frame(width: 8, height: 8)
+            Text("\(label): \(Int(value * 100))%")
+                .font(.system(size: 9))
+                .foregroundStyle(.secondary)
+        }
     }
 }
