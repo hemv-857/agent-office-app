@@ -202,6 +202,7 @@ struct CommandPaletteView: View {
             Command(label: "Agent Task Queue", shortcut: nil, icon: "list.bullet.rectangle") { store.showAgentTaskQueue = true; dismiss() },
             Command(label: "Agent Skill Matrix", shortcut: nil, icon: "square.grid.3x3") { store.showAgentSkillMatrix = true; dismiss() },
             Command(label: "Agent Workload", shortcut: nil, icon: "gauge") { store.showAgentWorkload = true; dismiss() },
+            Command(label: "Agent Communication Log", shortcut: nil, icon: "bubble.left.and.bubble.right") { store.showAgentCommunicationLog = true; dismiss() },
         ]
     }
 
