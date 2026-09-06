@@ -118,6 +118,9 @@ final class AppStore: ObservableObject {
     @Published var showCostPrediction = false
     @Published var showExecutionTimeline = false
     @Published var showSessionDetail = false
+    @Published var showImportExportManager = false
+    @Published var showAgentRoleEditor = false
+    @Published var showMetricsDashboard = false
     @Published var showBackupRestore = false
     @Published var showCostOptimization = false
     @Published var showSystemHealth = false

@@ -153,6 +153,9 @@ struct CommandPaletteView: View {
             Command(label: "Cost Prediction", shortcut: nil, icon: "chart.line.downtrend.xyaxis") { store.showCostPrediction = true; dismiss() },
             Command(label: "Execution Timeline", shortcut: nil, icon: "timeline.selection") { store.showExecutionTimeline = true; dismiss() },
             Command(label: "Session Detail", shortcut: nil, icon: "doc.text.fill") { store.showSessionDetail = true; dismiss() },
+            Command(label: "Import / Export", shortcut: nil, icon: "arrow.triangle.2.circlepath") { store.showImportExportManager = true; dismiss() },
+            Command(label: "Role Editor", shortcut: nil, icon: "person.crop.circle.badge.gearshape") { store.showAgentRoleEditor = true; dismiss() },
+            Command(label: "Metrics Dashboard", shortcut: nil, icon: "chart.pie.fill") { store.showMetricsDashboard = true; dismiss() },
         ]
     }
 

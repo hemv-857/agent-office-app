@@ -185,6 +185,9 @@ struct ContentView: View {
         .sheet(isPresented: $store.showCostPrediction) { WorkflowCostPredictionView() }
         .sheet(isPresented: $store.showExecutionTimeline) { WorkflowExecutionTimelineView() }
         .sheet(isPresented: $store.showSessionDetail) { WorkflowAgentSessionDetailView() }
+        .sheet(isPresented: $store.showImportExportManager) { WorkflowImportExportManagerView() }
+        .sheet(isPresented: $store.showAgentRoleEditor) { WorkflowAgentRoleEditorView() }
+        .sheet(isPresented: $store.showMetricsDashboard) { WorkflowMetricsDashboardView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
