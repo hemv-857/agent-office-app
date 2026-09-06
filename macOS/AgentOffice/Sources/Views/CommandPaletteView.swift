@@ -128,6 +128,8 @@ struct CommandPaletteView: View {
             Command(label: "Agent Settings", shortcut: nil, icon: "slider.horizontal.3") { store.showAgentSettings = true; dismiss() },
             Command(label: "Workflow Builder", shortcut: nil, icon: "wrench.and.screwdriver") { store.showWorkflowBuilder = true; dismiss() },
             Command(label: "Agent Monitor", shortcut: nil, icon: "eye") { store.showAgentMonitor = true; dismiss() },
+            Command(label: "Agent Dependencies", shortcut: nil, icon: "arrow.triangle.swap") { store.showAgentDependencyViewer = true; dismiss() },
+            Command(label: "Session Summary", shortcut: nil, icon: "doc.text.magnifyingglass") { store.showSessionSummary = true; dismiss() },
         ]
     }
 
