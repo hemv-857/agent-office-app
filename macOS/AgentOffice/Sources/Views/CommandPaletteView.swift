@@ -228,6 +228,7 @@ struct CommandPaletteView: View {
             Command(label: "Customize Shortcuts", shortcut: nil, icon: "keyboard") { store.showShortcutsCustomize = true; dismiss() },
             Command(label: "Template Categories", shortcut: nil, icon: "folder") { store.showTemplateCategories = true; dismiss() },
             Command(label: "Budget Forecast", shortcut: nil, icon: "chart.line.uptrend.xyaxis") { store.showBudgetForecast = true; dismiss() },
+            Command(label: "Storage Details", shortcut: nil, icon: "externaldrive") { store.showStorageDetails = true; dismiss() },
         ]
     }
 

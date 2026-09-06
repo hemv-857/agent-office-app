@@ -260,6 +260,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showShortcutsCustomize) { WorkflowAgentAgentShortcutsCustomizeView() }
         .sheet(isPresented: $store.showTemplateCategories) { WorkflowAgentAgentTemplateCategoriesView() }
         .sheet(isPresented: $store.showBudgetForecast) { WorkflowAgentAgentBudgetForecastView() }
+        .sheet(isPresented: $store.showStorageDetails) { WorkflowAgentAgentStorageDetailsView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
