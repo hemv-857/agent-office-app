@@ -186,6 +186,7 @@ struct CommandPaletteView: View {
             Command(label: "Agent Health", shortcut: nil, icon: "heart.circle") { store.showAgentHealth = true; dismiss() },
             Command(label: "Settings Presets", shortcut: nil, icon: "slider.horizontal.3") { store.showSettingsPresets = true; dismiss() },
             Command(label: "Agent Debug Console", shortcut: nil, icon: "terminal") { store.showAgentDebug = true; dismiss() },
+            Command(label: "Activity Timeline", shortcut: nil, icon: "clock.arrow.circlepath") { store.showActivityTimeline = true; dismiss() },
         ]
     }
 
