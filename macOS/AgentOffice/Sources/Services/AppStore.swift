@@ -135,6 +135,7 @@ final class AppStore: ObservableObject {
     @Published var showPerformanceInsights = false
     @Published var showWorkflowOptimization = false
     @Published var showAgentStatusDashboard = false
+    @Published var showWorkflowTemplateEditor = false
     @Published var showBackupRestore = false
     @Published var showCostOptimization = false
     @Published var showSystemHealth = false
