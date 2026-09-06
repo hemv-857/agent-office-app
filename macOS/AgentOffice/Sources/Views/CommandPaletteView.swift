@@ -175,6 +175,7 @@ struct CommandPaletteView: View {
             Command(label: "Error Handling", shortcut: nil, icon: "exclamationmark.triangle") { store.showErrorHandling = true; dismiss() },
             Command(label: "Model Comparison", shortcut: nil, icon: "cpu") { store.showModelComparison = true; dismiss() },
             Command(label: "API Key Manager", shortcut: nil, icon: "key.fill") { store.showAPIKeyManager = true; dismiss() },
+            Command(label: "Theme Customizer", shortcut: nil, icon: "paintbrush.fill") { store.showThemeCustomizer = true; dismiss() },
         ]
     }
 

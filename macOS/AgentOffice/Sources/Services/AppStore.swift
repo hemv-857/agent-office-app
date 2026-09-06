@@ -140,6 +140,7 @@ final class AppStore: ObservableObject {
     @Published var showErrorHandling = false
     @Published var showModelComparison = false
     @Published var showAPIKeyManager = false
+    @Published var showThemeCustomizer = false
     @Published var showBackupRestore = false
     @Published var showCostOptimization = false
     @Published var showSystemHealth = false
