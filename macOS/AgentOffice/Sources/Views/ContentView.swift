@@ -230,6 +230,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentLeaderboard) { WorkflowAgentAgentLeaderboardView() }
         .sheet(isPresented: $store.showAgentComparison) { WorkflowAgentAgentComparisonView() }
         .sheet(isPresented: $store.showAgentPerformanceTrend) { WorkflowAgentAgentPerformanceTrendView() }
+        .sheet(isPresented: $store.showAgentErrorLog) { WorkflowAgentAgentErrorLogView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(

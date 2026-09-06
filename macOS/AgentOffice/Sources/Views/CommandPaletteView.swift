@@ -198,6 +198,7 @@ struct CommandPaletteView: View {
             Command(label: "Agent Leaderboard", shortcut: nil, icon: "trophy") { store.showAgentLeaderboard = true; dismiss() },
             Command(label: "Agent Comparison", shortcut: nil, icon: "chart.bar.xaxis") { store.showAgentComparison = true; dismiss() },
             Command(label: "Agent Performance Trend", shortcut: nil, icon: "chart.xyaxis.line") { store.showAgentPerformanceTrend = true; dismiss() },
+            Command(label: "Agent Error Log", shortcut: nil, icon: "exclamationmark.triangle") { store.showAgentErrorLog = true; dismiss() },
         ]
     }
 
