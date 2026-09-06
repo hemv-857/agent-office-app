@@ -142,6 +142,8 @@ struct CommandPaletteView: View {
             Command(label: "Performance Report", shortcut: nil, icon: "doc.richtext") { store.showPerformanceReport = true; dismiss() },
             Command(label: "Agent Dashboard", shortcut: nil, icon: "square.grid.2x2") { store.showAgentDashboard = true; dismiss() },
             Command(label: "Settings Manager", shortcut: nil, icon: "gearshape") { store.showSettingsManager = true; dismiss() },
+            Command(label: "Activity Monitor", shortcut: nil, icon: "gauge.with.dots.needle.33percent") { store.showActivityMonitor = true; dismiss() },
+            Command(label: "Settings Viewer", shortcut: nil, icon: "gearshape.2") { store.showSettingsViewer = true; dismiss() },
         ]
     }
 
