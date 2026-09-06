@@ -236,6 +236,7 @@ struct CommandPaletteView: View {
             Command(label: "Agent Cost Breakdown", shortcut: nil, icon: "dollarsign.circle") { store.showCostBreakdownByDay = true; dismiss() },
             Command(label: "Performance Report", shortcut: nil, icon: "doc.text") { store.showPerformanceReport = true; dismiss() },
             Command(label: "System Status", shortcut: nil, icon: "checkmark.shield") { store.showSystemStatusDashboard = true; dismiss() },
+            Command(label: "Agent Health Detail", shortcut: nil, icon: "heart.text.square") { store.showAgentHealthDetail = true; dismiss() },
         ]
     }
 
