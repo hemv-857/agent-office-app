@@ -144,6 +144,8 @@ struct CommandPaletteView: View {
             Command(label: "Settings Manager", shortcut: nil, icon: "gearshape") { store.showSettingsManager = true; dismiss() },
             Command(label: "Activity Monitor", shortcut: nil, icon: "gauge.with.dots.needle.33percent") { store.showActivityMonitor = true; dismiss() },
             Command(label: "Settings Viewer", shortcut: nil, icon: "gearshape.2") { store.showSettingsViewer = true; dismiss() },
+            Command(label: "Settings Editor", shortcut: nil, icon: "pencil.circle") { store.showSettingsEditor = true; dismiss() },
+            Command(label: "Settings Validator", shortcut: nil, icon: "checkmark.shield") { store.showSettingsValidator = true; dismiss() },
         ]
     }
 
