@@ -108,6 +108,8 @@ struct CommandPaletteView: View {
             Command(label: "Error Log", shortcut: nil, icon: "exclamationmark.triangle") { store.showErrorLog = true; dismiss() },
             Command(label: "Prompt Templates", shortcut: nil, icon: "doc.text") { store.showPromptTemplateLibrary = true; dismiss() },
             Command(label: "Response Quality", shortcut: nil, icon: "checkmark.circle.badge.star") { store.showResponseQualityAnalyzer = true; dismiss() },
+            Command(label: "Task Queue", shortcut: nil, icon: "list.number") { store.showAgentTaskQueue = true; dismiss() },
+            Command(label: "Performance Dashboard", shortcut: nil, icon: "gauge.with.dots.needle.67percent") { store.showPerformanceDashboard = true; dismiss() },
         ]
     }
 

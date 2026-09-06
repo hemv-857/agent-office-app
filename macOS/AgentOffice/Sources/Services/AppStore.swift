@@ -145,6 +145,8 @@ final class AppStore: ObservableObject {
     @Published var showErrorLog = false
     @Published var showPromptTemplateLibrary = false
     @Published var showResponseQualityAnalyzer = false
+    @Published var showAgentTaskQueue = false
+    @Published var showPerformanceDashboard = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic
