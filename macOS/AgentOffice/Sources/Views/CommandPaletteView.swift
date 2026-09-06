@@ -180,6 +180,7 @@ struct CommandPaletteView: View {
             Command(label: "Data Management", shortcut: nil, icon: "internaldrive") { store.showDataManagement = true; dismiss() },
             Command(label: "Performance Monitor", shortcut: nil, icon: "gauge.with.dots.needle.67percent") { store.showPerformanceMonitor = true; dismiss() },
             Command(label: "System Info", shortcut: nil, icon: "info.circle") { store.showSystemInfo = true; dismiss() },
+            Command(label: "Agent Training", shortcut: nil, icon: "brain.head.profile") { store.showAgentTraining = true; dismiss() },
         ]
     }
 
