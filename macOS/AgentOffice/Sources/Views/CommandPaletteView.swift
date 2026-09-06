@@ -167,6 +167,7 @@ struct CommandPaletteView: View {
             Command(label: "Backup Status", shortcut: nil, icon: "externaldrive.fill") { store.showBackupStatus = true; dismiss() },
             Command(label: "Collaboration History", shortcut: nil, icon: "person.2.fill") { store.showCollaborationHistory = true; dismiss() },
             Command(label: "Session Analytics", shortcut: nil, icon: "chart.bar.fill") { store.showSessionAnalytics = true; dismiss() },
+            Command(label: "Performance Insights", shortcut: nil, icon: "lightbulb.max.fill") { store.showPerformanceInsights = true; dismiss() },
         ]
     }
 
