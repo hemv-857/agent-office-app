@@ -7,12 +7,12 @@ struct WorkflowAgentAgentInteractionMatrixView: View {
 
     private let agents = ["Architect", "Builder", "Reviewer", "Tester", "Planner", "Security"]
     private let matrix: [[Int]] = [
-        [0, 12, 8, 3, 5, 2],   // Architect
-        [12, 0, 15, 7, 4, 3],  // Builder
-        [8, 15, 0, 10, 2, 6],  // Reviewer
-        [3, 7, 10, 0, 8, 4],   // Tester
-        [5, 4, 2, 8, 0, 3],    // Planner
-        [2, 3, 6, 4, 3, 0],    // Security
+        [0, 12, 8, 3, 5, 2],
+        [12, 0, 15, 7, 4, 3],
+        [8, 15, 0, 10, 2, 6],
+        [3, 7, 10, 0, 8, 4],
+        [5, 4, 2, 8, 0, 3],
+        [2, 3, 6, 4, 3, 0],
     ]
 
     var body: some View {
@@ -62,7 +62,7 @@ struct WorkflowAgentAgentInteractionMatrixView: View {
 
             // Legend
             HStack(spacing: 16) {
-                Text("Interactions per week")
+                Text("Interactions")
                     .font(.system(size: 9))
                     .foregroundStyle(.secondary)
                 HStack(spacing: 4) {
