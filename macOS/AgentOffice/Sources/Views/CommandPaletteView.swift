@@ -80,6 +80,10 @@ struct CommandPaletteView: View {
             Command(label: "Prompt Snippets", shortcut: nil, icon: "text.bubble") { store.showQuickSnippets = true; dismiss() },
             Command(label: "Audit Log", shortcut: nil, icon: "doc.text.magnifyingglass") { store.showAuditLog = true; dismiss() },
             Command(label: "Token Usage", shortcut: nil, icon: "text.word.spacing") { store.showTokenUsage = true; dismiss() },
+            Command(label: "Model Performance", shortcut: nil, icon: "cpu") { store.showModelPerformance = true; dismiss() },
+            Command(label: "Role Assignment", shortcut: nil, icon: "person.3.sequence") { store.showRoleAssignment = true; dismiss() },
+            Command(label: "Performance Trend", shortcut: nil, icon: "chart.line.uptrend.xyaxis") { store.showPerformanceTrend = true; dismiss() },
+            Command(label: "Agent Skill Tags", shortcut: nil, icon: "tag") { store.showAgentSkillTags = true; dismiss() },
         ]
     }
 
