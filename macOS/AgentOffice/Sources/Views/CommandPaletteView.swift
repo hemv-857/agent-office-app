@@ -110,6 +110,8 @@ struct CommandPaletteView: View {
             Command(label: "Response Quality", shortcut: nil, icon: "checkmark.circle.badge.star") { store.showResponseQualityAnalyzer = true; dismiss() },
             Command(label: "Task Queue", shortcut: nil, icon: "list.number") { store.showAgentTaskQueue = true; dismiss() },
             Command(label: "Performance Dashboard", shortcut: nil, icon: "gauge.with.dots.needle.67percent") { store.showPerformanceDashboard = true; dismiss() },
+            Command(label: "Role Assignments", shortcut: nil, icon: "person.3.sequence") { store.showRoleAssignmentMatrix = true; dismiss() },
+            Command(label: "Cost Optimization", shortcut: nil, icon: "dollarsign.circle") { store.showAgentCostOptimization = true; dismiss() },
         ]
     }
 
