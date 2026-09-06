@@ -216,6 +216,7 @@ struct CommandPaletteView: View {
             Command(label: "Error Log", shortcut: nil, icon: "exclamationmark.triangle") { store.showErrorLog = true; dismiss() },
             Command(label: "Prompt Templates", shortcut: nil, icon: "doc.text") { store.showPromptTemplateLibrary = true; dismiss() },
             Command(label: "Response Quality", shortcut: nil, icon: "checkmark.circle.badge.star") { store.showResponseQualityAnalyzer = true; dismiss() },
+            Command(label: "Performance Compare", shortcut: nil, icon: "chart.bar.xaxis.ascending") { store.showPerformanceComparison = true; dismiss() },
         ]
     }
 
