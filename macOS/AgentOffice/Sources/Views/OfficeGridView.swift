@@ -56,6 +56,16 @@ struct DeskCard: View {
         return store.results.first(where: { $0.agentId == agent.id })
     }
 
+    var healthColor: Color {
+        switch desk.status {
+        case .idle: return .green
+        case .working: return .blue
+        case .done: return .green
+        case .error: return .red
+        case .blocked: return .orange
+        }
+    }
+
     var body: some View {
         VStack(spacing: 6) {
             // Desk number badge
@@ -71,7 +81,7 @@ struct DeskCard: View {
 
             if let agent = desk.agent {
                 // Agent avatar
-                ZStack {
+                ZStack(alignment: .topTrailing) {
                     Text(agent.initials)
                         .font(.system(size: 22, weight: .semibold))
                         .foregroundStyle(.white)
@@ -84,6 +94,15 @@ struct DeskCard: View {
                             ),
                             in: RoundedRectangle(cornerRadius: 10)
                         )
+
+                    // Health indicator
+                    Circle()
+                        .fill(healthColor)
+                        .frame(width: 10, height: 10)
+                        .overlay(
+                            Circle().stroke(.white, lineWidth: 2)
+                        )
+                        .offset(x: 4, y: -4)
 
                     if desk.status == .working {
                         ProgressView()
