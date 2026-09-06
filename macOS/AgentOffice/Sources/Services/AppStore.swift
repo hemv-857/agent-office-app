@@ -130,6 +130,7 @@ final class AppStore: ObservableObject {
     @Published var showAnalyticsSummary = false
     @Published var showCostTrend = false
     @Published var showBackupStatus = false
+    @Published var showCollaborationHistory = false
     @Published var showBackupRestore = false
     @Published var showCostOptimization = false
     @Published var showSystemHealth = false
