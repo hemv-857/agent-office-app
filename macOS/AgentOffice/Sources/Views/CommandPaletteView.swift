@@ -134,6 +134,8 @@ struct CommandPaletteView: View {
             Command(label: "Performance Tracker", shortcut: nil, icon: "chart.line.uptrend.xyaxis.circle") { store.showPerformanceTracker = true; dismiss() },
             Command(label: "Workload Analyzer", shortcut: nil, icon: "chart.bar.doc.horizontal") { store.showWorkloadAnalyzer = true; dismiss() },
             Command(label: "Task History Tracker", shortcut: nil, icon: "clock.arrow.circlepath") { store.showTaskHistoryTracker = true; dismiss() },
+            Command(label: "Task Queue Manager", shortcut: nil, icon: "list.number.rtl") { store.showTaskQueueManager = true; dismiss() },
+            Command(label: "Performance Detail", shortcut: nil, icon: "chart.bar.xaxis.ascending.badge") { store.showPerformanceDashboardDetail = true; dismiss() },
         ]
     }
 
