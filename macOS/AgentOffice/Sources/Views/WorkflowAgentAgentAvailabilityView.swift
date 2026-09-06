@@ -68,7 +68,7 @@ struct WorkflowAgentAgentAvailabilityView: View {
     }
 }
 
-// MARK: - Stat Pill
+// MARK: - Availability Stat Pill
 struct AvailabilityStatPill: View {
     let label: String
     let value: String
@@ -89,7 +89,7 @@ struct AvailabilityStatPill: View {
     }
 }
 
-// MARK: - Availability Row
+// MARK: - Availability Status Row
 struct AvailabilityStatusRow: View {
     let name: String
     let status: String
