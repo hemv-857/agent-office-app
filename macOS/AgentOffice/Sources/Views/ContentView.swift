@@ -225,6 +225,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showSessionRestore) { WorkflowAgentSessionRestoreView() }
         .sheet(isPresented: $store.showWorkflowDesign) { WorkflowAgentWorkflowDesignView() }
         .sheet(isPresented: $store.showAgentOnboarding) { WorkflowAgentAgentOnboardingView() }
+        .sheet(isPresented: $store.showAgentInsights) { WorkflowAgentAgentInsightsView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(

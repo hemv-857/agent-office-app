@@ -193,6 +193,7 @@ struct CommandPaletteView: View {
             Command(label: "Session Restore", shortcut: nil, icon: "arrow.clockwise") { store.showSessionRestore = true; dismiss() },
             Command(label: "Workflow Design", shortcut: nil, icon: "flowchart") { store.showWorkflowDesign = true; dismiss() },
             Command(label: "Agent Onboarding", shortcut: nil, icon: "hand.wave") { store.showAgentOnboarding = true; dismiss() },
+            Command(label: "Agent Insights", shortcut: nil, icon: "lightbulb") { store.showAgentInsights = true; dismiss() },
         ]
     }
 
