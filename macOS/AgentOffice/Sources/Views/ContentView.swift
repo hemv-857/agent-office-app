@@ -178,6 +178,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showSettingsViewer) { WorkflowAgentSettingsViewerView() }
         .sheet(isPresented: $store.showSettingsEditor) { WorkflowAgentSettingsEditorView() }
         .sheet(isPresented: $store.showSettingsValidator) { WorkflowAgentSettingsValidatorView() }
+        .sheet(isPresented: $store.showSettingsManagerDetail) { WorkflowAgentSettingsManagerDetailView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
