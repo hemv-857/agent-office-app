@@ -196,6 +196,7 @@ struct CommandPaletteView: View {
             Command(label: "Agent Insights", shortcut: nil, icon: "lightbulb") { store.showAgentInsights = true; dismiss() },
             Command(label: "Cost Forecast", shortcut: nil, icon: "chart.line.uptrend.xyaxis") { store.showCostForecast = true; dismiss() },
             Command(label: "Agent Leaderboard", shortcut: nil, icon: "trophy") { store.showAgentLeaderboard = true; dismiss() },
+            Command(label: "Agent Comparison", shortcut: nil, icon: "chart.bar.xaxis") { store.showAgentComparison = true; dismiss() },
         ]
     }
 
