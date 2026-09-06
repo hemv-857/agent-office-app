@@ -143,6 +143,8 @@ final class AppStore: ObservableObject {
     @Published var showQualityScores = false
     @Published var showSentimentAnalysis = false
     @Published var showErrorLog = false
+    @Published var showPromptTemplateLibrary = false
+    @Published var showResponseQualityAnalyzer = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic

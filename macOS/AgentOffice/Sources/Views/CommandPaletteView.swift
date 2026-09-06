@@ -106,6 +106,8 @@ struct CommandPaletteView: View {
             Command(label: "Quality Scores", shortcut: nil, icon: "star.square") { store.showQualityScores = true; dismiss() },
             Command(label: "Sentiment Analysis", shortcut: nil, icon: "face.smiling") { store.showSentimentAnalysis = true; dismiss() },
             Command(label: "Error Log", shortcut: nil, icon: "exclamationmark.triangle") { store.showErrorLog = true; dismiss() },
+            Command(label: "Prompt Templates", shortcut: nil, icon: "doc.text") { store.showPromptTemplateLibrary = true; dismiss() },
+            Command(label: "Response Quality", shortcut: nil, icon: "checkmark.circle.badge.star") { store.showResponseQualityAnalyzer = true; dismiss() },
         ]
     }
 
