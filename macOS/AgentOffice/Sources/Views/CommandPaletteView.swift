@@ -184,6 +184,7 @@ struct CommandPaletteView: View {
             Command(label: "Workflow Scheduler", shortcut: nil, icon: "calendar.badge.clock") { store.showWorkflowScheduler = true; dismiss() },
             Command(label: "Agent Collaboration", shortcut: nil, icon: "arrow.triangle.merge") { store.showAgentCollaboration = true; dismiss() },
             Command(label: "Agent Health", shortcut: nil, icon: "heart.circle") { store.showAgentHealth = true; dismiss() },
+            Command(label: "Settings Presets", shortcut: nil, icon: "slider.horizontal.3") { store.showSettingsPresets = true; dismiss() },
         ]
     }
 
