@@ -169,6 +169,7 @@ struct CommandPaletteView: View {
             Command(label: "Session Analytics", shortcut: nil, icon: "chart.bar.fill") { store.showSessionAnalytics = true; dismiss() },
             Command(label: "Performance Insights", shortcut: nil, icon: "lightbulb.max.fill") { store.showPerformanceInsights = true; dismiss() },
             Command(label: "Workflow Optimization", shortcut: nil, icon: "wand.and.stars") { store.showWorkflowOptimization = true; dismiss() },
+            Command(label: "Agent Status Dashboard", shortcut: nil, icon: "person.circle.fill") { store.showAgentStatusDashboard = true; dismiss() },
         ]
     }
 
