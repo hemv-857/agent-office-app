@@ -246,6 +246,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showQualityScores) { WorkflowAgentQualityScoreView() }
         .sheet(isPresented: $store.showSentimentAnalysis) { WorkflowAgentSentimentAnalysisView() }
         .sheet(isPresented: $store.showErrorLog) { WorkflowAgentErrorLogView() }
+        .sheet(isPresented: $store.showPromptTemplateLibrary) { WorkflowAgentPromptTemplateLibraryView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
