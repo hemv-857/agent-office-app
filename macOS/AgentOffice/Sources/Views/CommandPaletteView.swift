@@ -126,6 +126,8 @@ struct CommandPaletteView: View {
             Command(label: "Agent Communication", shortcut: nil, icon: "bubble.left.and.bubble.right.fill") { store.showAgentCommunication = true; dismiss() },
             Command(label: "Session Manager", shortcut: nil, icon: "folder") { store.showSessionManager = true; dismiss() },
             Command(label: "Agent Settings", shortcut: nil, icon: "slider.horizontal.3") { store.showAgentSettings = true; dismiss() },
+            Command(label: "Workflow Builder", shortcut: nil, icon: "wrench.and.screwdriver") { store.showWorkflowBuilder = true; dismiss() },
+            Command(label: "Agent Monitor", shortcut: nil, icon: "eye") { store.showAgentMonitor = true; dismiss() },
         ]
     }
 

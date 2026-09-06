@@ -161,6 +161,8 @@ final class AppStore: ObservableObject {
     @Published var showAgentCommunication = false
     @Published var showSessionManager = false
     @Published var showAgentSettings = false
+    @Published var showWorkflowBuilder = false
+    @Published var showAgentMonitor = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic

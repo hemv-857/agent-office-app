@@ -158,6 +158,8 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentCommunication) { WorkflowAgentCommunicationView() }
         .sheet(isPresented: $store.showSessionManager) { WorkflowAgentSessionManagerView() }
         .sheet(isPresented: $store.showAgentSettings) { WorkflowAgentAgentSettingsView() }
+        .sheet(isPresented: $store.showWorkflowBuilder) { WorkflowAgentWorkflowBuilderView() }
+        .sheet(isPresented: $store.showAgentMonitor) { WorkflowAgentMonitorView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
