@@ -217,6 +217,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentCollaboration) { WorkflowAgentAgentCollaborationView() }
         .sheet(isPresented: $store.showAgentHealth) { WorkflowAgentAgentHealthView() }
         .sheet(isPresented: $store.showSettingsPresets) { WorkflowAgentAgentSettingsPresetView() }
+        .sheet(isPresented: $store.showAgentDebug) { WorkflowAgentAgentDebugView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
