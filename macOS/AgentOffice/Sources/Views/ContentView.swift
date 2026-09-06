@@ -124,6 +124,9 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentCommunicationLog) { WorkflowAgentCommunicationLogView() }
         .sheet(isPresented: $store.showAgentDependencyGraph) { WorkflowAgentDependencyGraphView() }
         .sheet(isPresented: $store.showSystemPreferences) { WorkflowSystemPreferencesView() }
+        .sheet(isPresented: $store.showAgentLeaderboard) { WorkflowAgentLeaderboardDetailView() }
+        .sheet(isPresented: $store.showSystemStatusDashboard) { WorkflowSystemStatusDashboardView() }
+        .sheet(isPresented: $store.showStorageDetails) { WorkflowWorkspaceStorageDetailView() }
         // Keyboard shortcuts
         .background(
             KeyboardShortcutsView()
