@@ -208,6 +208,7 @@ struct CommandPaletteView: View {
             Command(label: "Agent Scheduling", shortcut: nil, icon: "calendar") { store.showAgentSchedulingCalendar = true; dismiss() },
             Command(label: "Agent Interaction Matrix", shortcut: nil, icon: "square.grid.3x3") { store.showAgentInteractionMatrix = true; dismiss() },
             Command(label: "Agent Task History", shortcut: nil, icon: "clock.arrow.circlepath") { store.showAgentTaskHistory = true; dismiss() },
+            Command(label: "Agent Memory", shortcut: nil, icon: "brain") { store.showAgentMemoryManager = true; dismiss() },
         ]
     }
 

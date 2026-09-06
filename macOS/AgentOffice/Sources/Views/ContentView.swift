@@ -240,6 +240,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentSchedulingCalendar) { WorkflowAgentAgentSchedulingView() }
         .sheet(isPresented: $store.showAgentInteractionMatrix) { WorkflowAgentAgentInteractionMatrixView() }
         .sheet(isPresented: $store.showAgentTaskHistory) { WorkflowAgentAgentTaskHistoryView() }
+        .sheet(isPresented: $store.showAgentMemoryManager) { WorkflowAgentAgentMemoryView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
