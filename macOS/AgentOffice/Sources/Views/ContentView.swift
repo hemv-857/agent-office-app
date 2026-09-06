@@ -133,6 +133,8 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentAvailability) { WorkflowAgentAvailabilityView() }
         .sheet(isPresented: $store.showPerformanceComparison) { WorkflowAgentPerformanceComparisonView() }
         .sheet(isPresented: $store.showAgentMemoryManager) { WorkflowAgentMemoryManagerView() }
+        .sheet(isPresented: $store.showCollaborationRules) { WorkflowAgentCollaborationRulesView() }
+        .sheet(isPresented: $store.showCostBreakdownByDay) { WorkflowCostBreakdownByDayView() }
         // Keyboard shortcuts
         .background(
             KeyboardShortcutsView()

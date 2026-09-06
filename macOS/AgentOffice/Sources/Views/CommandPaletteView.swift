@@ -100,6 +100,8 @@ struct CommandPaletteView: View {
             Command(label: "Agent Availability", shortcut: nil, icon: "person.crop.circle.badge.checkmark") { store.showAgentAvailability = true; dismiss() },
             Command(label: "Performance Compare", shortcut: nil, icon: "chart.bar.xaxis.ascending") { store.showPerformanceComparison = true; dismiss() },
             Command(label: "Memory Manager", shortcut: nil, icon: "brain") { store.showAgentMemoryManager = true; dismiss() },
+            Command(label: "Collaboration Rules", shortcut: nil, icon: "list.bullet.rectangle") { store.showCollaborationRules = true; dismiss() },
+            Command(label: "Cost by Day", shortcut: nil, icon: "calendar.badge.clock") { store.showCostBreakdownByDay = true; dismiss() },
         ]
     }
 
