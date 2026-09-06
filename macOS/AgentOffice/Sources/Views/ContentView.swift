@@ -249,6 +249,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showPromptTemplateLibrary) { WorkflowAgentPromptTemplateLibraryView() }
         .sheet(isPresented: $store.showResponseQualityAnalyzer) { WorkflowAgentResponseQualityView() }
         .sheet(isPresented: $store.showPerformanceComparison) { WorkflowAgentPerformanceComparisonView() }
+        .sheet(isPresented: $store.showPerformanceHeatmap) { WorkflowAgentAgentPerformanceHeatmapView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(

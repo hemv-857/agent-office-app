@@ -90,6 +90,7 @@ final class AppStore: ObservableObject {
     @Published var showAgentModels = false
     @Published var showTemplateCategories = false
     @Published var showPerformanceComparison = false
+    @Published var showPerformanceHeatmap = false
     @Published var showBulkActions = false
     @Published var showAgentScheduler = false
     @Published var showPromptLibrary = false
