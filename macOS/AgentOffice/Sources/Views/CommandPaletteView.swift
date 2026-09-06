@@ -211,6 +211,7 @@ struct CommandPaletteView: View {
             Command(label: "Collaboration Rules", shortcut: nil, icon: "checkmark.shield") { store.showCollaborationRules = true; dismiss() },
             Command(label: "Cost Breakdown", shortcut: nil, icon: "dollarsign.circle") { store.showCostBreakdownByDay = true; dismiss() },
             Command(label: "Workload Distribution", shortcut: nil, icon: "chart.pie") { store.showWorkloadDistribution = true; dismiss() },
+            Command(label: "Quality Scores", shortcut: nil, icon: "star.square") { store.showQualityScores = true; dismiss() },
         ]
     }
 

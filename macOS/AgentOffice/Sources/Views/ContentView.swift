@@ -243,6 +243,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showCollaborationRules) { WorkflowAgentCollaborationRulesView() }
         .sheet(isPresented: $store.showCostBreakdownByDay) { WorkflowAgentCostBreakdownView() }
         .sheet(isPresented: $store.showWorkloadDistribution) { WorkflowAgentWorkloadDistributionView() }
+        .sheet(isPresented: $store.showQualityScores) { WorkflowAgentQualityScoreView() }
         .sheet(isPresented: $store.showQuickActions) { WorkflowAgentQuickActionsView() }
         // Keyboard shortcuts
         .background(
