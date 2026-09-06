@@ -5,29 +5,40 @@ struct WorkflowAgentPromptTemplateLibraryView: View {
     @EnvironmentObject var store: AppStore
     @Environment(\.dismiss) var dismiss
 
-    @State private var selectedCategory = "all"
+    @State private var selectedCategory = "All"
     @State private var searchText = ""
 
-    private let categories = ["all", "code", "review", "testing", "planning", "security", "design"]
+    private let categories = ["All", "Code", "Review", "Debug", "Docs", "Test"]
 
     private let templates: [(String, String, String, String)] = [
-        ("Code Review Checklist", "code", "Review the following code for: security, performance, readability, and test coverage.", "reviewer"),
-        ("Bug Report", "testing", "Analyze this bug report and provide: root cause, impact assessment, and fix suggestion.", "tester"),
-        ("API Design", "design", "Design a REST API for the following feature with proper endpoints, methods, and response schemas.", "architect"),
-        ("Test Plan", "testing", "Create a comprehensive test plan for the following feature covering unit, integration, and E2E tests.", "tester"),
-        ("Security Audit", "security", "Perform a security audit of the following code focusing on OWASP Top 10 vulnerabilities.", "security"),
-        ("Sprint Planning", "planning", "Analyze the backlog and propose a sprint plan with priorities and time estimates.", "planner"),
-        ("Code Refactor", "code", "Identify refactoring opportunities in the following code and propose improvements.", "builder"),
-        ("Documentation", "code", "Generate comprehensive documentation for the following code including API docs and usage examples.", "builder"),
+        ("Code", "Implement Feature", "Implement a new feature with proper error handling, tests, and documentation. Follow the existing code patterns in the project.", "feature"),
+        ("Code", "Refactor Module", "Refactor the specified module to improve readability, maintainability, and performance. Ensure all existing tests pass.", "refactor"),
+        ("Review", "Code Review", "Review the provided code for bugs, security issues, performance problems, and adherence to coding standards.", "review"),
+        ("Review", "Security Audit", "Perform a security audit on the codebase. Check for vulnerabilities, insecure patterns, and compliance issues.", "security"),
+        ("Debug", "Debug Error", "Analyze the error message and stack trace. Identify the root cause and provide a fix with explanation.", "debug"),
+        ("Debug", "Performance Issue", "Investigate the performance bottleneck. Profile the code and suggest optimizations.", "perf"),
+        ("Docs", "Generate Documentation", "Create comprehensive documentation for the API/module including examples, parameters, and return values.", "docs"),
+        ("Docs", "Update README", "Update the project README with new features, setup instructions, and usage examples.", "readme"),
+        ("Test", "Write Unit Tests", "Write comprehensive unit tests for the specified functionality. Cover edge cases and error paths.", "unit-test"),
+        ("Test", "Integration Tests", "Create integration tests for the API endpoints. Test happy path, error cases, and boundary conditions.", "integration"),
     ]
+
+    private var filtered: [(String, String, String, String)] {
+        var result = templates
+        if selectedCategory != "All" {
+            result = result.filter { $0.0 == selectedCategory }
+        }
+        if !searchText.isEmpty {
+            result = result.filter { $0.1.localizedCaseInsensitiveContains(searchText) || $0.2.localizedCaseInsensitiveContains(searchText) }
+        }
+        return result
+    }
 
     var body: some View {
         VStack(spacing: 0) {
             HStack {
                 Text("Prompt Templates").font(.headline)
                 Spacer()
-                Text("\(templates.count) templates")
-                    .font(.caption).foregroundStyle(.secondary)
                 Button(action: { dismiss() }) {
                     Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
                 }
@@ -39,7 +50,8 @@ struct WorkflowAgentPromptTemplateLibraryView: View {
 
             // Search
             HStack {
-                Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
+                Image(systemName: "magnifyingglass")
+                    .foregroundStyle(.secondary)
                 TextField("Search templates...", text: $searchText)
                     .textFieldStyle(.plain)
             }
@@ -47,15 +59,15 @@ struct WorkflowAgentPromptTemplateLibraryView: View {
             .background(.quaternary, in: RoundedRectangle(cornerRadius: 6))
             .padding(.horizontal)
 
-            // Category filter
-            ScrollView(.horizontal) {
+            // Category pills
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 6) {
                     ForEach(categories, id: \.self) { cat in
-                        Text(cat.capitalized)
+                        Text(cat)
                             .font(.system(size: 10))
                             .padding(.horizontal, 10)
-                            .padding(.vertical, 5)
-                            .background(selectedCategory == cat ? Color.accentColor : Color(nsColor: .controlBackgroundColor), in: Capsule())
+                            .padding(.vertical, 4)
+                            .background(selectedCategory == cat ? .blue : Color(nsColor: .controlBackgroundColor), in: Capsule())
                             .foregroundStyle(selectedCategory == cat ? .white : .primary)
                             .onTapGesture { selectedCategory = cat }
                     }
@@ -64,66 +76,72 @@ struct WorkflowAgentPromptTemplateLibraryView: View {
             }
             .padding(.vertical, 8)
 
-            // Templates
-            List {
-                ForEach(templates.filter { (selectedCategory == "all" || $0.1 == selectedCategory) && (searchText.isEmpty || $0.0.localizedCaseInsensitiveContains(searchText)) }, id: \.0) { template in
-                    PromptTemplateItem(
-                        name: template.0,
-                        category: template.1,
-                        prompt: template.2,
-                        agent: template.3
-                    )
+            Divider()
+
+            ScrollView {
+                VStack(spacing: 6) {
+                    ForEach(filtered.indices, id: \.self) { i in
+                        TemplateLibraryRow(
+                            category: filtered[i].0,
+                            name: filtered[i].1,
+                            description: filtered[i].2,
+                            onUse: {
+                                store.promptText = filtered[i].2
+                                store.showToast("Template applied: \(filtered[i].1)", type: .success)
+                                dismiss()
+                            }
+                        )
+                    }
                 }
+                .padding()
             }
-            .listStyle(.plain)
 
             Divider()
 
             HStack {
-                Button("Create Template") {
-                    store.showToast("Template created", type: .success)
-                }
-                .buttonStyle(.bordered)
                 Spacer()
-                Button("Done") { dismiss() }
-                    .buttonStyle(.bordered)
+                Button("Done") { dismiss() }.buttonStyle(.bordered)
             }
             .padding()
         }
-        .frame(width: 520, height: 560)
+        .frame(width: 500, height: 500)
     }
 }
 
-// MARK: - Prompt Template Item
-struct PromptTemplateItem: View {
-    let name: String
+// MARK: - Template Library Row
+struct TemplateLibraryRow: View {
     let category: String
-    let prompt: String
-    let agent: String
+    let name: String
+    let description: String
+    let onUse: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack {
-                Text(name)
-                    .font(.system(size: 11, weight: .semibold))
-                Spacer()
-                Text(category)
-                    .font(.system(size: 8))
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(.quaternary, in: Capsule())
-                Text(agent)
-                    .font(.system(size: 8))
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(Color.accentColor.opacity(0.1), in: Capsule())
-                    .foregroundStyle(Color.accentColor)
+        HStack(spacing: 10) {
+            Image(systemName: "doc.text")
+                .foregroundStyle(.blue)
+                .frame(width: 20)
+            VStack(alignment: .leading, spacing: 2) {
+                HStack {
+                    Text(name)
+                        .font(.system(size: 11, weight: .semibold))
+                    Text(category)
+                        .font(.system(size: 8))
+                        .padding(.horizontal, 4)
+                        .padding(.vertical, 1)
+                        .background(.blue.opacity(0.2), in: Capsule())
+                        .foregroundStyle(.blue)
+                }
+                Text(description)
+                    .font(.system(size: 9))
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
             }
-            Text(prompt)
-                .font(.system(size: 10))
-                .foregroundStyle(.secondary)
-                .lineLimit(2)
+            Spacer()
+            Button("Use", action: onUse)
+                .buttonStyle(.bordered)
+                .controlSize(.small)
         }
-        .padding(.vertical, 4)
+        .padding(8)
+        .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 6))
     }
 }
