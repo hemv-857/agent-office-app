@@ -130,6 +130,8 @@ struct CommandPaletteView: View {
             Command(label: "Agent Monitor", shortcut: nil, icon: "eye") { store.showAgentMonitor = true; dismiss() },
             Command(label: "Agent Dependencies", shortcut: nil, icon: "arrow.triangle.swap") { store.showAgentDependencyViewer = true; dismiss() },
             Command(label: "Session Summary", shortcut: nil, icon: "doc.text.magnifyingglass") { store.showSessionSummary = true; dismiss() },
+            Command(label: "Task Dispatcher", shortcut: nil, icon: "arrow.up.circle") { store.showTaskDispatcher = true; dismiss() },
+            Command(label: "Performance Tracker", shortcut: nil, icon: "chart.line.uptrend.xyaxis.circle") { store.showPerformanceTracker = true; dismiss() },
         ]
     }
 
