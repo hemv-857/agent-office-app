@@ -121,6 +121,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showAgentHealthDetail) { WorkflowAgentHealthDetailView() }
         .sheet(isPresented: $store.showWorkspaceOverview) { WorkflowWorkspaceOverviewView() }
         .sheet(isPresented: $store.showBudgetForecast) { WorkflowBudgetForecastView() }
+        .sheet(isPresented: $store.showAgentCommunicationLog) { WorkflowAgentCommunicationLogView() }
         // Keyboard shortcuts
         .background(
             KeyboardShortcutsView()
