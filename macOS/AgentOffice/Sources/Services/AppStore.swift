@@ -141,6 +141,8 @@ final class AppStore: ObservableObject {
     @Published var showCostBreakdownByDay = false
     @Published var showWorkloadDistribution = false
     @Published var showQualityScores = false
+    @Published var showSentimentAnalysis = false
+    @Published var showErrorLog = false
 
     // MARK: - Provider
     @Published var selectedProvider: LLMProvider = .anthropic
