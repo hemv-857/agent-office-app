@@ -189,6 +189,7 @@ struct CommandPaletteView: View {
             Command(label: "Activity Timeline", shortcut: nil, icon: "clock.arrow.circlepath") { store.showActivityTimeline = true; dismiss() },
             Command(label: "Model Performance", shortcut: nil, icon: "speedometer") { store.showModelPerformance = true; dismiss() },
             Command(label: "Prompt Templates", shortcut: nil, icon: "doc.text") { store.showPromptTemplates = true; dismiss() },
+            Command(label: "Agent Metrics", shortcut: nil, icon: "chart.bar") { store.showAgentMetrics = true; dismiss() },
         ]
     }
 
